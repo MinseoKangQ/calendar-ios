@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e29-PR-g14">
-                                <rect key="frame" x="30" y="223" width="333" height="406"/>
+                                <rect key="frame" x="30" y="109" width="333" height="290"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="aTk-cs-1Jq">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="65"/>
@@ -48,6 +48,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="emailEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="PSz-2v-87q"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -82,6 +85,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="idEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="oWZ-ID-svG"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -115,7 +121,10 @@
                                                             <constraint firstAttribute="height" constant="50" id="yiM-5W-d0K"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                                        <connections>
+                                                            <action selector="pwEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="VBg-uV-Ayh"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -149,7 +158,10 @@
                                                             <constraint firstAttribute="height" constant="50" id="hSd-MT-Mjw"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                                        <connections>
+                                                            <action selector="pwCheckEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="NT0-lS-HR9"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -170,40 +182,6 @@
                                             <constraint firstAttribute="trailing" secondItem="Hpc-uT-2O8" secondAttribute="trailing" id="zWm-Re-AFj"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ShP-cu-qe6">
-                                        <rect key="frame" x="0.0" y="300" width="333" height="106"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJT-6H-JoM">
-                                                <rect key="frame" x="0.0" y="0.0" width="333" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="PAr-ka-DSA"/>
-                                                </constraints>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" title="회원가입">
-                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                </buttonConfiguration>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLj-95-xel">
-                                                <rect key="frame" x="0.0" y="58" width="333" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="0Bb-2P-94a"/>
-                                                </constraints>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" title="홈으로">
-                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="baseForegroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                </buttonConfiguration>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="mLj-95-xel" firstAttribute="leading" secondItem="ShP-cu-qe6" secondAttribute="leading" id="T0B-e3-BSn"/>
-                                            <constraint firstItem="bJT-6H-JoM" firstAttribute="leading" secondItem="ShP-cu-qe6" secondAttribute="leading" id="U25-yh-PkX"/>
-                                            <constraint firstAttribute="trailing" secondItem="mLj-95-xel" secondAttribute="trailing" id="azR-Wi-a4n"/>
-                                            <constraint firstAttribute="trailing" secondItem="bJT-6H-JoM" secondAttribute="trailing" id="xvK-5c-Ngi"/>
-                                        </constraints>
-                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="sut-1u-owB" secondAttribute="trailing" id="347-te-EAS"/>
@@ -214,8 +192,40 @@
                                     <constraint firstItem="sY4-gO-goe" firstAttribute="leading" secondItem="e29-PR-g14" secondAttribute="leading" id="QLE-Ej-qHj"/>
                                     <constraint firstItem="TyP-rX-2k4" firstAttribute="leading" secondItem="e29-PR-g14" secondAttribute="leading" id="TFw-0s-hPn"/>
                                     <constraint firstItem="aTk-cs-1Jq" firstAttribute="leading" secondItem="e29-PR-g14" secondAttribute="leading" id="nTp-Z7-HPL"/>
-                                    <constraint firstItem="ShP-cu-qe6" firstAttribute="leading" secondItem="e29-PR-g14" secondAttribute="leading" id="vQR-OQ-Ggt"/>
-                                    <constraint firstAttribute="trailing" secondItem="ShP-cu-qe6" secondAttribute="trailing" id="wmb-lr-FK5"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-3V-BZi">
+                                <rect key="frame" x="30" y="439" width="333" height="106"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q54-nD-2lj">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="Fuu-ll-Lih"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="회원가입">
+                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RvA-CB-q4I">
+                                        <rect key="frame" x="0.0" y="58" width="333" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="03j-xO-4Yd"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="홈으로">
+                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            <color key="baseForegroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="RvA-CB-q4I" secondAttribute="trailing" id="AfP-Ic-ZQD"/>
+                                    <constraint firstItem="RvA-CB-q4I" firstAttribute="leading" secondItem="gvB-3V-BZi" secondAttribute="leading" id="fS9-Te-FAF"/>
+                                    <constraint firstAttribute="trailing" secondItem="Q54-nD-2lj" secondAttribute="trailing" id="hIA-ek-len"/>
+                                    <constraint firstItem="Q54-nD-2lj" firstAttribute="leading" secondItem="gvB-3V-BZi" secondAttribute="leading" id="sGN-ZY-ilb"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -224,21 +234,24 @@
                         <constraints>
                             <constraint firstItem="e29-PR-g14" firstAttribute="centerX" secondItem="jXh-6W-FR4" secondAttribute="centerX" id="0f5-In-a6G"/>
                             <constraint firstItem="z2Z-zZ-fqZ" firstAttribute="trailing" secondItem="e29-PR-g14" secondAttribute="trailing" constant="30" id="5Sk-ah-ISR"/>
-                            <constraint firstItem="e29-PR-g14" firstAttribute="centerY" secondItem="jXh-6W-FR4" secondAttribute="centerY" id="RB4-zz-Oiw"/>
+                            <constraint firstItem="gvB-3V-BZi" firstAttribute="leading" secondItem="z2Z-zZ-fqZ" secondAttribute="leading" constant="30" id="Lyu-Ff-F0k"/>
+                            <constraint firstItem="e29-PR-g14" firstAttribute="top" secondItem="z2Z-zZ-fqZ" secondAttribute="top" constant="50" id="PDM-Cg-Qmh"/>
+                            <constraint firstItem="z2Z-zZ-fqZ" firstAttribute="trailing" secondItem="gvB-3V-BZi" secondAttribute="trailing" constant="30" id="pBy-5Y-hVI"/>
                             <constraint firstItem="e29-PR-g14" firstAttribute="leading" secondItem="z2Z-zZ-fqZ" secondAttribute="leading" constant="30" id="w5C-W6-trG"/>
+                            <constraint firstItem="gvB-3V-BZi" firstAttribute="top" secondItem="e29-PR-g14" secondAttribute="bottom" constant="40" id="yES-Du-DJ7"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="emailLabel" destination="SNC-Ij-Mp4" id="17Z-qp-qTL"/>
                         <outlet property="emailTextField" destination="e1u-sN-Rz7" id="VLy-MY-OtZ"/>
-                        <outlet property="homeBtn" destination="mLj-95-xel" id="Z15-ZN-PbH"/>
+                        <outlet property="homeBtn" destination="RvA-CB-q4I" id="uiO-y7-shU"/>
                         <outlet property="idLabel" destination="Ipd-Ip-sPD" id="1ke-yp-h8Z"/>
                         <outlet property="idTextField" destination="ZyL-j1-mIO" id="3eT-QQ-xLB"/>
                         <outlet property="pwCheckLabel" destination="lWH-PT-nhG" id="jtJ-5V-EDU"/>
                         <outlet property="pwCheckTextField" destination="N7y-0S-Cqx" id="JB3-lY-IfA"/>
                         <outlet property="pwLabel" destination="Vbz-M3-a4v" id="ir3-80-7uy"/>
                         <outlet property="pwTextField" destination="roS-Dg-kOs" id="Mxn-0L-Vn9"/>
-                        <outlet property="signUpBtn" destination="bJT-6H-JoM" id="dcS-6j-MKm"/>
+                        <outlet property="signUpBtn" destination="Q54-nD-2lj" id="IFV-Ye-VaJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EAe-Rf-AeA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
