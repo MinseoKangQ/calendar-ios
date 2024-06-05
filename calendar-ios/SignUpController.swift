@@ -28,6 +28,8 @@ class SignUpController: UIViewController {
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var homeBtn: UIButton!
     
+    var isShowKeyboard = false
+    
     // ===== 각 필드들의 값이 바뀔 때 마다 API 호출 필요 =====
     @IBAction func emailEditingChanged(_ sender: UITextField) {
         print(emailTextField.text!)
@@ -119,6 +121,11 @@ class SignUpController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // ===== Tap Gesture Recognizer 추가 =====
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        // ===== Tap Gesture Recognizer 추가 =====
+        
         // blue : 007aff
         // placeholder default : c7c7cd
         // red : ff3b30
@@ -167,6 +174,37 @@ class SignUpController: UIViewController {
         pwCheckTextField.textContentType = .oneTimeCode
         // ===== 비밀번호 관련 필드 =====
         
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // 키보드가 나타날 때 실행 함수 등록
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
+            
+            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 잇음
+            if self.isShowKeyboard == false {
+                self.isShowKeyboard = true
+            }
+        }
+        
+        // 키보드가 사라질 때 실행 함수 등록
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
+            
+            self.isShowKeyboard = false
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        // keyboardWillShowNotification 등록 해지
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object:nil)
+        
+        // keyboardWillHideNotification 등록 해지
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object:nil)
     }
 
 }
