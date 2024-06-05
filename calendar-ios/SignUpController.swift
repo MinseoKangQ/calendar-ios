@@ -7,6 +7,12 @@
 
 import UIKit
 
+// blue : 007aff
+// placeholder default : c7c7cd
+// red : ff3b30
+
+// pw : Aa1!aaaa
+
 // TODO: 1) 회원가입 버튼 일단 비활성화
 // TODO: 2) 모든 필드가 파란색이면 회원가입 버튼 활성화
 // TODO: 3) 회원가입 누르면 "회원가입이 완료되었습니다! 로그인" 화면으로 넘어가기
@@ -29,6 +35,22 @@ class SignUpController: UIViewController {
     @IBOutlet weak var homeBtn: UIButton!
     
     var isShowKeyboard = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // ===== (start) Tap Gesture Recognizer 추가 =====
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        // ===== (end) Tap Gesture Recognizer 추가 =====
+        
+        setupUI()
+        
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
     // ===== 각 필드들의 값이 바뀔 때 마다 API 호출 필요 =====
     @IBAction func emailEditingChanged(_ sender: UITextField) {
@@ -118,19 +140,36 @@ class SignUpController: UIViewController {
         return passwordTest.evaluate(with: password)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // ===== Tap Gesture Recognizer 추가 =====
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-        // ===== Tap Gesture Recognizer 추가 =====
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        // blue : 007aff
-        // placeholder default : c7c7cd
-        // red : ff3b30
+        // 키보드가 나타날 때 실행 함수 등록
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
+            
+            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 잇음
+            if self.isShowKeyboard == false {
+                self.isShowKeyboard = true
+            }
+        }
         
-        // ===== UI =====
+        // 키보드가 사라질 때 실행 함수 등록
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
+            
+            self.isShowKeyboard = false
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // keyboardWillShowNotification 등록 해지
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object:nil)
+        
+        // keyboardWillHideNotification 등록 해지
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object:nil)
+    }
+    
+    private func setupUI() {
         emailTextField.layer.cornerRadius = 14
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.borderColor = UIColor(hexCode: "c7c7cd").cgColor
@@ -165,46 +204,11 @@ class SignUpController: UIViewController {
         homeBtn.layer.borderWidth = 1
         homeBtn.layer.borderColor = UIColor(hexCode: "007aff").cgColor
         
-        // ===== UI =====
-        
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
         pwTextField.textContentType = .oneTimeCode
         pwCheckTextField.isSecureTextEntry = true
         pwCheckTextField.textContentType = .oneTimeCode
-        // ===== 비밀번호 관련 필드 =====
-        
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        // 키보드가 나타날 때 실행 함수 등록
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
-            
-            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 잇음
-            if self.isShowKeyboard == false {
-                self.isShowKeyboard = true
-            }
-        }
-        
-        // 키보드가 사라질 때 실행 함수 등록
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
-            
-            self.isShowKeyboard = false
-        }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        
-        // keyboardWillShowNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object:nil)
-        
-        // keyboardWillHideNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object:nil)
     }
 
 }
