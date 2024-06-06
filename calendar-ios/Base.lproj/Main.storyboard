@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uaj-nE-Clr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bHz-Lz-VxT">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="19T-Tq-OWf">
-                                <rect key="frame" x="30" y="89" width="333" height="226"/>
+                                <rect key="frame" x="30" y="133" width="333" height="226"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="efc-Ee-JOL">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="50"/>
@@ -107,6 +107,9 @@
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="baseForegroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <segue destination="fkU-Uy-EEo" kind="show" identifier="gotoSignUp" id="09C-Hy-Tmb"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -136,6 +139,7 @@
                             <constraint firstItem="19T-Tq-OWf" firstAttribute="leading" secondItem="7im-8z-OkD" secondAttribute="leading" constant="30" id="xCg-rr-Uku"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="q62-Xa-1eW"/>
                     <connections>
                         <outlet property="idTextField" destination="Fcb-qN-vBd" id="vgt-Xe-gPS"/>
                         <outlet property="loginBtn" destination="bq5-dA-VUP" id="m0p-gM-aRh"/>
@@ -145,18 +149,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="64H-UM-S9O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.53435114503816" y="700.70422535211276"/>
+            <point key="canvasLocation" x="1982.4427480916029" y="700.70422535211276"/>
         </scene>
         <!--SignUp Controller-->
         <scene sceneID="7EU-VN-MEi">
             <objects>
-                <viewController title="SignUp Controller" id="fkU-Uy-EEo" customClass="SignUpController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" title="SignUp Controller" id="fkU-Uy-EEo" customClass="SignUpController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jXh-6W-FR4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e29-PR-g14">
-                                <rect key="frame" x="30" y="89" width="333" height="290"/>
+                                <rect key="frame" x="30" y="133" width="333" height="290"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="aTk-cs-1Jq">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="65"/>
@@ -319,7 +323,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-3V-BZi">
-                                <rect key="frame" x="30" y="419" width="333" height="106"/>
+                                <rect key="frame" x="30" y="463" width="333" height="106"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q54-nD-2lj">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="48"/>
@@ -368,6 +372,7 @@
                             <constraint firstItem="gvB-3V-BZi" firstAttribute="top" secondItem="e29-PR-g14" secondAttribute="bottom" constant="40" id="yES-Du-DJ7"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="10O-8x-hSf"/>
                     <connections>
                         <outlet property="emailLabel" destination="SNC-Ij-Mp4" id="17Z-qp-qTL"/>
                         <outlet property="emailTextField" destination="e1u-sN-Rz7" id="VLy-MY-OtZ"/>
@@ -460,6 +465,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7g8-XR-WOP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2078.6259541984732" y="-23.239436619718312"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7fS-oD-oQX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bHz-Lz-VxT" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2qA-Se-mhc">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uaj-nE-Clr" kind="relationship" relationship="rootViewController" id="Gwo-53-Eyc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zaE-f2-iRO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1055.7251908396945" y="700.70422535211276"/>
         </scene>
     </scenes>
     <resources>

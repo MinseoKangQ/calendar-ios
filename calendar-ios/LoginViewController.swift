@@ -54,11 +54,23 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(keyboardDismissTapGesture)
         // ===== (end) Tap Gesture Recognizer 추가 =====
         
+        
+        // 회원가입 버튼 누르면 화면 전환
+        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+        
     }
     
+    // 회원가입 화면 전환
+    @objc func signUpBtnTapped() {
+//        present(viewControllerToPresent: )
+//        performSegue(withIdentifier: "gotoSignUp", sender: self)
+    }
+    
+    // 키보드
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
     
     // 키보드
     override func viewDidAppear(_ animated: Bool) {
