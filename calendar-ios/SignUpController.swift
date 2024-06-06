@@ -153,6 +153,7 @@ class SignUpController: UIViewController {
         return passwordTest.evaluate(with: password)
     }
     
+    // 키보드
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -172,6 +173,7 @@ class SignUpController: UIViewController {
         }
     }
     
+    // 키보드
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
