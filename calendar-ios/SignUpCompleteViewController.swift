@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpCompleteController: UIViewController {
+class SignUpCompleteViewController: UIViewController {
 
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var uiView: UIView!

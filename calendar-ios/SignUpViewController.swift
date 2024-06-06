@@ -16,7 +16,7 @@ import UIKit
 // TODO: 3) 회원가입 누르면 "회원가입이 완료되었습니다! 로그인" 화면으로 넘어가기
 // TODO: 4) 홈으로 누르면 이전 화면으로 넘어가기
 
-class SignUpController: UIViewController {
+class SignUpViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
@@ -29,7 +29,6 @@ class SignUpController: UIViewController {
     @IBOutlet weak var pwCheckLabel: UILabel!
     
     @IBOutlet weak var signUpBtn: UIButton!
-    @IBOutlet weak var homeBtn: UIButton!
     
     var isShowKeyboard = false
     
@@ -214,10 +213,6 @@ class SignUpController: UIViewController {
         signUpBtn.layer.borderWidth = 1
         signUpBtn.backgroundColor = CUSTOM_BLUE
         signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        
-        homeBtn.layer.cornerRadius = 14
-        homeBtn.layer.borderWidth = 1
-        homeBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
