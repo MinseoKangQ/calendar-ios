@@ -18,6 +18,7 @@ class SignUpCompleteViewController: UIViewController {
 
     @IBAction func goToLogin(_ sender: UIButton) {
         print("goToLogin called")
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLoad() {

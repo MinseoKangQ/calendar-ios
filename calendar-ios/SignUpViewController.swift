@@ -33,7 +33,11 @@ class SignUpViewController: UIViewController  {
     let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
     let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
     let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -212,6 +216,35 @@ class SignUpViewController: UIViewController  {
         pwTextField.textContentType = .oneTimeCode
         pwCheckTextField.isSecureTextEntry = true
         pwCheckTextField.textContentType = .oneTimeCode
+    }
+    
+    private func resetSignUpUI() {
+        // 텍스트 필드 초기화
+        emailTextField.text = ""
+        idTextField.text = ""
+        pwTextField.text = ""
+        pwCheckTextField.text = ""
+
+        // 텍스트 필드 테두리 색 초기화
+        emailTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+        pwCheckTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+
+        // 라벨 초기화
+        emailLabel.text = "이메일 형식을 맞춰주세요."
+        emailLabel.textColor = CUSTOM_GREY
+        idLabel.text = "아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다."
+        idLabel.textColor = CUSTOM_GREY
+        pwLabel.text = "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다."
+        pwLabel.textColor = CUSTOM_GREY
+        pwCheckLabel.text = "Label"
+        pwCheckLabel.textColor = CUSTOM_GREY
+
+        // 버튼 상태 초기화
+        signUpBtn.isEnabled = true
+        signUpBtn.backgroundColor = CUSTOM_GREY
+        signUpBtn.setTitleColor(.white, for: .normal)
     }
 
 }

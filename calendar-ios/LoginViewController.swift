@@ -43,9 +43,13 @@ class LoginViewController: UIViewController {
     let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
     let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        resetLoginUI()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
 
         // textField 외의 곳을 터치하면 키보드 사라짐
@@ -122,14 +126,33 @@ class LoginViewController: UIViewController {
         loginBtn.layer.borderWidth = 1
         loginBtn.backgroundColor = CUSTOM_BLUE
         loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        loginBtn.setTitleColor(.white, for: .normal)
         
         signUpBtn.layer.cornerRadius = 14
         signUpBtn.layer.borderWidth = 1
         signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
         pwTextField.textContentType = .oneTimeCode
+    }
+    
+    private func resetLoginUI() {
+        
+        // 텍스트 필드 초기화
+        idTextField.text = ""
+        pwTextField.text = ""
+
+        // 텍스트 필드 테두리 색 초기화
+        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+
+        // 버튼 상태 초기화
+        loginBtn.backgroundColor = CUSTOM_BLUE
+        loginBtn.setTitleColor(.white, for: .normal)
+        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
     }
 
 }
