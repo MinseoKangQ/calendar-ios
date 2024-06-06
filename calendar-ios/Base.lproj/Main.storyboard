@@ -323,38 +323,26 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-3V-BZi">
-                                <rect key="frame" x="30" y="463" width="333" height="106"/>
+                                <rect key="frame" x="30" y="463" width="333" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q54-nD-2lj">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="Fuu-ll-Lih"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="회원가입">
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="회원가입"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="회원가입" cornerStyle="capsule">
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <segue destination="mJg-J8-JCH" kind="presentation" identifier="signupComplete" id="Rnb-ve-0Vz"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RvA-CB-q4I">
-                                        <rect key="frame" x="0.0" y="58" width="333" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="03j-xO-4Yd"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="홈으로">
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
-                                            <color key="baseForegroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </buttonConfiguration>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="RvA-CB-q4I" secondAttribute="trailing" id="AfP-Ic-ZQD"/>
-                                    <constraint firstItem="RvA-CB-q4I" firstAttribute="leading" secondItem="gvB-3V-BZi" secondAttribute="leading" id="fS9-Te-FAF"/>
                                     <constraint firstAttribute="trailing" secondItem="Q54-nD-2lj" secondAttribute="trailing" id="hIA-ek-len"/>
                                     <constraint firstItem="Q54-nD-2lj" firstAttribute="leading" secondItem="gvB-3V-BZi" secondAttribute="leading" id="sGN-ZY-ilb"/>
                                 </constraints>
@@ -376,7 +364,6 @@
                     <connections>
                         <outlet property="emailLabel" destination="SNC-Ij-Mp4" id="17Z-qp-qTL"/>
                         <outlet property="emailTextField" destination="e1u-sN-Rz7" id="VLy-MY-OtZ"/>
-                        <outlet property="homeBtn" destination="RvA-CB-q4I" id="uiO-y7-shU"/>
                         <outlet property="idLabel" destination="Ipd-Ip-sPD" id="1ke-yp-h8Z"/>
                         <outlet property="idTextField" destination="ZyL-j1-mIO" id="3eT-QQ-xLB"/>
                         <outlet property="pwCheckLabel" destination="lWH-PT-nhG" id="jtJ-5V-EDU"/>

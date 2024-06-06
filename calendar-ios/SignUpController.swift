@@ -29,7 +29,6 @@ class SignUpController: UIViewController {
     @IBOutlet weak var pwCheckLabel: UILabel!
     
     @IBOutlet weak var signUpBtn: UIButton!
-    @IBOutlet weak var homeBtn: UIButton!
     
     var isShowKeyboard = false
     
@@ -214,10 +213,6 @@ class SignUpController: UIViewController {
         signUpBtn.layer.borderWidth = 1
         signUpBtn.backgroundColor = CUSTOM_BLUE
         signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        
-        homeBtn.layer.cornerRadius = 14
-        homeBtn.layer.borderWidth = 1
-        homeBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
