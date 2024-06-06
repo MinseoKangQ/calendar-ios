@@ -47,6 +47,7 @@
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <action selector="emailEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="FZ8-66-ohR"/>
+                                                    <action selector="idEditingChanged:" destination="uaj-nE-Clr" eventType="editingChanged" id="Bjb-Kr-gWT"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
@@ -70,6 +71,7 @@
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <action selector="emailEditingChanged:" destination="fkU-Uy-EEo" eventType="editingChanged" id="7JJ-rM-Odc"/>
+                                                    <action selector="pwEditingChanged:" destination="uaj-nE-Clr" eventType="editingChanged" id="shQ-Zl-54V"/>
                                                 </connections>
                                             </textField>
                                         </subviews>

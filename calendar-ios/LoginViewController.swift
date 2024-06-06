@@ -15,6 +15,28 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
     
+    @IBAction func idEditingChanged(_ sender: UITextField) {
+        
+        if let id = idTextField.text {
+            if id != "" {
+                idTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+            } else {
+                idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+            }
+        }
+    }
+    
+    @IBAction func pwEditingChanged(_ sender: UITextField) {
+        
+        if let pw = pwTextField.text {
+            if pw != "" {
+                pwTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+            } else {
+                pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+            }
+        }
+    }
+    
     var isShowKeyboard = false
     
     let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
