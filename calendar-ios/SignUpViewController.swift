@@ -13,10 +13,8 @@ import UIKit
 
 // TODO: 1) 회원가입 버튼 일단 비활성화
 // TODO: 2) 모든 필드가 파란색이면 회원가입 버튼 활성화
-// TODO: 3) 회원가입 누르면 "회원가입이 완료되었습니다! 로그인" 화면으로 넘어가기
-// TODO: 4) 홈으로 누르면 이전 화면으로 넘어가기
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController  {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
@@ -38,12 +36,6 @@ class SignUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // 회원가입 버튼 누르면 segueViewController를 호출하는 탭 제스쳐 생성
-        // ===== (start) Tap Gesture Recognizer 추가 =====
-        let signUpTapGesture = UITapGestureRecognizer(target: self, action: #selector(segueViewController))
-        signUpBtn.addGestureRecognizer(signUpTapGesture)
-        // ===== (end) Tap Gesture Recognizer 추가 =====
         
         // textField 외의 곳을 터치하면 키보드 사라짐
         // ===== (start) Tap Gesture Recognizer 추가 =====
@@ -55,9 +47,10 @@ class SignUpViewController: UIViewController {
         
     }
     
-    @objc func segueViewController(sender: UITapGestureRecognizer) {
-        // 태핑이 일어나면 "signupComplete" segue로 전이
-        performSegue(withIdentifier: "signupComplete", sender: self)
+    // 다시 로그인 화면으로 감
+    // https://eunoia3jy.tistory.com/210 참고함
+    @IBAction func unwindToVC(_ segue: UIStoryboardSegue) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func dismissKeyboard() {
@@ -222,3 +215,4 @@ class SignUpViewController: UIViewController {
     }
 
 }
+

@@ -62,15 +62,14 @@ class LoginViewController: UIViewController {
     
     // 회원가입 화면 전환
     @objc func signUpBtnTapped() {
-//        present(viewControllerToPresent: )
-//        performSegue(withIdentifier: "gotoSignUp", sender: self)
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") else { return }
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     // 키보드
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
     
     // 키보드
     override func viewDidAppear(_ animated: Bool) {

@@ -26,7 +26,7 @@
         <!--LoginViewController-->
         <scene sceneID="BTq-KC-BVK">
             <objects>
-                <viewController title="LoginViewController" id="uaj-nE-Clr" customClass="LoginViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" title="LoginViewController" id="uaj-nE-Clr" customClass="LoginViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UNi-Ma-o6i">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -107,9 +107,6 @@
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="baseForegroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </buttonConfiguration>
-                                                <connections>
-                                                    <segue destination="fkU-Uy-EEo" kind="show" identifier="gotoSignUp" id="09C-Hy-Tmb"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -149,7 +146,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="64H-UM-S9O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1982.4427480916029" y="700.70422535211276"/>
+            <point key="canvasLocation" x="847" y="701"/>
         </scene>
         <!--SignUpViewController-->
         <scene sceneID="7EU-VN-MEi">
@@ -160,7 +157,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e29-PR-g14">
-                                <rect key="frame" x="30" y="133" width="333" height="290"/>
+                                <rect key="frame" x="30" y="89" width="333" height="290"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="aTk-cs-1Jq">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="65"/>
@@ -323,7 +320,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-3V-BZi">
-                                <rect key="frame" x="30" y="463" width="333" height="48"/>
+                                <rect key="frame" x="30" y="419" width="333" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q54-nD-2lj">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="48"/>
@@ -375,12 +372,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EAe-Rf-AeA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1225.1908396946565" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="1581" y="701"/>
         </scene>
         <!--SignUpCompleteViewController-->
         <scene sceneID="S09-Rp-9uD">
             <objects>
-                <viewController title="SignUpCompleteViewController" id="mJg-J8-JCH" customClass="SignUpCompleteViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpCompleteViewController" title="SignUpCompleteViewController" id="mJg-J8-JCH" customClass="SignUpCompleteViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bTZ-DI-fz5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -415,6 +412,10 @@
                                                         <buttonConfiguration key="configuration" style="filled" title="로그인">
                                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="goToLogin:" destination="mJg-J8-JCH" eventType="touchUpInside" id="9ZH-lV-Oeo"/>
+                                                            <segue destination="9wv-Tx-NiP" kind="unwind" unwindAction="unwindToVC:" id="u13-eO-8FS"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -450,8 +451,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7g8-XR-WOP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="9wv-Tx-NiP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2078.6259541984732" y="-23.239436619718312"/>
+            <point key="canvasLocation" x="2324" y="701"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7fS-oD-oQX">
@@ -469,7 +471,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zaE-f2-iRO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055.7251908396945" y="700.70422535211276"/>
+            <point key="canvasLocation" x="131" y="701"/>
         </scene>
     </scenes>
     <resources>

@@ -16,11 +16,13 @@ class SignUpCompleteViewController: UIViewController {
     let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
     let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
 
+    @IBAction func goToLogin(_ sender: UIButton) {
+        print("goToLogin called")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        
     }
     
     private func setupUI() {
