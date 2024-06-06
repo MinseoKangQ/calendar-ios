@@ -40,13 +40,25 @@ class SignUpController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // 회원가입 버튼 누르면 segueViewController를 호출하는 탭 제스쳐 생성
         // ===== (start) Tap Gesture Recognizer 추가 =====
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        let signUpTapGesture = UITapGestureRecognizer(target: self, action: #selector(segueViewController))
+        signUpBtn.addGestureRecognizer(signUpTapGesture)
+        // ===== (end) Tap Gesture Recognizer 추가 =====
+        
+        // textField 외의 곳을 터치하면 키보드 사라짐
+        // ===== (start) Tap Gesture Recognizer 추가 =====
+        let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(keyboardDismissTapGesture)
         // ===== (end) Tap Gesture Recognizer 추가 =====
         
         setupUI()
         
+    }
+    
+    @objc func segueViewController(sender: UITapGestureRecognizer) {
+        // 태핑이 일어나면 "signupComplete" segue로 전이
+        performSegue(withIdentifier: "signupComplete", sender: self)
     }
     
     @objc func dismissKeyboard() {
