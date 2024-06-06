@@ -151,10 +151,10 @@
             </objects>
             <point key="canvasLocation" x="1982.4427480916029" y="700.70422535211276"/>
         </scene>
-        <!--SignUp Controller-->
+        <!--SignUpViewController-->
         <scene sceneID="7EU-VN-MEi">
             <objects>
-                <viewController storyboardIdentifier="SignUpViewController" title="SignUp Controller" id="fkU-Uy-EEo" customClass="SignUpController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" title="SignUpViewController" id="fkU-Uy-EEo" customClass="SignUpViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jXh-6W-FR4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -380,7 +380,7 @@
         <!--SignUpCompleteViewController-->
         <scene sceneID="S09-Rp-9uD">
             <objects>
-                <viewController title="SignUpCompleteViewController" id="mJg-J8-JCH" customClass="SignUpCompleteController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="SignUpCompleteViewController" id="mJg-J8-JCH" customClass="SignUpCompleteViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bTZ-DI-fz5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

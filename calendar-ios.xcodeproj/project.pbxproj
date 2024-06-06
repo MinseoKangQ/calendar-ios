@@ -14,8 +14,8 @@
 		FBD5F3662C1081F300EF5BDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3652C1081F300EF5BDE /* Assets.xcassets */; };
 		FBD5F3692C1081F300EF5BDE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3682C1081F300EF5BDE /* Base */; };
 		FBD5F3712C10836700EF5BDE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3702C10836700EF5BDE /* .gitignore */; };
-		FBD5F3752C10855A00EF5BDE /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3742C10855A00EF5BDE /* SignUpController.swift */; };
-		FBD5F3792C11A23300EF5BDE /* SignUpCompleteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3782C11A23300EF5BDE /* SignUpCompleteController.swift */; };
+		FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */; };
+		FBD5F3792C11A23300EF5BDE /* SignUpCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */; };
 		FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,8 +29,8 @@
 		FBD5F3682C1081F300EF5BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBD5F36A2C1081F300EF5BDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBD5F3702C10836700EF5BDE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		FBD5F3742C10855A00EF5BDE /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
-		FBD5F3782C11A23300EF5BDE /* SignUpCompleteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCompleteController.swift; sourceTree = "<group>"; };
+		FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCompleteViewController.swift; sourceTree = "<group>"; };
 		FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,8 +72,8 @@
 				FBD5F3652C1081F300EF5BDE /* Assets.xcassets */,
 				FBD5F3672C1081F300EF5BDE /* LaunchScreen.storyboard */,
 				FBD5F36A2C1081F300EF5BDE /* Info.plist */,
-				FBD5F3742C10855A00EF5BDE /* SignUpController.swift */,
-				FBD5F3782C11A23300EF5BDE /* SignUpCompleteController.swift */,
+				FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */,
+				FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */,
 				FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */,
 			);
 			path = "calendar-ios";
@@ -154,9 +154,9 @@
 				FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */,
 				FBD5F3612C1081F100EF5BDE /* ViewController.swift in Sources */,
 				FBD5F35D2C1081F100EF5BDE /* AppDelegate.swift in Sources */,
-				FBD5F3792C11A23300EF5BDE /* SignUpCompleteController.swift in Sources */,
+				FBD5F3792C11A23300EF5BDE /* SignUpCompleteViewController.swift in Sources */,
 				FBD5F35F2C1081F100EF5BDE /* SceneDelegate.swift in Sources */,
-				FBD5F3752C10855A00EF5BDE /* SignUpController.swift in Sources */,
+				FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
