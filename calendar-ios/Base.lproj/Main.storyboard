@@ -111,7 +111,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="hTh-dV-vug"/>
                                                 </constraints>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="회원가입">
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -392,8 +392,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nq7-4k-YYN">
-                                <rect key="frame" x="175.66666666666666" y="415.66666666666669" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nq7-4k-YYN">
+                                <rect key="frame" x="150.66666666666666" y="415.66666666666669" width="92" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -406,10 +406,67 @@
                             <constraint firstItem="nq7-4k-YYN" firstAttribute="centerY" secondItem="VTI-7X-cFy" secondAttribute="centerY" id="rGk-pM-wpS"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="VL0-ea-5HS"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pQI-Jl-hIq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1581" y="1428"/>
+            <point key="canvasLocation" x="2507.6335877862593" y="1427.4647887323945"/>
+        </scene>
+        <!--CalendarViewController-->
+        <scene sceneID="byq-8k-Iha">
+            <objects>
+                <viewController storyboardIdentifier="CalendarViewController" title="CalendarViewController" id="fZM-Ga-K2f" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w6d-jh-wSc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jeh-8M-bPx">
+                                <rect key="frame" x="139" y="415.66666666666669" width="115" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Alz-a5-XLk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Jeh-8M-bPx" firstAttribute="centerY" secondItem="w6d-jh-wSc" secondAttribute="centerY" id="8G5-9F-zyR"/>
+                            <constraint firstItem="Jeh-8M-bPx" firstAttribute="centerX" secondItem="w6d-jh-wSc" secondAttribute="centerX" id="Ni4-OI-wtK"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="GKJ-p7-Y3z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sbv-ZS-izy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2523" y="2124"/>
+        </scene>
+        <!--DeveloperViewController-->
+        <scene sceneID="DDS-dP-2Ap">
+            <objects>
+                <viewController storyboardIdentifier="DeveloperViewController" title="DeveloperViewController" id="PdA-KS-Dxs" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xoW-FY-ogJ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQg-RF-V2U">
+                                <rect key="frame" x="157.66666666666666" y="415.66666666666669" width="77.666666666666657" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="i7h-kd-1VU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FQg-RF-V2U" firstAttribute="centerY" secondItem="xoW-FY-ogJ" secondAttribute="centerY" id="FSF-PR-wMT"/>
+                            <constraint firstItem="FQg-RF-V2U" firstAttribute="centerX" secondItem="xoW-FY-ogJ" secondAttribute="centerX" id="f85-0p-nuJ"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Developer" image="person" catalog="system" id="dTL-7A-ab3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W75-6D-8ib" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2565" y="2833"/>
         </scene>
         <!--SignUpCompleteViewController-->
         <scene sceneID="S09-Rp-9uD">
@@ -510,9 +567,32 @@
             </objects>
             <point key="canvasLocation" x="131" y="701"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="5qg-y2-3sO">
+            <objects>
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Sgw-S4-08W" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dPC-WZ-P0N">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="1Hd-XQ-735" kind="relationship" relationship="viewControllers" id="VER-fB-x3L"/>
+                        <segue destination="fZM-Ga-K2f" kind="relationship" relationship="viewControllers" id="FRO-e2-RRR"/>
+                        <segue destination="PdA-KS-Dxs" kind="relationship" relationship="viewControllers" id="AMo-gV-Tbz"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J36-DK-vta" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1580.9160305343512" y="1427.4647887323945"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="calendarLogo" width="512" height="512"/>
+        <image name="house" catalog="system" width="128" height="104"/>
+        <image name="person" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

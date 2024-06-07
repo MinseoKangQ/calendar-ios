@@ -45,7 +45,8 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        resetLoginUI()
+        setupUI()
+//        resetLoginUI()
     }
 
     override func viewDidLoad() {
@@ -58,9 +59,8 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(keyboardDismissTapGesture)
         // ===== (end) Tap Gesture Recognizer 추가 =====
         
-        
-        // 회원가입 버튼 누르면 화면 전환
-        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+//        // 회원가입 버튼 누르면 화면 전환
+//        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
         
     }
     
@@ -72,7 +72,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginBtnAction(_ sender: UIButton) {
         let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = newStoryboard.instantiateViewController(identifier: "HomeViewController")
+        // HomeViewController가 아닌 그것의 Root인 TabBarController 로 작성해야 동작
+        let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
         self.changeRootViewController(newViewController)
     }
     
@@ -125,6 +126,13 @@ class LoginViewController: UIViewController {
     
     private func setupUI() {
         
+        // 회원가입 버튼 누르면 화면 전환
+        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+        
+        // 텍스트 필드 초기화
+        idTextField.text = ""
+        pwTextField.text = ""
+        
         // ===== textField 관련 필드 =====
         idTextField.layer.cornerRadius = 14
         idTextField.layer.borderWidth = 1
@@ -139,14 +147,17 @@ class LoginViewController: UIViewController {
         pwTextField.leftViewMode = .always
         
         // ===== btn 관련 필드 =====
+        loginBtn.isEnabled = true
         loginBtn.layer.cornerRadius = 14
         loginBtn.layer.borderWidth = 1
         loginBtn.backgroundColor = CUSTOM_BLUE
         loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         loginBtn.setTitleColor(.white, for: .normal)
         
+        signUpBtn.isEnabled = true
         signUpBtn.layer.cornerRadius = 14
         signUpBtn.layer.borderWidth = 1
+        signUpBtn.backgroundColor = UIColor.white
         signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
         

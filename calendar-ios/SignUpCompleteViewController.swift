@@ -32,9 +32,9 @@ class SignUpCompleteViewController: UIViewController {
         loginBtn.backgroundColor = CUSTOM_BLUE
         loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         
-        uiView.layer.cornerRadius = 10
-        uiView.layer.borderWidth = 1
-        uiView.layer.borderColor = UIColor.white.cgColor
+//        uiView.layer.cornerRadius = 10
+//        uiView.layer.borderWidth = 1
+//        uiView.layer.borderColor = UIColor.white.cgColor
     }
 
 }
