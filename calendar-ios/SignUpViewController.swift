@@ -54,7 +54,7 @@ class SignUpViewController: UIViewController  {
     // 다시 로그인 화면으로 감
     // https://eunoia3jy.tistory.com/210 참고함
     @IBAction func unwindToVC(_ segue: UIStoryboardSegue) {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func dismissKeyboard() {

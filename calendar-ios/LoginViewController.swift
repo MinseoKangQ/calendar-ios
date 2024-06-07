@@ -70,6 +70,23 @@ class LoginViewController: UIViewController {
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    @IBAction func loginBtnAction(_ sender: UIButton) {
+        let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = newStoryboard.instantiateViewController(identifier: "HomeViewController")
+        self.changeRootViewController(newViewController)
+    }
+    
+    func changeRootViewController(_ viewControllerToPresent: UIViewController) {
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = viewControllerToPresent
+            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
+        } else {
+            viewControllerToPresent.modalPresentationStyle = .overFullScreen
+            self.present(viewControllerToPresent, animated: true, completion: nil)
+        }
+    }
+    
+    
     // 키보드
     @objc func dismissKeyboard() {
         view.endEditing(true)
