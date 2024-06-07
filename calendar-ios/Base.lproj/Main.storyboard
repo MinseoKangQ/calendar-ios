@@ -417,27 +417,41 @@
         <!--CalendarViewController-->
         <scene sceneID="byq-8k-Iha">
             <objects>
-                <viewController storyboardIdentifier="CalendarViewController" title="CalendarViewController" id="fZM-Ga-K2f" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CalendarViewController" title="CalendarViewController" id="fZM-Ga-K2f" customClass="CalendarViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w6d-jh-wSc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqF-e0-P8j" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="59" width="393" height="734"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h3L-Q0-3Qp">
+                                <rect key="frame" x="10" y="69" width="373" height="690"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aab-6l-E7h" customClass="FSCalendar">
+                                        <rect key="frame" x="0.0" y="0.0" width="373" height="690"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="aab-6l-E7h" secondAttribute="trailing" id="8lF-eu-hEF"/>
+                                    <constraint firstItem="aab-6l-E7h" firstAttribute="top" secondItem="h3L-Q0-3Qp" secondAttribute="top" id="PUE-gr-gfX"/>
+                                    <constraint firstItem="aab-6l-E7h" firstAttribute="leading" secondItem="h3L-Q0-3Qp" secondAttribute="leading" id="RgT-7U-1q2"/>
+                                    <constraint firstAttribute="bottom" secondItem="aab-6l-E7h" secondAttribute="bottom" id="hH1-Nk-yuv"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Alz-a5-XLk"/>
                         <color key="backgroundColor" name="CustomBackground"/>
                         <constraints>
-                            <constraint firstItem="eqF-e0-P8j" firstAttribute="leading" secondItem="Alz-a5-XLk" secondAttribute="leading" id="3kU-Xj-clI"/>
-                            <constraint firstItem="eqF-e0-P8j" firstAttribute="top" secondItem="Alz-a5-XLk" secondAttribute="top" id="FmK-Gt-LnB"/>
-                            <constraint firstItem="eqF-e0-P8j" firstAttribute="centerY" secondItem="w6d-jh-wSc" secondAttribute="centerY" id="Gm2-4T-KTX"/>
-                            <constraint firstItem="eqF-e0-P8j" firstAttribute="centerX" secondItem="w6d-jh-wSc" secondAttribute="centerX" id="ikB-f9-uS1"/>
-                            <constraint firstItem="eqF-e0-P8j" firstAttribute="trailing" secondItem="Alz-a5-XLk" secondAttribute="trailing" id="zaZ-W6-FVs"/>
+                            <constraint firstItem="Alz-a5-XLk" firstAttribute="trailing" secondItem="h3L-Q0-3Qp" secondAttribute="trailing" constant="10" id="7Jv-iO-pQv"/>
+                            <constraint firstItem="h3L-Q0-3Qp" firstAttribute="top" secondItem="Alz-a5-XLk" secondAttribute="top" constant="10" id="RlE-AU-DGS"/>
+                            <constraint firstItem="Alz-a5-XLk" firstAttribute="bottom" secondItem="h3L-Q0-3Qp" secondAttribute="bottom" constant="10" id="tmb-b0-KOz"/>
+                            <constraint firstItem="h3L-Q0-3Qp" firstAttribute="leading" secondItem="Alz-a5-XLk" secondAttribute="leading" constant="10" id="uuc-i6-5ia"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="GKJ-p7-Y3z"/>
+                    <connections>
+                        <outlet property="calendarView" destination="aab-6l-E7h" id="AVY-Ht-o4d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbv-ZS-izy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -597,6 +611,9 @@
         <image name="calendarLogo" width="512" height="512"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="person" catalog="system" width="128" height="121"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="CustomBackground">
             <color red="0.9570000171661377" green="0.96899998188018799" blue="0.98799997568130493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
