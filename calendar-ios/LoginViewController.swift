@@ -43,9 +43,14 @@ class LoginViewController: UIViewController {
     let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
     let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupUI()
+//        resetLoginUI()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
 
         // textField 외의 곳을 터치하면 키보드 사라짐
@@ -54,23 +59,39 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(keyboardDismissTapGesture)
         // ===== (end) Tap Gesture Recognizer 추가 =====
         
-        
-        // 회원가입 버튼 누르면 화면 전환
-        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+//        // 회원가입 버튼 누르면 화면 전환
+//        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
         
     }
     
     // 회원가입 화면 전환
     @objc func signUpBtnTapped() {
-//        present(viewControllerToPresent: )
-//        performSegue(withIdentifier: "gotoSignUp", sender: self)
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") else { return }
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
+    
+    @IBAction func loginBtnAction(_ sender: UIButton) {
+        let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        // HomeViewController가 아닌 그것의 Root인 TabBarController 로 작성해야 동작
+        let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
+        self.changeRootViewController(newViewController)
+    }
+    
+    func changeRootViewController(_ viewControllerToPresent: UIViewController) {
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = viewControllerToPresent
+            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
+        } else {
+            viewControllerToPresent.modalPresentationStyle = .overFullScreen
+            self.present(viewControllerToPresent, animated: true, completion: nil)
+        }
+    }
+    
     
     // 키보드
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
     
     // 키보드
     override func viewDidAppear(_ animated: Bool) {
@@ -105,6 +126,13 @@ class LoginViewController: UIViewController {
     
     private func setupUI() {
         
+        // 회원가입 버튼 누르면 화면 전환
+        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+        
+        // 텍스트 필드 초기화
+        idTextField.text = ""
+        pwTextField.text = ""
+        
         // ===== textField 관련 필드 =====
         idTextField.layer.cornerRadius = 14
         idTextField.layer.borderWidth = 1
@@ -119,18 +147,40 @@ class LoginViewController: UIViewController {
         pwTextField.leftViewMode = .always
         
         // ===== btn 관련 필드 =====
+        loginBtn.isEnabled = true
         loginBtn.layer.cornerRadius = 14
         loginBtn.layer.borderWidth = 1
         loginBtn.backgroundColor = CUSTOM_BLUE
         loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        loginBtn.setTitleColor(.white, for: .normal)
         
+        signUpBtn.isEnabled = true
         signUpBtn.layer.cornerRadius = 14
         signUpBtn.layer.borderWidth = 1
+        signUpBtn.backgroundColor = UIColor.white
         signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
         pwTextField.textContentType = .oneTimeCode
+    }
+    
+    private func resetLoginUI() {
+        
+        // 텍스트 필드 초기화
+        idTextField.text = ""
+        pwTextField.text = ""
+
+        // 텍스트 필드 테두리 색 초기화
+        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+
+        // 버튼 상태 초기화
+        loginBtn.backgroundColor = CUSTOM_BLUE
+        loginBtn.setTitleColor(.white, for: .normal)
+        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
     }
 
 }
