@@ -59,6 +59,13 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     // 날짜 선택 시 콜백 메소드
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print(dateFormatter.string(from: date) + " 선택됨")
+        
+        // ViewController 띄우기
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let newViewController = storyboard.instantiateViewController(withIdentifier: "TodoModalViewController") as? TodoModalViewController {
+            self.present(newViewController, animated: true, completion: nil)
+        }
+        
         calendarView.reloadData() // 선택 상태 업데이트
     }
     

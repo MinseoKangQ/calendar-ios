@@ -457,6 +457,82 @@
             </objects>
             <point key="canvasLocation" x="2522.9007633587785" y="2123.9436619718313"/>
         </scene>
+        <!--TodoModalViewController-->
+        <scene sceneID="Jn8-E5-R3V">
+            <objects>
+                <viewController storyboardIdentifier="TodoModalViewController" title="TodoModalViewController" id="pic-CC-4Dh" customClass="TodoModalViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dVD-qs-f2V">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x6t-Wr-ecy">
+                                <rect key="frame" x="46.666666666666657" y="201" width="300" height="450"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="PSf-uc-KhV">
+                                        <rect key="frame" x="20" y="20" width="260" height="410"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Je6-C3-b3W">
+                                                <rect key="frame" x="0.0" y="0.0" width="260" height="15.666666666666666"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="g4I-wQ-XmG">
+                                                <rect key="frame" x="0.0" y="25.666666666666657" width="260" height="340"/>
+                                                <color key="backgroundColor" red="0.94531121409999996" green="0.96862745289999996" blue="0.893397102" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </tableView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHn-0T-SJA">
+                                                <rect key="frame" x="0.0" y="375.66666666666663" width="260" height="34.333333333333314"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="g4F-JA-DuD"/>
+                                                </constraints>
+                                                <color key="tintColor" name="AddTodoBtn"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Button">
+                                                    <color key="baseForegroundColor" name="AddTodoText"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Je6-C3-b3W" firstAttribute="leading" secondItem="PSf-uc-KhV" secondAttribute="leading" id="0up-g0-hJT"/>
+                                            <constraint firstAttribute="trailing" secondItem="Je6-C3-b3W" secondAttribute="trailing" id="86L-fU-0dK"/>
+                                            <constraint firstItem="bHn-0T-SJA" firstAttribute="leading" secondItem="PSf-uc-KhV" secondAttribute="leading" id="i03-0b-5FG"/>
+                                            <constraint firstAttribute="trailing" secondItem="bHn-0T-SJA" secondAttribute="trailing" id="mbm-Kl-Qja"/>
+                                            <constraint firstAttribute="trailing" secondItem="g4I-wQ-XmG" secondAttribute="trailing" id="pwF-a5-aBC"/>
+                                            <constraint firstItem="g4I-wQ-XmG" firstAttribute="leading" secondItem="PSf-uc-KhV" secondAttribute="leading" id="tzh-UC-Zvg"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="CustomWhite"/>
+                                <constraints>
+                                    <constraint firstItem="PSf-uc-KhV" firstAttribute="centerX" secondItem="x6t-Wr-ecy" secondAttribute="centerX" id="12e-Lr-OVb"/>
+                                    <constraint firstItem="PSf-uc-KhV" firstAttribute="top" secondItem="x6t-Wr-ecy" secondAttribute="top" constant="20" id="CtJ-nL-LGZ"/>
+                                    <constraint firstAttribute="height" constant="450" id="FRN-Ob-EjM"/>
+                                    <constraint firstItem="PSf-uc-KhV" firstAttribute="leading" secondItem="x6t-Wr-ecy" secondAttribute="leading" constant="20" id="QyZ-di-uol"/>
+                                    <constraint firstItem="PSf-uc-KhV" firstAttribute="centerY" secondItem="x6t-Wr-ecy" secondAttribute="centerY" id="ffA-Ev-tlG"/>
+                                    <constraint firstAttribute="width" constant="300" id="j3B-Z8-oWu"/>
+                                    <constraint firstAttribute="trailing" secondItem="PSf-uc-KhV" secondAttribute="trailing" constant="20" id="o35-JT-58q"/>
+                                    <constraint firstAttribute="bottom" secondItem="PSf-uc-KhV" secondAttribute="bottom" constant="20" id="xch-Hg-RM7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="HIg-K3-TES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="x6t-Wr-ecy" firstAttribute="centerX" secondItem="dVD-qs-f2V" secondAttribute="centerX" id="Fnj-oz-d5e"/>
+                            <constraint firstItem="x6t-Wr-ecy" firstAttribute="centerY" secondItem="dVD-qs-f2V" secondAttribute="centerY" id="w8q-br-vMY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addBtn" destination="bHn-0T-SJA" id="dUD-Tw-s65"/>
+                        <outlet property="baseView" destination="x6t-Wr-ecy" id="YZW-iO-zis"/>
+                        <outlet property="clickedDate" destination="Je6-C3-b3W" id="lEu-b3-aJ7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jj7-BW-RgR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3327.480916030534" y="2125.3521126760565"/>
+        </scene>
         <!--DeveloperViewController-->
         <scene sceneID="DDS-dP-2Ap">
             <objects>
@@ -614,11 +690,20 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="AddTodoBtn">
+            <color red="0.92156862745098034" green="0.92941176470588238" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AddTodoText">
+            <color red="0.36470588235294116" green="0.36862745098039218" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="CustomBackground">
             <color red="0.9570000171661377" green="0.96899998188018799" blue="0.98799997568130493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CustomBarItemClicked">
             <color red="0.36100000143051147" green="0.48199999332427979" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomWhite">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
