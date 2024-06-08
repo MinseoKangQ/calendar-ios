@@ -12,6 +12,7 @@ class TodoModalViewController: UIViewController {
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var clickedDate: UILabel!
     @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var tableView: UITableView!
     
     var selectedDate: String? // 날짜를 저장할 변수
     
@@ -31,6 +32,11 @@ class TodoModalViewController: UIViewController {
         if let date = selectedDate {
             clickedDate.text = date
         }
+        
+        // TableView 설정
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomTableViewCell")
     }
     
     // view 외의 곳 클릭하면 모달 닫힘
@@ -46,3 +52,19 @@ class TodoModalViewController: UIViewController {
     
 }
 
+extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10 // 샘플 데이터 수
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as? CustomTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        // 여기서 cell을 설정할 수 있습니다.
+        // 예를 들어, cell.textLabel?.text = "Some text"
+        
+        return cell
+    }
+}

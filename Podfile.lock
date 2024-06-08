@@ -1,16 +1,20 @@
 PODS:
   - FSCalendar (2.8.4)
+  - M13Checkbox (3.4.0)
 
 DEPENDENCIES:
   - FSCalendar
+  - M13Checkbox
 
 SPEC REPOS:
   trunk:
     - FSCalendar
+    - M13Checkbox
 
 SPEC CHECKSUMS:
   FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
+  M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
 
-PODFILE CHECKSUM: 27b6b77b9aa7e7fbf8a41eac956b50362cbceb0f
+PODFILE CHECKSUM: 90087d8e0dfdf30e8e631b3f0744555c9a43305e
 
 COCOAPODS: 1.15.2

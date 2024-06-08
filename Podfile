@@ -7,5 +7,6 @@ target 'calendar-ios' do
 
   # Pods for calendar-ios
   pod 'FSCalendar'
+  pod 'M13Checkbox'
 
 end

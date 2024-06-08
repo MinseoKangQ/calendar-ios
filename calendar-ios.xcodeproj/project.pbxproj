@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		F910E3F6F498C059048101CC /* Pods_calendar_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC97ED72FA3101B092F60A0 /* Pods_calendar_ios.framework */; };
 		FB7D42672C144BDE0078AB29 /* TodoModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7D42662C144BDE0078AB29 /* TodoModalViewController.swift */; };
+		FB7D426A2C1483630078AB29 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7D42682C1483630078AB29 /* CustomTableViewCell.swift */; };
+		FB7D426B2C1483630078AB29 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB7D42692C1483630078AB29 /* CustomTableViewCell.xib */; };
 		FB9B44D12C135107005FC0E7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9B44D02C135107005FC0E7 /* CalendarViewController.swift */; };
 		FBD5F35D2C1081F100EF5BDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F35C2C1081F100EF5BDE /* AppDelegate.swift */; };
 		FBD5F35F2C1081F100EF5BDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F35E2C1081F100EF5BDE /* SceneDelegate.swift */; };
@@ -27,6 +29,8 @@
 		CDC97ED72FA3101B092F60A0 /* Pods_calendar_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04D38EBF0A793B892911E2A /* Pods-calendar-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar-ios.debug.xcconfig"; path = "Target Support Files/Pods-calendar-ios/Pods-calendar-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		FB7D42662C144BDE0078AB29 /* TodoModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModalViewController.swift; sourceTree = "<group>"; };
+		FB7D42682C1483630078AB29 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		FB7D42692C1483630078AB29 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		FB9B44D02C135107005FC0E7 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		FBD5F3592C1081F100EF5BDE /* calendar-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "calendar-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD5F35C2C1081F100EF5BDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +109,8 @@
 				FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */,
 				FB9B44D02C135107005FC0E7 /* CalendarViewController.swift */,
 				FB7D42662C144BDE0078AB29 /* TodoModalViewController.swift */,
+				FB7D42682C1483630078AB29 /* CustomTableViewCell.swift */,
+				FB7D42692C1483630078AB29 /* CustomTableViewCell.xib */,
 			);
 			path = "calendar-ios";
 			sourceTree = "<group>";
@@ -172,6 +178,7 @@
 				FBD5F3712C10836700EF5BDE /* .gitignore in Resources */,
 				FBD5F3662C1081F300EF5BDE /* Assets.xcassets in Resources */,
 				FBD5F3692C1081F300EF5BDE /* Base in Resources */,
+				FB7D426B2C1483630078AB29 /* CustomTableViewCell.xib in Resources */,
 				FBD5F3642C1081F100EF5BDE /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB7D426A2C1483630078AB29 /* CustomTableViewCell.swift in Sources */,
 				FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */,
 				FBD5F3612C1081F100EF5BDE /* ViewController.swift in Sources */,
 				FB7D42672C144BDE0078AB29 /* TodoModalViewController.swift in Sources */,
