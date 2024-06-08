@@ -13,6 +13,8 @@ class TodoModalViewController: UIViewController {
     @IBOutlet weak var clickedDate: UILabel!
     @IBOutlet weak var addBtn: UIButton!
     
+    var selectedDate: String? // 날짜를 저장할 변수
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -24,6 +26,11 @@ class TodoModalViewController: UIViewController {
         // baseView는 탭 제스처에 반응하지 않도록 설정
         let baseTapGesture = UITapGestureRecognizer()
         baseView.addGestureRecognizer(baseTapGesture)
+        
+        // selectedDate 값을 clickedDate 레이블에 설정
+        if let date = selectedDate {
+            clickedDate.text = date
+        }
     }
     
     // view 외의 곳 클릭하면 모달 닫힘

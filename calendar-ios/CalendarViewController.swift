@@ -34,7 +34,7 @@ class CalendarViewController: UIViewController {
         calendarView.locale = Locale(identifier: "ko_KR")
         
         // 헤더
-        calendarView.appearance.headerDateFormat = "YYYY년 MM월" // 형식
+        calendarView.appearance.headerDateFormat = "YYYY년 M월" // 형식
         calendarView.appearance.headerTitleAlignment = .center // 헤더 글씨 중앙에 보이게
         calendarView.appearance.headerMinimumDissolvedAlpha = 0.0 // 안보이게 함
         calendarView.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 16)
@@ -60,9 +60,18 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print(dateFormatter.string(from: date) + " 선택됨")
         
-        // ViewController 띄우기
+        // Modal 띄우기
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let newViewController = storyboard.instantiateViewController(withIdentifier: "TodoModalViewController") as? TodoModalViewController {
+            // 선택된 날짜 포맷 지정
+            let headerDateFormatter = DateFormatter()
+            headerDateFormatter.locale = Locale(identifier: "ko_KR")
+            headerDateFormatter.dateFormat = "M월 d일 (E)"
+            let headerDate = headerDateFormatter.string(from: date)
+            
+            // selectedDate 설정
+            newViewController.selectedDate = headerDate
+            
             self.present(newViewController, animated: true, completion: nil)
         }
         
