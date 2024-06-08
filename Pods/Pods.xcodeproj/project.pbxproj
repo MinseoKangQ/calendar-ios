@@ -60,7 +60,7 @@
 
 /* Begin PBXFileReference section */
 		0D7FC7818DEFD830FC91326616A361A8 /* Pods-calendar-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-calendar-ios.release.xcconfig"; sourceTree = "<group>"; };
-		13FFA727AD36B1AF83A207B3DDB76B65 /* Pods-calendar-ios */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-calendar-ios"; path = Pods_calendar_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		13FFA727AD36B1AF83A207B3DDB76B65 /* Pods_calendar_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16086522C7B85EA50AD16EE104DED4FA /* FSCalendarDelegationFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FSCalendarDelegationFactory.h; path = FSCalendar/FSCalendarDelegationFactory.h; sourceTree = "<group>"; };
 		1E243AFF8A46E7CBD5C5DC1512200CD1 /* FSCalendarConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FSCalendarConstants.m; path = FSCalendar/FSCalendarConstants.m; sourceTree = "<group>"; };
 		20B4FFECD20B84A72AE7C726DE6DCB7D /* FSCalendarStickyHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FSCalendarStickyHeader.h; path = FSCalendar/FSCalendarStickyHeader.h; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				95209B8BB966524BC76543F99C75F5FE /* FSCalendar.framework */,
-				13FFA727AD36B1AF83A207B3DDB76B65 /* Pods-calendar-ios */,
+				13FFA727AD36B1AF83A207B3DDB76B65 /* Pods_calendar_ios.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 			);
 			name = "Pods-calendar-ios";
 			productName = Pods_calendar_ios;
-			productReference = 13FFA727AD36B1AF83A207B3DDB76B65 /* Pods-calendar-ios */;
+			productReference = 13FFA727AD36B1AF83A207B3DDB76B65 /* Pods_calendar_ios.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		13285D54682BEAD805960F9E6EEB9949 /* FSCalendar */ = {
@@ -534,6 +534,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -600,6 +602,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (

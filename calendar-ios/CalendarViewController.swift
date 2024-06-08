@@ -8,7 +8,7 @@
 import UIKit
 import FSCalendar
 
-class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
+class CalendarViewController: UIViewController {
 
     @IBOutlet weak var calendarView: FSCalendar!
     
@@ -20,9 +20,12 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     let CALENDAR_RED = UIColor(named: "CalendarRed")
     let CALENDAR_TODAY = UIColor(named: "CalendarToday")
     
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
 
         calendarView.delegate = self
         calendarView.dataSource = self
@@ -42,10 +45,75 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         // 오늘
         calendarView.appearance.todayColor = CALENDAR_TODAY
         
-        // 선택된 날짜 배경 색상 설정
-        calendarView.appearance.selectionColor = .black
+        // 선택된 날짜 배경 색상 없애기
+        calendarView.appearance.selectionColor = .clear
+        calendarView.appearance.borderSelectionColor = .clear
         
         
+    }
+
+}
+
+extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+    
+    // 날짜 선택 시 콜백 메소드
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print(dateFormatter.string(from: date) + " 선택됨")
+        calendarView.reloadData() // 선택 상태 업데이트
+    }
+    
+    // 날짜 선택 해제 시 콜백 메소드
+    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print(dateFormatter.string(from: date) + " 해제됨")
+        calendarView.reloadData() // 선택 해제 상태 업데이트
+    }
+    
+    // 선택된 날짜의 텍스트 색상 유지
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
+        let today = Date()
+        
+        // 오늘 날짜인지 확인
+        if Calendar.current.isDate(date, inSameDayAs: today) {
+            return .white // 오늘 날짜인 경우 흰색 유지
+        }
+        
+        return .black // 선택된 날짜의 텍스트 색상 유지
+    }
+    
+    // 기본 날짜 텍스트 색상 변경
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.weekday], from: date)
+        let today = Date()
+        
+        // 오늘 날짜인지 확인
+        if calendar.isDate(date, inSameDayAs: today) {
+            return .white // 오늘 날짜인 경우 흰색 유지
+        }
+        
+        if let weekday = components.weekday {
+            switch weekday {
+            case 1: // 일요일
+                return CALENDAR_RED
+            case 7: // 토요일
+                return CALENDAR_BLUE
+            default:
+                return .black
+            }
+        }
+        return .black
+    }
+    
+    // 특정 날짜의 배경색 변경
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        let today = Date()
+        
+        // 오늘 날짜인지 확인
+        if Calendar.current.isDate(date, inSameDayAs: today) {
+            return CALENDAR_TODAY // 오늘 날짜인 경우 특정 색상 유지
+        }
+        
+        return .clear // 다른 날짜는 배경색 없음
     }
 
 }
