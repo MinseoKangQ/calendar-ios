@@ -15,6 +15,7 @@ class TodoModalViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var selectedDate: String? // 날짜를 저장할 변수
+    var todoItems: [String] = [] // 할 일 목록을 저장할 배열
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,21 @@ class TodoModalViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomTableViewCell")
+        
+        // 샘플 데이터 추가
+        todoItems = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
+        
+        // addBtn 액션 설정
+        addBtn.addTarget(self, action: #selector(addNewTodoItem), for: .touchUpInside)
+    }
+    
+    @objc func addNewTodoItem() {
+        // 새로운 항목 추가
+        todoItems.append("New Task")
+        
+        // 테이블 뷰 업데이트
+        let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
     
     // view 외의 곳 클릭하면 모달 닫힘
@@ -45,7 +61,6 @@ class TodoModalViewController: UIViewController {
     }
     
     func setupUI() {
-        
         baseView.layer.cornerRadius = 20
         addBtn.layer.cornerRadius = 14
     }
@@ -54,7 +69,7 @@ class TodoModalViewController: UIViewController {
 
 extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10 // 샘플 데이터 수
+        return todoItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -62,9 +77,29 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        // 여기서 cell을 설정할 수 있습니다.
-        // 예를 들어, cell.textLabel?.text = "Some text"
+        // 초기 데이터
+        cell.textFieldLabel.text = todoItems[indexPath.row]
         
         return cell
     }
+    
+    // 슬라이드하여 삭제 기능 추가
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // 데이터 소스에서 항목 삭제
+            todoItems.remove(at: indexPath.row)
+            // 테이블 뷰에서 행 삭제
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    // 삭제 버튼 텍스트 변경
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "삭제"
+    }
+    
 }
