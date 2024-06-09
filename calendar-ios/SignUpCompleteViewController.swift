@@ -9,6 +9,7 @@ import UIKit
 
 class SignUpCompleteViewController: UIViewController {
 
+    @IBOutlet weak var resultTextView: UILabel!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var uiView: UIView!
     
