@@ -11,9 +11,6 @@ import UIKit
 
 // pw : Aa1!aaaa
 
-// TODO: 1) 회원가입 버튼 일단 비활성화
-// TODO: 2) 모든 필드가 파란색이면 회원가입 버튼 활성화
-
 class SignUpViewController: UIViewController  {
 
     @IBOutlet weak var emailTextField: UITextField!
@@ -42,12 +39,14 @@ class SignUpViewController: UIViewController  {
         super.viewDidLoad()
         
         // textField 외의 곳을 터치하면 키보드 사라짐
-        // ===== (start) Tap Gesture Recognizer 추가 =====
         let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(keyboardDismissTapGesture)
-        // ===== (end) Tap Gesture Recognizer 추가 =====
         
         setupUI()
+        
+        // 회원가입 버튼 비활성화
+        signUpBtn.isEnabled = false
+//        signUpBtn.backgroundColor = CUSTOM_GREY
         
     }
     
@@ -63,36 +62,23 @@ class SignUpViewController: UIViewController  {
     
     // ===== 각 필드들의 값이 바뀔 때 마다 API 호출 필요 =====
     @IBAction func emailEditingChanged(_ sender: UITextField) {
-        print(emailTextField.text!)
-        
-        // TODO: 1) (400) 이메일 형식이 맞지 않다면
-        // - emailLabel "이메일 형식을 맞춰주세요."
-        // - emailTextField.layer.borderColor = CUSTOM_RED?.cgColor -> 빨간색
-        
-        // TODO: 2) (409) 이메일 형식이 맞는데 중복되었다면
-        // - emailLabel "사용할 수 없는 이메일입니다."
-        // - emailTextField.layer.borderColor = CUSTOM_RED?.cgColor -> 빨간색
-        
-        // TODO: 3) (200) 사용 가능한 이메일이라면
-        // - emailLabel "사용 가능한 이메일입니다."
-        // - emailTextField.layer.borderColor = CUSTOM_BLUE?.cgColor -> 파란색
+//        print(emailTextField.text!)
+        guard let email = emailTextField.text else { return }
+        ApiService.checkEmailDuplicated(email: email) { statusCode in
+            DispatchQueue.main.async {
+                self.updateEmailValidationStatus(statusCode: statusCode)
+            }
+        }
     }
     
     @IBAction func idEditingChanged(_ sender: UITextField) {
-        print(idTextField.text!)
-        
-        // TODO: 1) (400) 영소문자 + 숫자 조합 7자 이상이 아니라면
-        // - idLabel "아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다."
-        // - idTextField.layer.borderColor = CUSTOM_RED?.cgColor -> 빨간색
-        
-        // TODO: 2) (409) 중복된 아이디라면
-        // - idLabel "이미 사용중인 아이디입니다."
-        // - idTextField.layer.borderColor = CUSTOM_RED?.cgColor -> 빨간색
-        
-        // TODO: 3) (200) 사용 가능한 이메일이라면
-        // - idLabel "사용 가능한 아이디입니다."
-        // - idTextField.layer.borderColor = CUSTOM_BLUE?.cgColor -> 파란색
-        
+//        print(idTextField.text!)
+        guard let userId = idTextField.text else { return }
+        ApiService.checkUserIdDuplicated(userId: userId) { statusCode in
+            DispatchQueue.main.async {
+                self.updateUserIdValidationStatus(statusCode: statusCode)
+            }
+        }
     }
     
     @IBAction func pwEditingChanged(_ sender: UITextField) {
@@ -111,6 +97,7 @@ class SignUpViewController: UIViewController  {
                 pwLabel.textColor = CUSTOM_RED
                 pwTextField.layer.borderColor = CUSTOM_RED?.cgColor
             }
+            updateSignUpButtonState()
         }
     }
     
@@ -118,27 +105,82 @@ class SignUpViewController: UIViewController  {
         print(pwCheckTextField.text!)
         
         // API(X) => iOS에서 검증
-        
         if let pwCheckText = pwCheckTextField.text, let pwText = pwTextField.text {
             if pwCheckText == pwText {
                 if isPasswordValid(pwCheckText) {
-                    // 비밀번호가 일치하고 조건을 만족하는 경우
                     pwCheckLabel.text = "비밀번호가 일치합니다."
                     pwCheckLabel.textColor = CUSTOM_BLUE
                     pwCheckTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
                 } else {
-                    // 비밀번호가 일치하지만 조건을 만족하지 않는 경우
                     pwCheckLabel.text = "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다."
                     pwCheckLabel.textColor = CUSTOM_RED
                     pwCheckTextField.layer.borderColor = CUSTOM_RED?.cgColor
                 }
             } else {
-                // 비밀번호가 일치하지 않는 경우
                 pwCheckLabel.text = "비밀번호가 일치하지 않습니다."
                 pwCheckLabel.textColor = CUSTOM_RED
                 pwCheckTextField.layer.borderColor = CUSTOM_RED?.cgColor
             }
+            updateSignUpButtonState()
         }
+    }
+    
+    @IBAction func signUpBtnTapped(_ sender: UIButton) {
+        guard let email = emailTextField.text,
+              let userId = idTextField.text,
+              let password = pwTextField.text else { return }
+        
+        ApiService.signUp(userId: userId, email: email, password: password) { statusCode in
+            DispatchQueue.main.async {
+                if statusCode == 201 {
+                    // 회원가입 성공
+                    print("회원가입 성공")
+                } else { // TODO: 여기 어떻게 처리?
+                    // 회원가입 실패
+                    print("회원가입 실패")
+                }
+            }
+        }
+    }
+    
+    func updateEmailValidationStatus(statusCode: Int) {
+        switch statusCode {
+        case 200:
+            emailLabel.text = "사용 가능한 이메일입니다."
+            emailLabel.textColor = CUSTOM_BLUE
+            emailTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+        case 400:
+            emailLabel.text = "이메일 형식을 맞춰주세요."
+            emailLabel.textColor = CUSTOM_RED
+            emailTextField.layer.borderColor = CUSTOM_RED?.cgColor
+        case 409:
+            emailLabel.text = "사용할 수 없는 이메일입니다."
+            emailLabel.textColor = CUSTOM_RED
+            emailTextField.layer.borderColor = CUSTOM_RED?.cgColor
+        default:
+            break
+        }
+        updateSignUpButtonState()
+    }
+    
+    func updateUserIdValidationStatus(statusCode: Int) {
+        switch statusCode {
+        case 200:
+            idLabel.text = "사용 가능한 아이디입니다."
+            idLabel.textColor = CUSTOM_BLUE
+            idTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+        case 400:
+            idLabel.text = "아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다."
+            idLabel.textColor = CUSTOM_RED
+            idTextField.layer.borderColor = CUSTOM_RED?.cgColor
+        case 409:
+            idLabel.text = "이미 사용중인 아이디입니다."
+            idLabel.textColor = CUSTOM_RED
+            idTextField.layer.borderColor = CUSTOM_RED?.cgColor
+        default:
+            break
+        }
+        updateSignUpButtonState()
     }
     
     // 비밀번호 검증 메소드
@@ -149,6 +191,17 @@ class SignUpViewController: UIViewController  {
         return passwordTest.evaluate(with: password)
     }
     
+    // 회원가입 활성화 버튼
+    func updateSignUpButtonState() {
+        let isEmailValid = emailLabel.textColor == CUSTOM_BLUE
+        let isUserIdValid = idLabel.textColor == CUSTOM_BLUE
+        let isPasswordValid = pwLabel.textColor == CUSTOM_BLUE
+        let isPasswordCheckValid = pwCheckLabel.textColor == CUSTOM_BLUE
+        
+        signUpBtn.isEnabled = isEmailValid && isUserIdValid && isPasswordValid && isPasswordCheckValid
+//        signUpBtn.backgroundColor = signUpBtn.isEnabled ? CUSTOM_BLUE : CUSTOM_GREY
+    }
+
     // 키보드
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

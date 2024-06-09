@@ -30,6 +30,13 @@ class CalendarViewController: UIViewController {
         calendarView.delegate = self
         calendarView.dataSource = self
         
+        // 캘린더뷰 모서리 둥글게
+        calendarView.layer.cornerRadius = 10
+        calendarView.layer.borderWidth = 1
+        calendarView.layer.borderColor = UIColor.white.cgColor
+        calendarView.backgroundColor = UIColor.white
+        calendarView.layer.masksToBounds = true
+        
         // 달력 한글화
         calendarView.locale = Locale(identifier: "ko_KR")
         
@@ -48,7 +55,6 @@ class CalendarViewController: UIViewController {
         // 선택된 날짜 배경 색상 없애기
         calendarView.appearance.selectionColor = .clear
         calendarView.appearance.borderSelectionColor = .clear
-        
         
     }
 

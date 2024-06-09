@@ -54,10 +54,8 @@ class LoginViewController: UIViewController {
         setupUI()
 
         // textField 외의 곳을 터치하면 키보드 사라짐
-        // ===== (start) Tap Gesture Recognizer 추가 =====
         let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(keyboardDismissTapGesture)
-        // ===== (end) Tap Gesture Recognizer 추가 =====
         
 //        // 회원가입 버튼 누르면 화면 전환
 //        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
@@ -71,11 +69,40 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginBtnAction(_ sender: UIButton) {
-        let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        // HomeViewController가 아닌 그것의 Root인 TabBarController 로 작성해야 동작
-        let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
-        self.changeRootViewController(newViewController)
+        guard let userId = idTextField.text, let password = pwTextField.text else {
+            return
+        }
+        
+        ApiService.signIn(userId: userId, password: password) { statusCode in
+            DispatchQueue.main.async {
+                switch statusCode {
+                case 201:
+                    let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
+                    self.changeRootViewController(newViewController)
+                case 404:
+                    self.showAlert(message: "존재하지 않는 아이디입니다.")
+                case 400:
+                    self.showAlert(message: "비밀번호가 일치하지 않습니다.")
+                default:
+                    self.showAlert(message: "알 수 없는 오류가 발생했습니다.")
+                }
+            }
+        }
     }
+        
+    // 로그인 실패 시 뜨는 Alert 창
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+        
+//        let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        // HomeViewController가 아닌 그것의 Root인 TabBarController 로 작성해야 동작
+//        let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
+//        self.changeRootViewController(newViewController)
     
     func changeRootViewController(_ viewControllerToPresent: UIViewController) {
         if let window = UIApplication.shared.windows.first {
@@ -166,21 +193,21 @@ class LoginViewController: UIViewController {
         pwTextField.textContentType = .oneTimeCode
     }
     
-    private func resetLoginUI() {
-        
-        // 텍스트 필드 초기화
-        idTextField.text = ""
-        pwTextField.text = ""
-
-        // 텍스트 필드 테두리 색 초기화
-        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-
-        // 버튼 상태 초기화
-        loginBtn.backgroundColor = CUSTOM_BLUE
-        loginBtn.setTitleColor(.white, for: .normal)
-        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
-    }
+//    private func resetLoginUI() {
+//        
+//        // 텍스트 필드 초기화
+//        idTextField.text = ""
+//        pwTextField.text = ""
+//
+//        // 텍스트 필드 테두리 색 초기화
+//        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+//        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+//
+//        // 버튼 상태 초기화
+//        loginBtn.backgroundColor = CUSTOM_BLUE
+//        loginBtn.setTitleColor(.white, for: .normal)
+//        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+//        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
+//    }
 
 }
