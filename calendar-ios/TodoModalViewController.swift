@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TodoModalViewController: UIViewController {
+class TodoModalViewController: UIViewController, CategorySelectionDelegate {
     
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var clickedDate: UILabel!
@@ -43,7 +43,8 @@ class TodoModalViewController: UIViewController {
         todoItems = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
         
         // addBtn 액션 설정
-        addBtn.addTarget(self, action: #selector(addNewTodoItem), for: .touchUpInside)
+        // TODO: 이거 수정 - 카테고리 선택 뷰 만들기
+//        addBtn.addTarget(self, action: #selector(addNewTodoItem), for: .touchUpInside)
     }
     
     @objc func addNewTodoItem() {
@@ -65,6 +66,20 @@ class TodoModalViewController: UIViewController {
         addBtn.layer.cornerRadius = 14
     }
     
+    // CategorySelectionDelegate 메서드 구현
+    func didSelectCategory(category: String) {
+        print("선택된 카테고리: \(category)")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTodoBtnSegue" {
+            if let categoryVC = segue.destination as? CategoryViewController {
+                categoryVC.delegate = self
+            }
+        }
+    }
+    
 }
 
 extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
@@ -78,7 +93,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         // 초기 데이터
-        cell.textFieldLabel.text = todoItems[indexPath.row]
+        cell.titleLabel.text = todoItems[indexPath.row]
         
         return cell
     }

@@ -23,6 +23,7 @@
 		FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */; };
 		FBD5F3792C11A23300EF5BDE /* SignUpCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */; };
 		FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */; };
+		FBFB07E52C16ECB800D25BEE /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFB07E42C16ECB800D25BEE /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCompleteViewController.swift; sourceTree = "<group>"; };
 		FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FBFB07E42C16ECB800D25BEE /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				FB7D42682C1483630078AB29 /* CustomTableViewCell.swift */,
 				FB7D42692C1483630078AB29 /* CustomTableViewCell.xib */,
 				FB6A29422C159B3500607A87 /* ApiService.swift */,
+				FBFB07E42C16ECB800D25BEE /* CategoryViewController.swift */,
 			);
 			path = "calendar-ios";
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				FB6A29432C159B3500607A87 /* ApiService.swift in Sources */,
 				FBD5F35F2C1081F100EF5BDE /* SceneDelegate.swift in Sources */,
 				FB9B44D12C135107005FC0E7 /* CalendarViewController.swift in Sources */,
+				FBFB07E52C16ECB800D25BEE /* CategoryViewController.swift in Sources */,
 				FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

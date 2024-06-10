@@ -26,17 +26,21 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="rNv-fN-yhI">
-                        <rect key="frame" x="15" y="18.333333333333332" width="272" height="13.666666666666668"/>
+                        <rect key="frame" x="15" y="13.666666666666666" width="272" height="22.666666666666671"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="할 일을 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t43-gR-7qZ">
-                                <rect key="frame" x="0.0" y="0.0" width="272" height="13.666666666666666"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Me-Sp-WPB">
+                                <rect key="frame" x="0.0" y="0.0" width="272" height="9.6666666666666661"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQy-eF-Z9U">
+                                <rect key="frame" x="0.0" y="10.666666666666664" width="272" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="t43-gR-7qZ" secondAttribute="trailing" id="CbI-HN-QiO"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
@@ -49,7 +53,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="textFieldLabel" destination="t43-gR-7qZ" id="QfA-xY-G81"/>
+                <outlet property="titleLabel" destination="NQy-eF-Z9U" id="ET6-oT-VM4"/>
             </connections>
             <point key="canvasLocation" x="103.81679389312977" y="-12.67605633802817"/>
         </tableViewCell>
