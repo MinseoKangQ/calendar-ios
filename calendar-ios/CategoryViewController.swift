@@ -61,22 +61,18 @@ class CategoryViewController: UIViewController {
     
     @objc func selectImportant() {
         delegate?.didSelectCategory(category: "중요")
-        dismiss(animated: true, completion: nil)
     }
     
     @objc func selectStudy() {
         delegate?.didSelectCategory(category: "공부")
-        dismiss(animated: true, completion: nil)
     }
     
     @objc func selectDaily() {
         delegate?.didSelectCategory(category: "일상")
-        dismiss(animated: true, completion: nil)
     }
     
     @objc func selectExercise() {
         delegate?.didSelectCategory(category: "운동")
-        dismiss(animated: true, completion: nil)
     }
 
 }
