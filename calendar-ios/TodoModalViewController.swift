@@ -269,8 +269,11 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         
         // 초기 데이터
         let todoItem = todoItems[indexPath.row]
+        
+        // 할 일
         cell.titleLabel.text = todoItem.title
         
+        // 카테고리
         switch todoItem.category {
         case "IMPORTANT":
             cell.categoryLabel.text = "중요"
@@ -315,23 +318,79 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    // 슬라이드하여 삭제 기능 추가
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
+//    // 슬라이드하여 삭제 기능 추가
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        return .delete
+//    }
+//    
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            // 데이터 소스에서 항목 삭제
+//            todoItems.remove(at: indexPath.row)
+//            // 테이블 뷰에서 행 삭제
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//    }
+//    
+//    // 삭제 버튼 텍스트 변경
+//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+//        return "삭제"
+//    }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // 데이터 소스에서 항목 삭제
-            todoItems.remove(at: indexPath.row)
-            // 테이블 뷰에서 행 삭제
+    /**
+    // 삭제 커스텀
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
+            // 삭제 로직
+            self.todoItems.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
         }
+        
+        // 커스텀 디자인
+        deleteAction.backgroundColor = .red // 배경 색상
+        deleteAction.image = UIImage(systemName: "trash") // 아이콘 추가
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true // 풀 스와이프 기능
+        
+        return configuration
     }
+     **/
     
-    // 삭제 버튼 텍스트 변경
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "삭제"
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
+            // 삭제 로직
+            self.todoItems.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        }
+        
+        // 커스텀 디자인
+        let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
+        deleteView.backgroundColor = .red
+        deleteView.layer.cornerRadius = 8
+        deleteView.layer.masksToBounds = true
+        
+        let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
+        deleteImageView.tintColor = .white
+        deleteImageView.contentMode = .scaleAspectFit
+        deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35) // 이미지 크기 조정
+        
+        deleteView.addSubview(deleteImageView)
+        
+        UIGraphicsBeginImageContextWithOptions(deleteView.bounds.size, false, 0.0)
+        deleteView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        deleteAction.backgroundColor = .clear
+        deleteAction.image = deleteImage
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        
+        return configuration
     }
     
     // 셀의 높이를 설정하는 메서드
