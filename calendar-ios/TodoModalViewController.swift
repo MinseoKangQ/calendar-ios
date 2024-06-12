@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import M13Checkbox
 
-class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITextFieldDelegate {
+class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITextFieldDelegate, CustomTableViewCellDelegate {
     
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var clickedDate: UILabel!
@@ -15,8 +16,8 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     @IBOutlet weak var tableView: UITableView!
 
     var selectedDate: Date? // Date 형식의 날짜를 저장할 변수
-    
     var todoItems: [TodoItem] = [] // 할 일 목록을 저장할 배열
+    var currentEditingTodoId: Int?
     
     var keyboardHelperView: UIView?
     var keyboardHeight: CGFloat = 0.0
@@ -77,15 +78,24 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         }
     }
     
-    
     @objc func addNewTodoItem() {
-        // 새로운 항목 추가
-        let newTask = TodoItem(title: "New Task", category: "DAILY", isDone: false)
-        todoItems.append(newTask)
         
-        // 테이블 뷰 업데이트
-        let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        currentEditingTodoId = nil // 새로운 항목 추가 시 초기화
+        
+        // 새로운 항목 추가
+        let newTodoResponse = ["todoId": 2, "title": "New Task", "category": "DAILY", "isDone": false] as [String : Any]
+
+        if let todoId = newTodoResponse["todoId"] as? Int,
+           let title = newTodoResponse["title"] as? String,
+           let category = newTodoResponse["category"] as? String,
+           let isDone = newTodoResponse["isDone"] as? Bool {
+            let newTask = TodoItem(todoId: todoId, title: title, category: category, isDone: isDone)
+            self.todoItems.append(newTask)
+            
+            // 테이블 뷰 업데이트
+            let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
     }
     
     // view 외의 곳 클릭하면 모달 닫힘
@@ -110,6 +120,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addTodoBtnSegue" {
             if let categoryVC = segue.destination as? CategoryViewController {
+                currentEditingTodoId = nil
                 categoryVC.delegate = self
             }
         }
@@ -127,8 +138,10 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         hideKeyboardHelper()
     }
 
-    func showKeyboardHelper() {
+    func showKeyboardHelper(with text: String? = nil, category: String? = nil) {
+        
         if keyboardHelperView == nil {
+            print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
             let yOffsetAdjustment: CGFloat = 330
 
@@ -140,7 +153,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             keyboardHelperView?.layer.masksToBounds = true
             
             // 카테고리 색상 설정
-            switch selectedCategory {
+            switch category ?? selectedCategory {
             case "IMPORTANT":
                 keyboardHelperView?.backgroundColor = UIColor(named: "CategoryRedBtn")
             case "STUDY":
@@ -160,6 +173,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             label?.textAlignment = .left
             label?.textColor = .darkGray
             label?.delegate = self // UITextFieldDelegate 설정
+            label?.text = text // 셀의 titleLabel 값 또는 nil 설정
                         
             let arrowButton = UIButton(frame: CGRect(x: containerView.frame.width - 30, y: 0, width: 30, height: 30))
             arrowButton.setImage(UIImage(systemName: "arrow.forward.circle"), for: .normal)
@@ -198,7 +212,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         }
             
     }
-    
+
     @objc func arrowButtonTapped() {
         guard let text = label?.text, !text.isEmpty else {
             hideKeyboardHelper()
@@ -210,30 +224,61 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             return
         }
         
-        let apiDate = convertToAPIDateFormat(selectedDate)
-        let category = selectedCategory ?? "DAILY"
-        
-        
-        ApiService.addTodo(date: apiDate, title: text, category: category) { [weak self] success in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                if success {
-                    self.todoItems.append(TodoItem(title: text, category: category, isDone: false))
-                    self.tableView.reloadData()
-                    self.label?.text = ""
-                } else {
-                    print("할 일 추가 실패")
+        if let existingTodoId = currentEditingTodoId {
+            print("수정 호출 API")
+            // 수정 API 호출
+            ApiService.updateTodoTitle(todoId: existingTodoId, title: text) { [weak self] success in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    if success {
+                        if let index = self.todoItems.firstIndex(where: { $0.todoId == existingTodoId }) {
+                            self.todoItems[index].title = text
+                            self.tableView.reloadData()
+                        }
+                        self.label?.text = ""
+                    } else {
+                        print("할 일 수정 실패")
+                    }
+                    self.hideKeyboardHelper()
                 }
-                self.hideKeyboardHelper()
+            }
+        } else {
+            // 생성 API 호출
+            print("생성 호출 API")
+            let apiDate = convertToAPIDateFormat(selectedDate)
+            let category = selectedCategory ?? "DAILY"
+        
+            ApiService.addTodo(date: apiDate, title: text, category: category) { [weak self] success in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    if success {
+                        self.todoItems.append(TodoItem(todoId: self.todoItems.count + 1, title: text, category: category, isDone: false))
+                        self.tableView.reloadData()
+                        self.label?.text = ""
+                    } else {
+                        print("할 일 추가 실패")
+                    }
+                    self.hideKeyboardHelper()
+                }
             }
         }
     }
+    
 
     func hideKeyboardHelper() {
         keyboardHelperView?.removeFromSuperview()
         keyboardHelperView = nil
         print("사라져")
+    }
+    
+    func titleLabelTapped(in cell: CustomTableViewCell, with title: String) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            let todoItem = todoItems[indexPath.row]
+            currentEditingTodoId = todoItem.todoId
+            showKeyboardHelper(with: title, category: todoItem.category)
+        }
     }
     
     // UITextFieldDelegate 메서드 추가
@@ -247,7 +292,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    
 }
 
 extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
@@ -260,10 +304,16 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
+        // delegate 설정
+        cell.delegate = self
+        
         // 초기 데이터
         let todoItem = todoItems[indexPath.row]
+        
+        // 할 일
         cell.titleLabel.text = todoItem.title
         
+        // 카테고리
         switch todoItem.category {
         case "IMPORTANT":
             cell.categoryLabel.text = "중요"
@@ -280,26 +330,67 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         // 배경색 설정
         cell.configureBackgroundColor(category: todoItem.category)
         
+        // 체크박스 상태 설정
+        cell.checkBox.checkState = todoItem.isDone ? .checked : .unchecked
+        
+        // 체크박스 클릭 이벤트 핸들러 설정
+        cell.checkBox.tag = todoItem.todoId
+        cell.checkBox.addTarget(self, action: #selector(checkBoxValueChanged(_:)), for: .valueChanged)
+        
         return cell
     }
     
-    // 슬라이드하여 삭제 기능 추가
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // 데이터 소스에서 항목 삭제
-            todoItems.remove(at: indexPath.row)
-            // 테이블 뷰에서 행 삭제
-            tableView.deleteRows(at: [indexPath], with: .fade)
+    // 체크박스 클릭 이벤트 처리 메서드
+    @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
+        let todoId = sender.tag
+        ApiService.toggleTodoCheck(todoId: todoId) { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                DispatchQueue.main.async {
+                    // 할 일 목록을 다시 불러와서 UI를 갱신
+                    if let date = self.selectedDate {
+                        self.fetchTodoList(for: self.convertToAPIDateFormat(date))
+                    }
+                }
+            } else {
+                print("체크 상태 변경 실패")
+            }
         }
     }
     
-    // 삭제 버튼 텍스트 변경
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "삭제"
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
+            // 삭제 로직
+            self.todoItems.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        }
+        
+        // 커스텀 디자인
+        let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
+        deleteView.backgroundColor = .red
+        deleteView.layer.cornerRadius = 8
+        deleteView.layer.masksToBounds = true
+        
+        let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
+        deleteImageView.tintColor = .white
+        deleteImageView.contentMode = .scaleAspectFit
+        deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35) // 이미지 크기 조정
+        
+        deleteView.addSubview(deleteImageView)
+        
+        UIGraphicsBeginImageContextWithOptions(deleteView.bounds.size, false, 0.0)
+        deleteView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        deleteAction.backgroundColor = .clear
+        deleteAction.image = deleteImage
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        
+        return configuration
     }
     
     // 셀의 높이를 설정하는 메서드

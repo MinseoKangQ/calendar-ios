@@ -10,6 +10,8 @@ import M13Checkbox
 
 class CustomTableViewCell: UITableViewCell {
     
+    weak var delegate: CustomTableViewCellDelegate?
+    
     @IBOutlet weak var checkBox: M13Checkbox!
     
     let LABEL_RED = UIColor(named: "CategoryRedLabel")
@@ -34,12 +36,23 @@ class CustomTableViewCell: UITableViewCell {
         super.awakeFromNib()
         setupCheckbox()
         setupRoundedCorners()
+        addTapGestureToTitleLabel()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         setupRoundedCorners()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0))
+    }
+    
+    private func addTapGestureToTitleLabel() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(titleLabelTapped))
+        titleLabel.isUserInteractionEnabled = true
+        titleLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func titleLabelTapped() {
+        delegate?.titleLabelTapped(in: self, with: titleLabel.text ?? "")
     }
     
     // 카테고리에 따라 view, label 색상 변경
@@ -78,6 +91,11 @@ class CustomTableViewCell: UITableViewCell {
         // 스타일 설정
         checkBox.boxType = .square // 네모 모양으로 설정
         checkBox.markType = .checkmark // 체크마크 스타일 설정
+        checkBox.stateChangeAnimation = .bounce(.fill) // 애니메이션 설정
     }
 
+}
+
+protocol CustomTableViewCellDelegate: AnyObject {
+    func titleLabelTapped(in cell: CustomTableViewCell, with title: String)
 }
