@@ -24,11 +24,6 @@ class ApiService {
                 return
             }
             if let httpResponse = response as? HTTPURLResponse {
-                // 로그인 시 Authorization Token이 Response Header에 담겨옴
-                // 이후 모든 요청은 Request Header에 해당 Token 값을 넣어 특정 사용자를 인식할 것임
-                if let authHeader = httpResponse.allHeaderFields["Authorization"] as? String, authHeader.starts(with: "Bearer ") {
-                    authToken = String(authHeader.dropFirst("Bearer ".count))
-                }
                 completion(httpResponse.statusCode)
             }
         }
@@ -111,9 +106,7 @@ class ApiService {
                 completion(500)
                 return
             }
-//            if let httpResponse = response as? HTTPURLResponse {
-//                completion(httpResponse.statusCode)
-//            }
+
             if let httpResponse = response as? HTTPURLResponse {
                 // 로그인 시 Authorization Token이 Response Header에 담겨옴
                 // 이후 모든 요청은 Request Header에 해당 Token 값을 넣어 특정 사용자를 인식할 것임
@@ -132,12 +125,10 @@ class ApiService {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsbzEyMzQiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE3MTgxNzgwOTEsImV4cCI6MTcxODIxNDA5MX0.yET_pCK-7B1UApVG_22MQeWYKRRw49wvFjFx07wOk7k", forHTTPHeaderField: "Authorization")
         
-//            if let token = authToken {
-//                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//            }
+            if let token = authToken {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
             
             let requestBody: [String: Any] = [
                 "date": date,
@@ -199,12 +190,9 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        // tmp
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsbzEyMzQiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE3MTgxNzgwOTEsImV4cCI6MTcxODIxNDA5MX0.yET_pCK-7B1UApVG_22MQeWYKRRw49wvFjFx07wOk7k", forHTTPHeaderField: "Authorization")
-        
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -232,7 +220,6 @@ class ApiService {
     }
     
 }
-
 
 struct TodoItem: Codable {
     let title: String

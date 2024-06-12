@@ -57,9 +57,6 @@ class LoginViewController: UIViewController {
         let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(keyboardDismissTapGesture)
         
-//        // 회원가입 버튼 누르면 화면 전환
-//        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
-        
     }
     
     // 회원가입 화면 전환
@@ -98,11 +95,6 @@ class LoginViewController: UIViewController {
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
-        
-//        let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        // HomeViewController가 아닌 그것의 Root인 TabBarController 로 작성해야 동작
-//        let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
-//        self.changeRootViewController(newViewController)
     
     func changeRootViewController(_ viewControllerToPresent: UIViewController) {
         if let window = UIApplication.shared.windows.first {
@@ -192,22 +184,5 @@ class LoginViewController: UIViewController {
         pwTextField.isSecureTextEntry = true
         pwTextField.textContentType = .oneTimeCode
     }
-    
-//    private func resetLoginUI() {
-//        
-//        // 텍스트 필드 초기화
-//        idTextField.text = ""
-//        pwTextField.text = ""
-//
-//        // 텍스트 필드 테두리 색 초기화
-//        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-//        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-//
-//        // 버튼 상태 초기화
-//        loginBtn.backgroundColor = CUSTOM_BLUE
-//        loginBtn.setTitleColor(.white, for: .normal)
-//        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-//        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
-//    }
 
 }

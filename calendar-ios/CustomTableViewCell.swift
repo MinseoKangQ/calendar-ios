@@ -18,8 +18,6 @@ class CustomTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        setupViews()
-//        setupConstraints()
     }
 
 }

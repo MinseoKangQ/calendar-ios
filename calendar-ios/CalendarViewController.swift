@@ -12,10 +12,10 @@ class CalendarViewController: UIViewController {
 
     @IBOutlet weak var calendarView: FSCalendar!
     
-    let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
-    let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
-    let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
-    let CUSTOM_WEEK_GREY = UIColor(named: "CustomWeekGrey") // 717175
+    let CUSTOM_BLUE = UIColor(named: "CustomBlue")
+    let CUSTOM_GREY = UIColor(named: "CustomGrey")
+    let CUSTOM_RED = UIColor(named: "CustomRed")
+    let CUSTOM_WEEK_GREY = UIColor(named: "CustomWeekGrey")
     let CALENDAR_BLUE = UIColor(named: "CalendarBlue")
     let CALENDAR_RED = UIColor(named: "CalendarRed")
     let CALENDAR_TODAY = UIColor(named: "CalendarToday")
@@ -70,18 +70,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let newViewController = storyboard.instantiateViewController(withIdentifier: "TodoModalViewController") as? TodoModalViewController {
             
-            /**
-            // 선택된 날짜 포맷 지정
-            let headerDateFormatter = DateFormatter()
-            headerDateFormatter.locale = Locale(identifier: "ko_KR")
-            headerDateFormatter.dateFormat = "M월 d일 (E)"
-            let headerDate = headerDateFormatter.string(from: date)
-            
-            // selectedDate 설정
-            newViewController.selectedDate = headerDate
-            
-            self.present(newViewController, animated: true, completion: nil)
-             **/
             // selectedDate를 Date 객체로 설정
             newViewController.selectedDate = date
             self.present(newViewController, animated: true, completion: nil)

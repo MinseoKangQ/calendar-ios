@@ -13,8 +13,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     @IBOutlet weak var clickedDate: UILabel!
     @IBOutlet weak var addBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    
-//    var selectedDate: String? // M월 d일 (E) 형식의 날짜를 저장할 변수
+
     var selectedDate: Date? // Date 형식의 날짜를 저장할 변수
     
     var todoItems: [TodoItem] = [] // 할 일 목록을 저장할 배열
@@ -35,14 +34,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         // baseView는 탭 제스처에 반응하지 않도록 설정
         let baseTapGesture = UITapGestureRecognizer()
         baseView.addGestureRecognizer(baseTapGesture)
-        
-        /**
-        // selectedDate 값을 clickedDate 레이블에 설정
-        if let date = selectedDate {
-            clickedDate.text = date
-            fetchTodoList(for: convertToAPIDateFormat(date))
-        }
-         **/
+
         // selectedDate 값을 clickedDate 레이블에 설정
         if let date = selectedDate {
             let headerDateFormatter = DateFormatter()
@@ -59,25 +51,12 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         tableView.delegate = self
         tableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomTableViewCell")
         
-        // 샘플 데이터 추가
-//        todoItems = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
-        
     }
 
     func convertToAPIDateFormat(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
-        /**
-        let formatter = DateFormatter()
-        formatter.dateFormat = "M월 d일 (E)"
-        formatter.locale = Locale(identifier: "ko_KR")
-        guard let date = formatter.date(from: dateString) else { return dateString }
-        
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
-         
-         **/
     }
     
     func fetchTodoList(for date: String) {
@@ -241,7 +220,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
                     self.tableView.reloadData()
                     self.label?.text = ""
                 } else {
-                    print("Failed to add todo")
+                    print("할 일 추가 실패")
                 }
                 self.hideKeyboardHelper()
             }

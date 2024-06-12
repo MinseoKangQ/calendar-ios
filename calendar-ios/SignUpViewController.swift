@@ -8,9 +8,6 @@
 import UIKit
 
 
-
-// pw : Aa1!aaaa
-
 class SignUpViewController: UIViewController  {
 
     @IBOutlet weak var emailTextField: UITextField!
@@ -46,7 +43,6 @@ class SignUpViewController: UIViewController  {
         
         // 회원가입 버튼 비활성화
         signUpBtn.isEnabled = false
-//        signUpBtn.backgroundColor = CUSTOM_GREY
         
     }
     
@@ -62,7 +58,6 @@ class SignUpViewController: UIViewController  {
     
     // ===== 각 필드들의 값이 바뀔 때 마다 API 호출 필요 =====
     @IBAction func emailEditingChanged(_ sender: UITextField) {
-//        print(emailTextField.text!)
         guard let email = emailTextField.text else { return }
         ApiService.checkEmailDuplicated(email: email) { statusCode in
             DispatchQueue.main.async {
@@ -72,7 +67,6 @@ class SignUpViewController: UIViewController  {
     }
     
     @IBAction func idEditingChanged(_ sender: UITextField) {
-//        print(idTextField.text!)
         guard let userId = idTextField.text else { return }
         ApiService.checkUserIdDuplicated(userId: userId) { statusCode in
             DispatchQueue.main.async {
@@ -82,7 +76,6 @@ class SignUpViewController: UIViewController  {
     }
     
     @IBAction func pwEditingChanged(_ sender: UITextField) {
-        print(pwTextField.text!)
         
         // API(X) => iOS에서 검증
         if let password = pwTextField.text {
@@ -199,7 +192,6 @@ class SignUpViewController: UIViewController  {
         let isPasswordCheckValid = pwCheckLabel.textColor == CUSTOM_BLUE
         
         signUpBtn.isEnabled = isEmailValid && isUserIdValid && isPasswordValid && isPasswordCheckValid
-//        signUpBtn.backgroundColor = signUpBtn.isEnabled ? CUSTOM_BLUE : CUSTOM_GREY
     }
 
     // 키보드
