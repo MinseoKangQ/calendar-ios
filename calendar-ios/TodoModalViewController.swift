@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import M13Checkbox
 
 class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITextFieldDelegate {
     
@@ -80,12 +81,19 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     
     @objc func addNewTodoItem() {
         // 새로운 항목 추가
-        let newTask = TodoItem(title: "New Task", category: "DAILY", isDone: false)
-        todoItems.append(newTask)
-        
-        // 테이블 뷰 업데이트
-        let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        let newTodoResponse = ["todoId": 2, "title": "New Task", "category": "DAILY", "isDone": false] as [String : Any]
+
+        if let todoId = newTodoResponse["todoId"] as? Int,
+           let title = newTodoResponse["title"] as? String,
+           let category = newTodoResponse["category"] as? String,
+           let isDone = newTodoResponse["isDone"] as? Bool {
+            let newTask = TodoItem(todoId: todoId, title: title, category: category, isDone: isDone)
+            self.todoItems.append(newTask)
+            
+            // 테이블 뷰 업데이트
+            let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
     }
     
     // view 외의 곳 클릭하면 모달 닫힘
@@ -212,14 +220,13 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         
         let apiDate = convertToAPIDateFormat(selectedDate)
         let category = selectedCategory ?? "DAILY"
-        
-        
+    
         ApiService.addTodo(date: apiDate, title: text, category: category) { [weak self] success in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
                 if success {
-                    self.todoItems.append(TodoItem(title: text, category: category, isDone: false))
+                    self.todoItems.append(TodoItem(todoId: self.todoItems.count + 1, title: text, category: category, isDone: false))
                     self.tableView.reloadData()
                     self.label?.text = ""
                 } else {
@@ -280,7 +287,32 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         // 배경색 설정
         cell.configureBackgroundColor(category: todoItem.category)
         
+        // 체크박스 상태 설정
+        cell.checkBox.checkState = todoItem.isDone ? .checked : .unchecked
+        
+        // 체크박스 클릭 이벤트 핸들러 설정
+        cell.checkBox.tag = todoItem.todoId
+        cell.checkBox.addTarget(self, action: #selector(checkBoxValueChanged(_:)), for: .valueChanged)
+        
         return cell
+    }
+    
+    // 체크박스 클릭 이벤트 처리 메서드
+    @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
+        let todoId = sender.tag
+        ApiService.toggleTodoCheck(todoId: todoId) { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                DispatchQueue.main.async {
+                    // 할 일 목록을 다시 불러와서 UI를 갱신
+                    if let date = self.selectedDate {
+                        self.fetchTodoList(for: self.convertToAPIDateFormat(date))
+                    }
+                }
+            } else {
+                print("체크 상태 변경 실패")
+            }
+        }
     }
     
     // 슬라이드하여 삭제 기능 추가

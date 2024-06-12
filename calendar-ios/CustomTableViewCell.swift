@@ -78,6 +78,7 @@ class CustomTableViewCell: UITableViewCell {
         // 스타일 설정
         checkBox.boxType = .square // 네모 모양으로 설정
         checkBox.markType = .checkmark // 체크마크 스타일 설정
+        checkBox.stateChangeAnimation = .bounce(.fill) // 애니메이션 설정
     }
 
 }
