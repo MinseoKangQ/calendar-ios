@@ -8,7 +8,7 @@
 import UIKit
 import M13Checkbox
 
-class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITextFieldDelegate {
+class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITextFieldDelegate, CustomTableViewCellDelegate {
     
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var clickedDate: UILabel!
@@ -135,8 +135,9 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         hideKeyboardHelper()
     }
 
-    func showKeyboardHelper() {
+    func showKeyboardHelper(with text: String? = nil) {
         if keyboardHelperView == nil {
+            print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
             let yOffsetAdjustment: CGFloat = 330
 
@@ -168,6 +169,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             label?.textAlignment = .left
             label?.textColor = .darkGray
             label?.delegate = self // UITextFieldDelegate 설정
+            label?.text = text // 셀의 titleLabel 값 또는 nil 설정
                         
             let arrowButton = UIButton(frame: CGRect(x: containerView.frame.width - 30, y: 0, width: 30, height: 30))
             arrowButton.setImage(UIImage(systemName: "arrow.forward.circle"), for: .normal)
@@ -243,6 +245,10 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         print("사라져")
     }
     
+    func titleLabelTapped(in cell: CustomTableViewCell, with title: String) {
+        showKeyboardHelper(with: title)
+    }
+    
     // UITextFieldDelegate 메서드 추가
     @objc func textFieldDidBeginEditing(_ textField: UITextField) {
         // UITextField가 터치되었을 때 키보드 헬퍼를 숨기지 않도록 예외 처리
@@ -266,6 +272,9 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as? CustomTableViewCell else {
             return UITableViewCell()
         }
+        
+        // delegate 설정
+        cell.delegate = self
         
         // 초기 데이터
         let todoItem = todoItems[indexPath.row]
@@ -317,46 +326,6 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-    
-//    // 슬라이드하여 삭제 기능 추가
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        return .delete
-//    }
-//    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            // 데이터 소스에서 항목 삭제
-//            todoItems.remove(at: indexPath.row)
-//            // 테이블 뷰에서 행 삭제
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
-//    
-//    // 삭제 버튼 텍스트 변경
-//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-//        return "삭제"
-//    }
-    
-    /**
-    // 삭제 커스텀
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
-            // 삭제 로직
-            self.todoItems.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
-        }
-        
-        // 커스텀 디자인
-        deleteAction.backgroundColor = .red // 배경 색상
-        deleteAction.image = UIImage(systemName: "trash") // 아이콘 추가
-        
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true // 풀 스와이프 기능
-        
-        return configuration
-    }
-     **/
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
