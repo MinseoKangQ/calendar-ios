@@ -14,6 +14,7 @@ class CustomTableViewCell: UITableViewCell {
     
 //    @IBOutlet weak var textFieldLabel: UITextField!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         

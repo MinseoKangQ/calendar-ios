@@ -14,13 +14,13 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     @IBOutlet weak var addBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
-    var selectedDate: String? // 날짜를 저장할 변수
-    var todoItems: [String] = [] // 할 일 목록을 저장할 배열
+    var selectedDate: String? // M월 d일 (E) 형식의 날짜를 저장할 변수
+    var todoItems: [TodoItem] = [] // 할 일 목록을 저장할 배열
     
     var keyboardHelperView: UIView?
     var keyboardHeight: CGFloat = 0.0
     var label: UITextField?
-
+    var selectedCategory: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +37,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         // selectedDate 값을 clickedDate 레이블에 설정
         if let date = selectedDate {
             clickedDate.text = date
+            fetchTodoList(for: convertToAPIDateFormat(date))
         }
         
         // TableView 설정
@@ -45,17 +46,40 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         tableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomTableViewCell")
         
         // 샘플 데이터 추가
-        todoItems = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
-        
-        // 키보드 노티피케이션 관찰자 설정
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        todoItems = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
         
     }
     
+    func convertToAPIDateFormat(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M월 d일 (E)"
+        formatter.locale = Locale(identifier: "ko_KR")
+        guard let date = formatter.date(from: dateString) else { return dateString }
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
+    }
+    
+    func fetchTodoList(for date: String) {
+        ApiService.getTodoList(for: date) { [weak self] todoList in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                if let todoList = todoList {
+                    self.todoItems = todoList
+                    self.tableView.reloadData()
+                } else {
+                    print("Failed to fetch todo list")
+                }
+            }
+        }
+    }
+    
+    
     @objc func addNewTodoItem() {
         // 새로운 항목 추가
-        todoItems.append("New Task")
+        let newTask = TodoItem(title: "New Task", category: "DAILY", isDone: false)
+        todoItems.append(newTask)
         
         // 테이블 뷰 업데이트
         let newIndexPath = IndexPath(row: todoItems.count - 1, section: 0)
@@ -74,9 +98,9 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     
     func didSelectCategory(category: String) {
         print("선택된 카테고리: \(category)")
+        selectedCategory = category
         self.dismiss(animated: true)
         self.showKeyboardHelper()
-        
     }
 
     
@@ -109,10 +133,23 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
             
             keyboardHelperView = UIView(frame: customAccessoryFrame)
-            keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // #D8E6F2 배경
             keyboardHelperView?.layer.cornerRadius = 15
             keyboardHelperView?.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             keyboardHelperView?.layer.masksToBounds = true
+            
+            // 카테고리 색상 설정
+            switch selectedCategory {
+            case "IMPORTANT":
+                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryRedBtn")
+            case "STUDY":
+                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryBlueBtn")
+            case "DAILY":
+                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryPurpleBtn")
+            case "EXERCISE":
+                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryYellowBtn")
+            default:
+                keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // 기본 배경색
+            }
             
             let containerView = UIView(frame: CGRect(x: 10, y: 10, width: customAccessoryFrame.width - 20, height: 30))
             
@@ -161,12 +198,34 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     }
     
     @objc func arrowButtonTapped() {
-        if let text = label?.text, !text.isEmpty {
-            todoItems.append(text)
-            tableView.reloadData()
-            label?.text = ""
+        guard let text = label?.text, !text.isEmpty else {
+            hideKeyboardHelper()
+            return
         }
-        hideKeyboardHelper()
+        
+        guard let selectedDate = selectedDate else {
+            hideKeyboardHelper()
+            return
+        }
+        
+        let apiDate = convertToAPIDateFormat(selectedDate)
+        let category = selectedCategory ?? "DAILY"
+        
+        
+        ApiService.addTodo(date: apiDate, title: text, category: category) { [weak self] success in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                if success {
+                    self.todoItems.append(TodoItem(title: text, category: category, isDone: false))
+                    self.tableView.reloadData()
+                    self.label?.text = ""
+                } else {
+                    print("Failed to add todo")
+                }
+                self.hideKeyboardHelper()
+            }
+        }
     }
 
     func hideKeyboardHelper() {
@@ -200,7 +259,21 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         // 초기 데이터
-        cell.titleLabel.text = todoItems[indexPath.row]
+        let todoItem = todoItems[indexPath.row]
+        cell.titleLabel.text = todoItem.title
+        
+        switch todoItem.category {
+        case "IMPORTANT":
+            cell.categoryLabel.text = "중요"
+        case "STUDY":
+            cell.categoryLabel.text = "공부"
+        case "EXERCISE":
+            cell.categoryLabel.text = "운동"
+        case "DAILY":
+            cell.categoryLabel.text = "일상"
+        default:
+            cell.categoryLabel.text = ""
+        }
         
         return cell
     }

@@ -111,10 +111,138 @@ class ApiService {
                 completion(500)
                 return
             }
+//            if let httpResponse = response as? HTTPURLResponse {
+//                completion(httpResponse.statusCode)
+//            }
             if let httpResponse = response as? HTTPURLResponse {
+                // 로그인 시 Authorization Token이 Response Header에 담겨옴
+                // 이후 모든 요청은 Request Header에 해당 Token 값을 넣어 특정 사용자를 인식할 것임
+                if let authHeader = httpResponse.allHeaderFields["Authorization"] as? String, authHeader.starts(with: "Bearer ") {
+                    authToken = String(authHeader.dropFirst("Bearer ".count))
+                }
                 completion(httpResponse.statusCode)
             }
         }
         task.resume()
     }
+    
+    // 할 일 등록
+    static func addTodo(date: String, title: String, category: String, completion: @escaping (Bool) -> Void) {
+            let url = URL(string: "\(BASE_URL)/api/todo")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsbzEyMzQiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE3MTgxNzgwOTEsImV4cCI6MTcxODIxNDA5MX0.yET_pCK-7B1UApVG_22MQeWYKRRw49wvFjFx07wOk7k", forHTTPHeaderField: "Authorization")
+        
+//            if let token = authToken {
+//                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+//            }
+            
+            let requestBody: [String: Any] = [
+                "date": date,
+                "title": title,
+                "category": category
+            ]
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+                request.httpBody = jsonData
+            } catch {
+                print("ReqeustBody 직렬화 실패: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("요청 실패: \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 {
+                    completion(true)
+                } else {
+                    print("예상치 못한 코드를 받음: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                    completion(false)
+                }
+            }
+            
+            task.resume()
+        }
+    
+    
+    // 특정 날짜의 할 일 목록 가져오기
+    static func getTodoList(for date: String, completion: @escaping ([TodoItem]?) -> Void) {
+        print("할 일 목록 가져오기")
+        print("\(date)")
+        
+        // 날짜 포맷 확인 및 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let formattedDate = dateFormatter.date(from: date) else {
+            print("Invalid date format: \(date)")
+            completion(nil)
+            return
+        }
+        
+        let formattedDateString = dateFormatter.string(from: formattedDate)
+        print("Formatted Date: \(formattedDateString)")
+        
+        
+        guard let url = URL(string: "\(BASE_URL)/api/todo/oneDay/\(date)") else {
+            completion(nil)
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        // tmp
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZWxsbzEyMzQiLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE3MTgxNzgwOTEsImV4cCI6MTcxODIxNDA5MX0.yET_pCK-7B1UApVG_22MQeWYKRRw49wvFjFx07wOk7k", forHTTPHeaderField: "Authorization")
+        
+//        if let token = authToken {
+//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+//        }
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to make request: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(CustomApiResponse<[TodoItem]>.self, from: data)
+                completion(response.data)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
 }
+
+
+struct TodoItem: Codable {
+    let title: String
+    let category: String
+    let isDone: Bool
+}
+
+struct CustomApiResponse<T: Codable>: Codable {
+    let status: Int
+    let data: T?
+    let message: String
+}
+

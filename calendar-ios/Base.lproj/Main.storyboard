@@ -110,6 +110,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuC-qe-fyJ">
                                                 <rect key="frame" x="0.0" y="58" width="333" height="48"/>
+                                                <color key="backgroundColor" name="CustomWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="hTh-dV-vug"/>
                                                 </constraints>

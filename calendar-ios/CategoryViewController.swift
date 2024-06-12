@@ -60,19 +60,19 @@ class CategoryViewController: UIViewController {
     }
     
     @objc func selectImportant() {
-        delegate?.didSelectCategory(category: "중요")
+        delegate?.didSelectCategory(category: "IMPORTANT")
     }
     
     @objc func selectStudy() {
-        delegate?.didSelectCategory(category: "공부")
+        delegate?.didSelectCategory(category: "STUDY")
     }
     
     @objc func selectDaily() {
-        delegate?.didSelectCategory(category: "일상")
+        delegate?.didSelectCategory(category: "DAILY")
     }
     
     @objc func selectExercise() {
-        delegate?.didSelectCategory(category: "운동")
+        delegate?.didSelectCategory(category: "EXERCISE")
     }
 
 }
