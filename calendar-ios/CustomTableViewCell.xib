@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,25 +18,41 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2YW-lK-1Ge">
+                        <rect key="frame" x="0.0" y="0.0" width="5" height="50"/>
+                        <color key="backgroundColor" name="CustomBarItemClicked"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="5" id="O5T-Pa-r4t"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ke0-xO-xye" customClass="M13Checkbox" customModule="M13Checkbox">
                         <rect key="frame" x="287" y="16" width="18" height="18"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="hPq-0m-c5a"/>
                             <constraint firstAttribute="height" constant="18" id="xbg-ax-OLM"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="hideBox" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="checkBoxValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="KxL-Ik-5Bo"/>
+                        </connections>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="rNv-fN-yhI">
                         <rect key="frame" x="15" y="13.666666666666666" width="272" height="22.666666666666671"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Me-Sp-WPB">
                                 <rect key="frame" x="0.0" y="0.0" width="272" height="9.6666666666666661"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQy-eF-Z9U">
                                 <rect key="frame" x="0.0" y="10.666666666666664" width="272" height="12"/>
+                                <color key="tintColor" systemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -43,20 +60,35 @@
                         </subviews>
                     </stackView>
                 </subviews>
+                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="2YW-lK-1Ge" secondAttribute="bottom" id="1uZ-0b-V4N"/>
+                    <constraint firstItem="2YW-lK-1Ge" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="C6g-v3-7WQ"/>
                     <constraint firstItem="ke0-xO-xye" firstAttribute="leading" secondItem="rNv-fN-yhI" secondAttribute="trailing" id="JVh-aU-x1V"/>
-                    <constraint firstItem="rNv-fN-yhI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="SXq-SH-cAb"/>
+                    <constraint firstItem="rNv-fN-yhI" firstAttribute="leading" secondItem="2YW-lK-1Ge" secondAttribute="trailing" constant="10" id="WZB-6W-JSk"/>
                     <constraint firstItem="ke0-xO-xye" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aij-Kh-kXN"/>
                     <constraint firstAttribute="trailing" secondItem="ke0-xO-xye" secondAttribute="trailing" constant="15" id="lP0-ww-04u"/>
+                    <constraint firstItem="2YW-lK-1Ge" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qwS-p9-DA5"/>
                     <constraint firstItem="rNv-fN-yhI" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wup-fL-sqK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="categoryLabel" destination="3Me-Sp-WPB" id="XB0-fO-UqQ"/>
+                <outlet property="checkBox" destination="ke0-xO-xye" id="1aB-uC-wYf"/>
+                <outlet property="contentView" destination="H2p-sc-9uM" id="fi2-WN-yKD"/>
+                <outlet property="labelView" destination="2YW-lK-1Ge" id="h5w-ej-0ON"/>
                 <outlet property="titleLabel" destination="NQy-eF-Z9U" id="ET6-oT-VM4"/>
             </connections>
             <point key="canvasLocation" x="103.81679389312977" y="-12.67605633802817"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <namedColor name="CustomBarItemClicked">
+            <color red="0.36100000143051147" green="0.48199999332427979" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

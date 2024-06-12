@@ -51,6 +51,9 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         tableView.delegate = self
         tableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomTableViewCell")
         
+        // 회색 줄 없애기
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
     }
 
     func convertToAPIDateFormat(_ date: Date) -> String {
@@ -266,13 +269,16 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
             cell.categoryLabel.text = "중요"
         case "STUDY":
             cell.categoryLabel.text = "공부"
-        case "EXERCISE":
-            cell.categoryLabel.text = "운동"
         case "DAILY":
             cell.categoryLabel.text = "일상"
+        case "EXERCISE":
+            cell.categoryLabel.text = "운동"
         default:
             cell.categoryLabel.text = ""
         }
+        
+        // 배경색 설정
+        cell.configureBackgroundColor(category: todoItem.category)
         
         return cell
     }
@@ -294,6 +300,11 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
     // 삭제 버튼 텍스트 변경
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "삭제"
+    }
+    
+    // 셀의 높이를 설정하는 메서드
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0 // 원하는 높이로 설정
     }
     
 }
