@@ -69,6 +69,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         // Modal 띄우기
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let newViewController = storyboard.instantiateViewController(withIdentifier: "TodoModalViewController") as? TodoModalViewController {
+            
+            /**
             // 선택된 날짜 포맷 지정
             let headerDateFormatter = DateFormatter()
             headerDateFormatter.locale = Locale(identifier: "ko_KR")
@@ -79,11 +81,10 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             newViewController.selectedDate = headerDate
             
             self.present(newViewController, animated: true, completion: nil)
-            
+             **/
             // selectedDate를 Date 객체로 설정
-//                        newViewController.selectedDate = date
-            
-//                        self.present(newViewController, animated: true, completion: nil)
+            newViewController.selectedDate = date
+            self.present(newViewController, animated: true, completion: nil)
         }
         
         calendarView.reloadData() // 선택 상태 업데이트
