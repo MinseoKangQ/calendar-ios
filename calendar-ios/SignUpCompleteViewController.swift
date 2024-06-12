@@ -13,9 +13,9 @@ class SignUpCompleteViewController: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var uiView: UIView!
     
-    let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
-    let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
-    let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
+    let CUSTOM_BLUE = UIColor(named: "CustomBlue")
+    let CUSTOM_GREY = UIColor(named: "CustomGrey")
+    let CUSTOM_RED = UIColor(named: "CustomRed")
 
     @IBAction func goToLogin(_ sender: UIButton) {
         print("goToLogin called")
