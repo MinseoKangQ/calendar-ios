@@ -253,13 +253,51 @@ class ApiService {
         
         task.resume()
     }
-
+    
+    // 할 일 수정
+    static func updateTodoTitle(todoId: Int, title: String, completion: @escaping (Bool) -> Void) {
+        let url = URL(string: "\(BASE_URL)/api/todo/title/\(todoId)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        
+        let requestBody: [String: Any] = [
+            "title": title
+        ]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+            request.httpBody = jsonData
+        } catch {
+            print("RequestBody 직렬화 실패: \(error.localizedDescription)")
+            completion(false)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("요청 실패: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                completion(true)
+            } else {
+                print("예상치 못한 코드를 받음: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                completion(false)
+            }
+        }
+        
+        task.resume()
+    }
     
 }
 
 struct TodoItem: Codable {
     let todoId: Int
-    let title: String
+    var title: String
     let category: String
     let isDone: Bool
 }
