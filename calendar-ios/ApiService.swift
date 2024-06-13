@@ -10,6 +10,7 @@ import Foundation
 class ApiService {
     
     static let BASE_URL = "http://localhost:8080"
+    static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI5NDQyNiwiZXhwIjoxNzE4ODk5MjI2fQ.nbExlpvvhSxBUv4hDoBUFDwlNFx87IULuN1-hrnu14k"
     static var authToken: String?
     
     // 이메일 중복 확인
@@ -129,7 +130,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
         
         let requestBody: [String: Any] = [
@@ -195,7 +196,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -233,7 +234,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -264,7 +265,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
         
         let requestBody: [String: Any] = [
@@ -308,7 +309,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -342,7 +343,7 @@ class ApiService {
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
-            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
         }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

@@ -42,8 +42,8 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         fetchTodoList()
         
         // 키보드 이벤트 옵저버 추가
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupUI() {
@@ -124,7 +124,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         if keyboardHelperView == nil {
             print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
-            let yOffsetAdjustment: CGFloat = 330
+            let yOffsetAdjustment: CGFloat = 315
 
             let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
             
@@ -167,25 +167,25 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
             keyboardHelperView?.addSubview(containerView)
             
             // 아이콘 추가
-            let iconSize: CGFloat = 24
-            let yOffset: CGFloat = 50 // 아이콘 버튼들이 위치할 y 좌표
-            let spacing: CGFloat = 40 // 아이콘 사이의 간격
-            let xOffset: CGFloat = 20 // 첫 번째 아이콘의 x 좌표
+//            let iconSize: CGFloat = 24
+//            let yOffset: CGFloat = 50 // 아이콘 버튼들이 위치할 y 좌표
+//            let spacing: CGFloat = 40 // 아이콘 사이의 간격
+//            let xOffset: CGFloat = 20 // 첫 번째 아이콘의 x 좌표
             
-            let calendarIcon = UIButton(frame: CGRect(x: xOffset, y: yOffset, width: iconSize, height: iconSize))
-            calendarIcon.setImage(UIImage(systemName: "calendar"), for: .normal)
-            calendarIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(calendarIcon)
-            
-            let bellIcon = UIButton(frame: CGRect(x: xOffset + spacing, y: yOffset, width: iconSize, height: iconSize))
-            bellIcon.setImage(UIImage(systemName: "bell"), for: .normal)
-            bellIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(bellIcon)
-            
-            let clipboardIcon = UIButton(frame: CGRect(x: xOffset + 2 * spacing, y: yOffset, width: iconSize, height: iconSize))
-            clipboardIcon.setImage(UIImage(systemName: "doc.text"), for: .normal)
-            clipboardIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(clipboardIcon)
+//            let calendarIcon = UIButton(frame: CGRect(x: xOffset, y: yOffset, width: iconSize, height: iconSize))
+//            calendarIcon.setImage(UIImage(systemName: "calendar"), for: .normal)
+//            calendarIcon.tintColor = .gray
+//            keyboardHelperView?.addSubview(calendarIcon)
+//            
+//            let bellIcon = UIButton(frame: CGRect(x: xOffset + spacing, y: yOffset, width: iconSize, height: iconSize))
+//            bellIcon.setImage(UIImage(systemName: "bell"), for: .normal)
+//            bellIcon.tintColor = .gray
+//            keyboardHelperView?.addSubview(bellIcon)
+//            
+//            let clipboardIcon = UIButton(frame: CGRect(x: xOffset + 2 * spacing, y: yOffset, width: iconSize, height: iconSize))
+//            clipboardIcon.setImage(UIImage(systemName: "doc.text"), for: .normal)
+//            clipboardIcon.tintColor = .gray
+//            keyboardHelperView?.addSubview(clipboardIcon)
             
             view.addSubview(keyboardHelperView!)
             
@@ -252,21 +252,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                             self.hideKeyboardHelper()
                         }
                     }
-            
-//            ApiService.addTodo(date: apiDate, title: text, category: category) { [weak self] success in
-//                guard let self = self else { return }
-//                
-//                DispatchQueue.main.async {
-//                    if success {
-//                        self.todoItems.append(TodoItem(todoId: self.todoItems.count + 1, title: text, category: category, isDone: false))
-//                        self.tableView.reloadData()
-//                        self.label?.text = ""
-//                    } else {
-//                        print("할 일 추가 실패")
-//                    }
-//                    self.hideKeyboardHelper()
-//                }
-//            }
         }
     }
     
@@ -299,6 +284,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         print("선택된 카테고리: \(category)")
         selectedCategory = category
         selectedDate = Date() // 현재 날짜로 설정
+        self.dismiss(animated: true)
         showKeyboardHelper()
     }
 
@@ -352,10 +338,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 셀이 선택되었을 때의 동작을 정의합니다.
-        print("Selected row: \(indexPath.row + 1)")
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//    // TODO
+//        
+//    }
     
     // 체크박스 클릭 이벤트 처리 메서드
     @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
@@ -379,6 +365,55 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 55.0 // 원하는 높이로 설정
         }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+            
+            let todoItem = self.todoItems[indexPath.row]
+            
+            ApiService.deleteTodo(todoId: todoItem.todoId) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
+                        self.todoItems.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        completionHandler(true) // 액션 성공
+                    } else {
+                        // 실패 시 처리
+                        print("할 일 삭제 실패")
+                        completionHandler(false)
+                    }
+                }
+            }
+        }
+        
+        // 삭제 버튼 커스텀 디자인
+        let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
+        deleteView.backgroundColor = .red
+        deleteView.layer.cornerRadius = 8
+        deleteView.layer.masksToBounds = true
+        
+        let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
+        deleteImageView.tintColor = .white
+        deleteImageView.contentMode = .scaleAspectFit
+        deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35) // 이미지 크기 조정
+        
+        deleteView.addSubview(deleteImageView)
+        
+        UIGraphicsBeginImageContextWithOptions(deleteView.bounds.size, false, 0.0)
+        deleteView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        deleteAction.backgroundColor = .white
+        deleteAction.image = deleteImage
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        
+        return configuration
+    }
     
 }
 
