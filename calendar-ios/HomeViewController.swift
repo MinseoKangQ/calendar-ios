@@ -41,9 +41,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         // 데이터 가져오기
         fetchTodoList()
         
-        // 키보드 이벤트 옵저버 추가
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupUI() {
@@ -89,7 +86,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     }
     
     func updateTableViewHeight() {
-//        tableViewHeightConstraint.constant = tableView.contentSize.height
         view.layoutIfNeeded()
     }
     
@@ -165,27 +161,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
             containerView.addSubview(arrowButton)
             
             keyboardHelperView?.addSubview(containerView)
-            
-            // 아이콘 추가
-//            let iconSize: CGFloat = 24
-//            let yOffset: CGFloat = 50 // 아이콘 버튼들이 위치할 y 좌표
-//            let spacing: CGFloat = 40 // 아이콘 사이의 간격
-//            let xOffset: CGFloat = 20 // 첫 번째 아이콘의 x 좌표
-            
-//            let calendarIcon = UIButton(frame: CGRect(x: xOffset, y: yOffset, width: iconSize, height: iconSize))
-//            calendarIcon.setImage(UIImage(systemName: "calendar"), for: .normal)
-//            calendarIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(calendarIcon)
-//            
-//            let bellIcon = UIButton(frame: CGRect(x: xOffset + spacing, y: yOffset, width: iconSize, height: iconSize))
-//            bellIcon.setImage(UIImage(systemName: "bell"), for: .normal)
-//            bellIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(bellIcon)
-//            
-//            let clipboardIcon = UIButton(frame: CGRect(x: xOffset + 2 * spacing, y: yOffset, width: iconSize, height: iconSize))
-//            clipboardIcon.setImage(UIImage(systemName: "doc.text"), for: .normal)
-//            clipboardIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(clipboardIcon)
             
             view.addSubview(keyboardHelperView!)
             
@@ -338,11 +313,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    // TODO
-//        
-//    }
-    
     // 체크박스 클릭 이벤트 처리 메서드
     @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
         let todoId = sender.tag
@@ -361,10 +331,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         }
     }
         
-        // 셀의 높이를 설정하는 메서드
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 55.0 // 원하는 높이로 설정
-        }
+    // 셀의 높이를 설정하는 메서드
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0 // 원하는 높이로 설정
+    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in

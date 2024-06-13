@@ -128,7 +128,7 @@ class SignUpViewController: UIViewController  {
                 if statusCode == 201 {
                     // 회원가입 성공
                     print("회원가입 성공")
-                } else { // TODO: 여기 어떻게 처리?
+                } else {
                     // 회원가입 실패
                     print("회원가입 실패")
                 }

@@ -92,13 +92,8 @@ class CustomTableViewCell: UITableViewCell {
         checkBox.markType = .checkmark // 체크마크
         checkBox.stateChangeAnimation = .bounce(.fill) // 애니메이션
     }
-//    
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        // Override to prevent default behavior
-//    }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        // Override to prevent default behavior
     }
 
 }

@@ -188,27 +188,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             
             keyboardHelperView?.addSubview(containerView)
             
-            // 아이콘 추가
-//            let iconSize: CGFloat = 24
-//            let yOffset: CGFloat = 50 // 아이콘 버튼들이 위치할 y 좌표
-//            let spacing: CGFloat = 40 // 아이콘 사이의 간격
-//            let xOffset: CGFloat = 20 // 첫 번째 아이콘의 x 좌표
-//            
-//            let calendarIcon = UIButton(frame: CGRect(x: xOffset, y: yOffset, width: iconSize, height: iconSize))
-//            calendarIcon.setImage(UIImage(systemName: "calendar"), for: .normal)
-//            calendarIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(calendarIcon)
-//            
-//            let bellIcon = UIButton(frame: CGRect(x: xOffset + spacing, y: yOffset, width: iconSize, height: iconSize))
-//            bellIcon.setImage(UIImage(systemName: "bell"), for: .normal)
-//            bellIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(bellIcon)
-//            
-//            let clipboardIcon = UIButton(frame: CGRect(x: xOffset + 2 * spacing, y: yOffset, width: iconSize, height: iconSize))
-//            clipboardIcon.setImage(UIImage(systemName: "doc.text"), for: .normal)
-//            clipboardIcon.tintColor = .gray
-//            keyboardHelperView?.addSubview(clipboardIcon)
-            
             view.addSubview(keyboardHelperView!)
             
             label?.becomeFirstResponder()
