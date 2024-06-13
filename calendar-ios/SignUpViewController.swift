@@ -251,10 +251,10 @@ class SignUpViewController: UIViewController  {
         pwCheckTextField.leftViewMode = .always
         
         // 버튼
-        signUpBtn.layer.cornerRadius = 14
-        signUpBtn.layer.borderWidth = 1
-        signUpBtn.backgroundColor = CUSTOM_BLUE
-        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+//        signUpBtn.layer.cornerRadius = 14
+//        signUpBtn.layer.borderWidth = 1
+//        signUpBtn.backgroundColor = CUSTOM_BLUE
+//        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true

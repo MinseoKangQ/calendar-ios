@@ -146,7 +146,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         if keyboardHelperView == nil {
             print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
-            let yOffsetAdjustment: CGFloat = 315
+            let yOffsetAdjustment: CGFloat = 300
 
             let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
             

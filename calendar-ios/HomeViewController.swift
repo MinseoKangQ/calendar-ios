@@ -11,7 +11,8 @@ import M13Checkbox
 class HomeViewController: UIViewController, CategorySelectionDelegate {
 
     @IBOutlet weak var remainView: UIView!
-    @IBOutlet weak var textLabel: UILabel!
+
+    @IBOutlet weak var remainCountTextLabel: UILabel!
     @IBOutlet weak var todayTextLabel: UILabel!
     @IBOutlet weak var todayView: UIView!
     @IBOutlet weak var addBtn: UIButton!
@@ -38,8 +39,11 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         // 회색 줄 없애기
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-        // 데이터 가져오기
+        // 오늘 할 일 데이터 가져오기
         fetchTodoList()
+        
+        // 남은 할 일 개수 가져오기
+        fetchNotDoneCount()
         
     }
     
@@ -66,6 +70,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         todayTextLabel.text = dateString
     }
     
+    // API 호출
     func fetchTodoList() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -80,6 +85,20 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                     self.updateTableViewHeight()
                 } else {
                     print("Failed to fetch todo list")
+                }
+            }
+        }
+    }
+    
+    // API 호출
+    func fetchNotDoneCount() {
+        ApiService.getNotDoneCount { [weak self] response in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let response = response, response.status == 200 {
+                    self.remainCountTextLabel.text = "\(response.data)개의 남은 할 일"
+                } else {
+                    self.remainCountTextLabel.text = "할 일 정보를 가져올 수 없습니다."
                 }
             }
         }
@@ -120,7 +139,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         if keyboardHelperView == nil {
             print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
-            let yOffsetAdjustment: CGFloat = 315
+            let yOffsetAdjustment: CGFloat = 300
 
             let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
             
@@ -324,6 +343,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
                         self.todoItems[index].isDone.toggle()
                         self.tableView.reloadData()
                     }
+                    // 남은 할 일 개수 업데이트
+                    self.fetchNotDoneCount()
                 } else {
                     print("Failed to toggle todo check status")
                 }

@@ -9,7 +9,8 @@ import Foundation
 
 class ApiService {
     
-    static let BASE_URL = "http://localhost:8080"
+    static let BASE_URL = "http://172.30.1.13:8080"
+//    static let BASE_URL = "http://localhost:8080"
     static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI5NDQyNiwiZXhwIjoxNzE4ODk5MjI2fQ.nbExlpvvhSxBUv4hDoBUFDwlNFx87IULuN1-hrnu14k"
     static var authToken: String?
     
@@ -371,6 +372,46 @@ class ApiService {
         task.resume()
     }
     
+    // 아직 못끝낸 할 일 개수 조회 API
+    static func getNotDoneCount(completion: @escaping (NotDoneCountReponse?) -> Void) {
+        guard let url = URL(string: "\(BASE_URL)/api/todo/notDoneCount") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to make request: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(NotDoneCountReponse.self, from: data)
+                completion(response)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
 }
 
 struct TodoItem: Codable {
@@ -386,7 +427,7 @@ struct CustomApiResponse<T: Codable>: Codable {
     let message: String
 }
 
-// 한 달 조회 API 데이터 구조
+// 한 달 조회 API 응답 데이터 구조
 struct TodoResponse: Codable {
     let status: Int
     let data: [String: TodoDayData]
@@ -396,4 +437,11 @@ struct TodoResponse: Codable {
 struct TodoDayData: Codable {
     let doneCount: Int
     let notDoneCount: Int
+}
+
+// 아직 못끝낸 할 일 개수 조회 API 응답 데이터 구조
+struct NotDoneCountReponse: Codable {
+    let status: Int
+    let data: Int
+    let message: String
 }
