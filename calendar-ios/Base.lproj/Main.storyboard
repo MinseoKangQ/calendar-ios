@@ -436,13 +436,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6월 13일 (목)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6h9-EC-Pj7">
-                                                <rect key="frame" x="10" y="28.333333333333343" width="333" height="20.333333333333329"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <rect key="frame" x="10" y="28.333333333333343" width="333" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" name="CustomGrey"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6at-MG-1Q8">
-                                                <rect key="frame" x="10" y="56.666666666666657" width="333" height="465.33333333333337"/>
+                                                <rect key="frame" x="10" y="54.333333333333343" width="333" height="467.66666666666663"/>
                                                 <color key="backgroundColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nP8-4G-1Qx">
@@ -484,6 +484,11 @@
                                                 <buttonConfiguration key="configuration" style="filled" title="+ 할 일을 추가하세요">
                                                     <color key="baseForegroundColor" name="AddTodoText"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <segue destination="ok5-oY-cZz" kind="popoverPresentation" identifier="addTodoBtnSegueFromHome" popoverAnchorView="JCu-zk-aoY" id="yeO-9e-HpN">
+                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                    </segue>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -523,6 +528,7 @@
                     <connections>
                         <outlet property="addBtn" destination="JCu-zk-aoY" id="wRY-BS-yWd"/>
                         <outlet property="remainView" destination="Wq1-uW-D21" id="7qX-hD-lFw"/>
+                        <outlet property="tableView" destination="6at-MG-1Q8" id="VW3-jC-AFf"/>
                         <outlet property="textLabel" destination="3Ma-PP-gos" id="CR2-Sg-fsD"/>
                         <outlet property="todayTextLabel" destination="6h9-EC-Pj7" id="bPE-VX-9oS"/>
                         <outlet property="todayView" destination="NAD-EH-o70" id="ZL9-9q-Pna"/>
@@ -1052,6 +1058,9 @@
             <point key="canvasLocation" x="1580.9160305343512" y="1427.4647887323945"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="yeO-9e-HpN"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.forward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="calendar" catalog="system" width="128" height="107"/>

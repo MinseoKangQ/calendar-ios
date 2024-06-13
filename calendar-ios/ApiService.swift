@@ -376,7 +376,7 @@ struct TodoItem: Codable {
     let todoId: Int
     var title: String
     let category: String
-    let isDone: Bool
+    var isDone: Bool
 }
 
 struct CustomApiResponse<T: Codable>: Codable {
