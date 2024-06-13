@@ -359,14 +359,28 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
-            // 삭제 로직
-            self.todoItems.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+            
+            let todoItem = self.todoItems[indexPath.row]
+            
+            ApiService.deleteTodo(todoId: todoItem.todoId) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
+                        self.todoItems.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        completionHandler(true) // 액션 성공
+                    } else {
+                        // 실패 시 처리
+                        print("할 일 삭제 실패")
+                        completionHandler(false)
+                    }
+                }
+            }
         }
         
-        // 커스텀 디자인
+        // 삭제 버튼 커스텀 디자인
         let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
         deleteView.backgroundColor = .red
         deleteView.layer.cornerRadius = 8
@@ -392,6 +406,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         
         return configuration
     }
+
     
     // 셀의 높이를 설정하는 메서드
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
