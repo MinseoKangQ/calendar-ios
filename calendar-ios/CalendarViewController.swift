@@ -19,12 +19,19 @@ class CalendarViewController: UIViewController {
     let CALENDAR_BLUE = UIColor(named: "CalendarBlue")
     let CALENDAR_RED = UIColor(named: "CalendarRed")
     let CALENDAR_TODAY = UIColor(named: "CalendarToday")
+    let EVENT_DONE_COLOR = UIColor(named: "EventGreen") ?? UIColor.green
+    let EVENT_NOT_DONE_COLOR = UIColor(named: "EventGrey") ?? UIColor.gray
     
     let dateFormatter = DateFormatter()
+    var todoData: [String: TodoDayData] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupUI()
+        fetchTodoData(for: calendarView.currentPage)
+    }
+    
+    func setupUI() {
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
         calendarView.delegate = self
@@ -57,10 +64,40 @@ class CalendarViewController: UIViewController {
         calendarView.appearance.borderSelectionColor = .clear
         
     }
+    
+    func fetchTodoData(for date: Date) {
+        let monthFormatter = DateFormatter()
+        monthFormatter.dateFormat = "yyyy-MM"
+        let monthString = monthFormatter.string(from: date)
+        
+        ApiService.getOneMonthTodoList(for: monthString) { response in
+            guard let response = response else {
+                print("서버와 연결 불가능")
+                return
+            }
+            
+            if response.status == 200 {
+                print("데이터 출력: \(response.data)")
+                self.todoData = response.data
+                DispatchQueue.main.async {
+                    self.calendarView.reloadData()
+                }
+            } else {
+                print("200이 아닌 상태코드 반환: \(response.message)")
+            }
+        }
+    }
 
 }
 
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+
+    // 현재 페이지가 변경될 때 호출
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        print("페이지 변경됨: \(calendar.currentPage)")
+        fetchTodoData(for: calendar.currentPage)
+        calendar.reloadData() // UI 새로 로드
+    }
     
     // 날짜 선택 시 콜백 메소드
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -72,6 +109,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             
             // selectedDate를 Date 객체로 설정
             newViewController.selectedDate = date
+            newViewController.delegate = self  // Delegate 설정
             self.present(newViewController, animated: true, completion: nil)
         }
         
@@ -90,7 +128,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let calendar = Calendar.current
         
         // 오늘 날짜인지 확인
-        if Calendar.current.isDate(date, inSameDayAs: today) {
+        if calendar.isDate(date, inSameDayAs: today) {
             return .white // 오늘 날짜인 경우 흰색 유지
         }
         
@@ -113,9 +151,9 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             return .white // 오늘 날짜인 경우 흰색 유지
         }
         
-        // 현재 달이 아닌 경우 회색으로 설정
+        // 현재 페이지의 달과 비교
         if calendar.compare(date, to: calendarView.currentPage, toGranularity: .month) != .orderedSame {
-            return CUSTOM_GREY
+            return CUSTOM_GREY // 현재 달이 아닌 경우 회색으로 설정
         }
         
         if let weekday = components.weekday {
@@ -142,5 +180,46 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         return .clear // 다른 날짜는 배경색 없음
     }
+    
+    // 이벤트 개수 반환
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let day = Calendar.current.component(.day, from: date)
+        let dayString = String(day)
+        if let todoDayData = todoData[dayString] {
+            if todoDayData.doneCount > 0 && todoDayData.notDoneCount > 0 {
+                return 2
+            } else if todoDayData.doneCount > 0 || todoDayData.notDoneCount > 0 {
+                return 1
+            }
+        }
+        return 0
+    }
+    
+    // 이벤트 색상 설정
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        let day = Calendar.current.component(.day, from: date)
+        let dayString = String(day)
+        if let todoDayData = todoData[dayString] {
+            if todoDayData.doneCount > 0 && todoDayData.notDoneCount > 0 {
+                return [EVENT_DONE_COLOR, EVENT_NOT_DONE_COLOR]
+            } else if todoDayData.doneCount > 0 {
+                return [EVENT_DONE_COLOR]
+            } else if todoDayData.notDoneCount > 0 {
+                return [EVENT_NOT_DONE_COLOR]
+            }
+        }
+        return nil
+    }
+    
+    // 이벤트 색상 설정 (선택된 날짜에도 동일하게 적용)
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        return self.calendar(calendar, appearance: appearance, eventDefaultColorsFor: date)
+    }
 
+}
+
+extension CalendarViewController: TodoModalViewControllerDelegate {
+    func didUpdateTodo() {
+        fetchTodoData(for: calendarView.currentPage)
+    }
 }

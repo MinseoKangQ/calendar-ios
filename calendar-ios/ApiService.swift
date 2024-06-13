@@ -126,11 +126,11 @@ class ApiService {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-        // TODO
-//            if let token = authToken {
-//                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//            }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
         
         let requestBody: [String: Any] = [
             "date": date,
@@ -192,11 +192,11 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        // TODO
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -230,11 +230,11 @@ class ApiService {
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // TODO
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -260,7 +260,12 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
         
         let requestBody: [String: Any] = [
             "title": title
@@ -300,11 +305,11 @@ class ApiService {
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // TODO
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -318,6 +323,47 @@ class ApiService {
             } else {
                 print("예상치 못한 코드를 받음: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
                 completion(false)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    // 한 달 조회 API
+    static func getOneMonthTodoList(for month: String, completion: @escaping (TodoResponse?) -> Void) {
+        guard let url = URL(string: "\(BASE_URL)/api/todo/oneMonth/\(month)") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI0MjI1MCwiZXhwIjoxNzE4Mjc4MjUwfQ.vilGwXe7aOecrxW-G3KV1g9D_qqMNlS34ScCIcIFs2E", forHTTPHeaderField: "Authorization")
+        }
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to make request: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(TodoResponse.self, from: data)
+                completion(response)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(nil)
             }
         }
         
@@ -339,3 +385,14 @@ struct CustomApiResponse<T: Codable>: Codable {
     let message: String
 }
 
+// 한 달 조회 API 데이터 구조
+struct TodoResponse: Codable {
+    let status: Int
+    let data: [String: TodoDayData]
+    let message: String
+}
+
+struct TodoDayData: Codable {
+    let doneCount: Int
+    let notDoneCount: Int
+}

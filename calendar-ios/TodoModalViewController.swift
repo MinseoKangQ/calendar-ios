@@ -24,6 +24,8 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     var label: UITextField?
     var selectedCategory: String?
 
+    weak var delegate: TodoModalViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -100,6 +102,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     
     // view 외의 곳 클릭하면 모달 닫힘
     @objc func dismissModal() {
+        delegate?.didUpdateTodo()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -424,4 +427,8 @@ extension TodoModalViewController: UIGestureRecognizerDelegate {
         }
         return true
     }
+}
+
+protocol TodoModalViewControllerDelegate: AnyObject {
+    func didUpdateTodo()
 }
