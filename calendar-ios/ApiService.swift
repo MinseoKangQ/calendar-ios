@@ -9,7 +9,9 @@ import Foundation
 
 class ApiService {
     
-    static let BASE_URL = "http://localhost:8080"
+    static let BASE_URL = "http://172.30.1.13:8080"
+//    static let BASE_URL = "http://localhost:8080"
+    static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI5NDQyNiwiZXhwIjoxNzE4ODk5MjI2fQ.nbExlpvvhSxBUv4hDoBUFDwlNFx87IULuN1-hrnu14k"
     static var authToken: String?
     
     // 이메일 중복 확인
@@ -126,11 +128,11 @@ class ApiService {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-        // TODO
-//            if let token = authToken {
-//                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//            }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
         
         let requestBody: [String: Any] = [
             "date": date,
@@ -192,11 +194,11 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        // TODO
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -230,11 +232,11 @@ class ApiService {
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // TODO
-//        if let token = authToken {
-//            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        }
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -260,7 +262,12 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODIwNTQ0MiwiZXhwIjoxNzE4MjQxNDQyfQ.G_A64LC0RvMr_8bUy25Mxzgb1DyhCvb2bzPr6aSczWk", forHTTPHeaderField: "Authorization")
+
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
         
         let requestBody: [String: Any] = [
             "title": title
@@ -293,13 +300,125 @@ class ApiService {
         task.resume()
     }
     
+    // 할 일 삭제 API
+    static func deleteTodo(todoId: Int, completion: @escaping (Bool) -> Void) {
+        let url = URL(string: "\(BASE_URL)/api/todo/\(todoId)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("요청 실패: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                completion(true)
+            } else {
+                print("예상치 못한 코드를 받음: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                completion(false)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    // 한 달 조회 API
+    static func getOneMonthTodoList(for month: String, completion: @escaping (TodoResponse?) -> Void) {
+        guard let url = URL(string: "\(BASE_URL)/api/todo/oneMonth/\(month)") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to make request: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(TodoResponse.self, from: data)
+                completion(response)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    // 아직 못끝낸 할 일 개수 조회 API
+    static func getNotDoneCount(completion: @escaping (NotDoneCountReponse?) -> Void) {
+        guard let url = URL(string: "\(BASE_URL)/api/todo/notDoneCount") else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            request.setValue("Bearer \(TMP_TOKEN)", forHTTPHeaderField: "Authorization")
+        }
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to make request: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(NotDoneCountReponse.self, from: data)
+                completion(response)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
 }
 
 struct TodoItem: Codable {
     let todoId: Int
     var title: String
     let category: String
-    let isDone: Bool
+    var isDone: Bool
 }
 
 struct CustomApiResponse<T: Codable>: Codable {
@@ -308,3 +427,21 @@ struct CustomApiResponse<T: Codable>: Codable {
     let message: String
 }
 
+// 한 달 조회 API 응답 데이터 구조
+struct TodoResponse: Codable {
+    let status: Int
+    let data: [String: TodoDayData]
+    let message: String
+}
+
+struct TodoDayData: Codable {
+    let doneCount: Int
+    let notDoneCount: Int
+}
+
+// 아직 못끝낸 할 일 개수 조회 API 응답 데이터 구조
+struct NotDoneCountReponse: Codable {
+    let status: Int
+    let data: Int
+    let message: String
+}

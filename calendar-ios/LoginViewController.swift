@@ -39,9 +39,10 @@ class LoginViewController: UIViewController {
     
     var isShowKeyboard = false
     
-    let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
-    let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
-    let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
+    let CUSTOM_BLUE = UIColor(named: "CustomBlue")
+    let CUSTOM_GREY = UIColor(named: "CustomGrey")
+    let CUSTOM_RED = UIColor(named: "CustomRed")
+    let CUSTOM_WHITE = UIColor(named: "CustomWhite")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -167,19 +168,8 @@ class LoginViewController: UIViewController {
         
         // ===== btn 관련 필드 =====
         loginBtn.isEnabled = true
-        loginBtn.layer.cornerRadius = 14
-        loginBtn.layer.borderWidth = 1
-        loginBtn.backgroundColor = CUSTOM_BLUE
-        loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        loginBtn.setTitleColor(.white, for: .normal)
-        
         signUpBtn.isEnabled = true
-        signUpBtn.layer.cornerRadius = 14
-        signUpBtn.layer.borderWidth = 1
-        signUpBtn.backgroundColor = UIColor.white
-        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        signUpBtn.setTitleColor(CUSTOM_BLUE, for: .normal)
-        
+
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true
         pwTextField.textContentType = .oneTimeCode

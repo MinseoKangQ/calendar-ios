@@ -80,18 +80,20 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
     
+    // contentView 모서리 둥글게 설정
     private func setupRoundedCorners() {
-        // contentView 모서리 둥글게 설정
         contentView.layer.cornerRadius = 8
         contentView.layer.masksToBounds = true
     }
     
     // 체크박스 초기화 및 설정
     private func setupCheckbox() {
-        // 스타일 설정
-        checkBox.boxType = .square // 네모 모양으로 설정
-        checkBox.markType = .checkmark // 체크마크 스타일 설정
-        checkBox.stateChangeAnimation = .bounce(.fill) // 애니메이션 설정
+        checkBox.boxType = .square // 네모 모양
+        checkBox.markType = .checkmark // 체크마크
+        checkBox.stateChangeAnimation = .bounce(.fill) // 애니메이션
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
     }
 
 }

@@ -128,7 +128,7 @@ class SignUpViewController: UIViewController  {
                 if statusCode == 201 {
                     // 회원가입 성공
                     print("회원가입 성공")
-                } else { // TODO: 여기 어떻게 처리?
+                } else {
                     // 회원가입 실패
                     print("회원가입 실패")
                 }
@@ -251,10 +251,10 @@ class SignUpViewController: UIViewController  {
         pwCheckTextField.leftViewMode = .always
         
         // 버튼
-        signUpBtn.layer.cornerRadius = 14
-        signUpBtn.layer.borderWidth = 1
-        signUpBtn.backgroundColor = CUSTOM_BLUE
-        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
+//        signUpBtn.layer.cornerRadius = 14
+//        signUpBtn.layer.borderWidth = 1
+//        signUpBtn.backgroundColor = CUSTOM_BLUE
+//        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
         
         // ===== 비밀번호 관련 필드 =====
         pwTextField.isSecureTextEntry = true

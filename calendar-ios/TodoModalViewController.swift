@@ -24,6 +24,8 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     var label: UITextField?
     var selectedCategory: String?
 
+    weak var delegate: TodoModalViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -100,6 +102,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     
     // view 외의 곳 클릭하면 모달 닫힘
     @objc func dismissModal() {
+        delegate?.didUpdateTodo()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -143,7 +146,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         if keyboardHelperView == nil {
             print("showKeyboardHelper 호출")
             let accessoryHeight: CGFloat = 80
-            let yOffsetAdjustment: CGFloat = 330
+            let yOffsetAdjustment: CGFloat = 300
 
             let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
             
@@ -184,27 +187,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             containerView.addSubview(arrowButton)
             
             keyboardHelperView?.addSubview(containerView)
-            
-            // 아이콘 추가
-            let iconSize: CGFloat = 24
-            let yOffset: CGFloat = 50 // 아이콘 버튼들이 위치할 y 좌표
-            let spacing: CGFloat = 40 // 아이콘 사이의 간격
-            let xOffset: CGFloat = 20 // 첫 번째 아이콘의 x 좌표
-            
-            let calendarIcon = UIButton(frame: CGRect(x: xOffset, y: yOffset, width: iconSize, height: iconSize))
-            calendarIcon.setImage(UIImage(systemName: "calendar"), for: .normal)
-            calendarIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(calendarIcon)
-            
-            let bellIcon = UIButton(frame: CGRect(x: xOffset + spacing, y: yOffset, width: iconSize, height: iconSize))
-            bellIcon.setImage(UIImage(systemName: "bell"), for: .normal)
-            bellIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(bellIcon)
-            
-            let clipboardIcon = UIButton(frame: CGRect(x: xOffset + 2 * spacing, y: yOffset, width: iconSize, height: iconSize))
-            clipboardIcon.setImage(UIImage(systemName: "doc.text"), for: .normal)
-            clipboardIcon.tintColor = .gray
-            keyboardHelperView?.addSubview(clipboardIcon)
             
             view.addSubview(keyboardHelperView!)
             
@@ -359,14 +341,28 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { (action, view, completionHandler) in
-            // 삭제 로직
-            self.todoItems.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            completionHandler(true)
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+            
+            let todoItem = self.todoItems[indexPath.row]
+            
+            ApiService.deleteTodo(todoId: todoItem.todoId) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
+                        self.todoItems.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        completionHandler(true) // 액션 성공
+                    } else {
+                        // 실패 시 처리
+                        print("할 일 삭제 실패")
+                        completionHandler(false)
+                    }
+                }
+            }
         }
         
-        // 커스텀 디자인
+        // 삭제 버튼 커스텀 디자인
         let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
         deleteView.backgroundColor = .red
         deleteView.layer.cornerRadius = 8
@@ -384,7 +380,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        deleteAction.backgroundColor = .clear
+        deleteAction.backgroundColor = .white
         deleteAction.image = deleteImage
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
@@ -392,6 +388,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         
         return configuration
     }
+
     
     // 셀의 높이를 설정하는 메서드
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -409,4 +406,8 @@ extension TodoModalViewController: UIGestureRecognizerDelegate {
         }
         return true
     }
+}
+
+protocol TodoModalViewControllerDelegate: AnyObject {
+    func didUpdateTodo()
 }

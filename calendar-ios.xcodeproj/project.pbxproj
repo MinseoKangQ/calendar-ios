@@ -23,6 +23,7 @@
 		FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */; };
 		FBD5F3792C11A23300EF5BDE /* SignUpCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */; };
 		FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */; };
+		FBDB5F642C1AC4810059D0A9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDB5F632C1AC4810059D0A9 /* HomeViewController.swift */; };
 		FBFB07E52C16ECB800D25BEE /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFB07E42C16ECB800D25BEE /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		FBD5F3742C10855A00EF5BDE /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FBD5F3782C11A23300EF5BDE /* SignUpCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCompleteViewController.swift; sourceTree = "<group>"; };
 		FBD5F37A2C11A6EA00EF5BDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FBDB5F632C1AC4810059D0A9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FBFB07E42C16ECB800D25BEE /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +107,7 @@
 				FBD5F35E2C1081F100EF5BDE /* SceneDelegate.swift */,
 				FBD5F3602C1081F100EF5BDE /* ViewController.swift */,
 				FBD5F3622C1081F100EF5BDE /* Main.storyboard */,
+				FBDB5F632C1AC4810059D0A9 /* HomeViewController.swift */,
 				FBD5F3652C1081F300EF5BDE /* Assets.xcassets */,
 				FBD5F3672C1081F300EF5BDE /* LaunchScreen.storyboard */,
 				FBD5F36A2C1081F300EF5BDE /* Info.plist */,
@@ -249,6 +252,7 @@
 				FB9B44D12C135107005FC0E7 /* CalendarViewController.swift in Sources */,
 				FBFB07E52C16ECB800D25BEE /* CategoryViewController.swift in Sources */,
 				FBD5F3752C10855A00EF5BDE /* SignUpViewController.swift in Sources */,
+				FBDB5F642C1AC4810059D0A9 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
