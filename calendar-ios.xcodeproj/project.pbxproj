@@ -15,7 +15,7 @@
 		FB9B44D12C135107005FC0E7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9B44D02C135107005FC0E7 /* CalendarViewController.swift */; };
 		FBD5F35D2C1081F100EF5BDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F35C2C1081F100EF5BDE /* AppDelegate.swift */; };
 		FBD5F35F2C1081F100EF5BDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F35E2C1081F100EF5BDE /* SceneDelegate.swift */; };
-		FBD5F3612C1081F100EF5BDE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3602C1081F100EF5BDE /* ViewController.swift */; };
+		FBD5F3612C1081F100EF5BDE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5F3602C1081F100EF5BDE /* SettingsViewController.swift */; };
 		FBD5F3642C1081F100EF5BDE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3632C1081F100EF5BDE /* Base */; };
 		FBD5F3662C1081F300EF5BDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3652C1081F300EF5BDE /* Assets.xcassets */; };
 		FBD5F3692C1081F300EF5BDE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = FBD5F3682C1081F300EF5BDE /* Base */; };
@@ -39,7 +39,7 @@
 		FBD5F3592C1081F100EF5BDE /* calendar-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "calendar-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD5F35C2C1081F100EF5BDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD5F35E2C1081F100EF5BDE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FBD5F3602C1081F100EF5BDE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FBD5F3602C1081F100EF5BDE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FBD5F3632C1081F100EF5BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBD5F3652C1081F300EF5BDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBD5F3682C1081F300EF5BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			children = (
 				FBD5F35C2C1081F100EF5BDE /* AppDelegate.swift */,
 				FBD5F35E2C1081F100EF5BDE /* SceneDelegate.swift */,
-				FBD5F3602C1081F100EF5BDE /* ViewController.swift */,
+				FBD5F3602C1081F100EF5BDE /* SettingsViewController.swift */,
 				FBD5F3622C1081F100EF5BDE /* Main.storyboard */,
 				FBDB5F632C1AC4810059D0A9 /* HomeViewController.swift */,
 				FBD5F3652C1081F300EF5BDE /* Assets.xcassets */,
@@ -243,7 +243,7 @@
 			files = (
 				FB7D426A2C1483630078AB29 /* CustomTableViewCell.swift in Sources */,
 				FBD5F37B2C11A6EA00EF5BDE /* LoginViewController.swift in Sources */,
-				FBD5F3612C1081F100EF5BDE /* ViewController.swift in Sources */,
+				FBD5F3612C1081F100EF5BDE /* SettingsViewController.swift in Sources */,
 				FB7D42672C144BDE0078AB29 /* TodoModalViewController.swift in Sources */,
 				FBD5F35D2C1081F100EF5BDE /* AppDelegate.swift in Sources */,
 				FBD5F3792C11A23300EF5BDE /* SignUpCompleteViewController.swift in Sources */,

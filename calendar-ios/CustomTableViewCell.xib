@@ -45,22 +45,21 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Me-Sp-WPB">
                                 <rect key="frame" x="0.0" y="0.0" width="272" height="9.6666666666666661"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="TodoLabelText"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" name="TodoLabelText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQy-eF-Z9U">
                                 <rect key="frame" x="0.0" y="10.666666666666664" width="272" height="17"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="TodoLabelText"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" name="TodoLabelText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </stackView>
                 </subviews>
-                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="2YW-lK-1Ge" secondAttribute="bottom" id="1uZ-0b-V4N"/>
                     <constraint firstItem="2YW-lK-1Ge" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="C6g-v3-7WQ"/>
@@ -73,6 +72,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" name="TodoViewBackground"/>
             <connections>
                 <outlet property="categoryLabel" destination="3Me-Sp-WPB" id="XB0-fO-UqQ"/>
                 <outlet property="checkBox" destination="ke0-xO-xye" id="1aB-uC-wYf"/>
@@ -86,6 +86,12 @@
     <resources>
         <namedColor name="CustomBarItemClicked">
             <color red="0.36100000143051147" green="0.48199999332427979" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TodoLabelText">
+            <color red="0.14693813131313127" green="0.14693813131313127" blue="0.14693813131313127" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="TodoViewBackground">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

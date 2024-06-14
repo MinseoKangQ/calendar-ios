@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bHz-Lz-VxT">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sgw-S4-08W">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
@@ -442,10 +442,10 @@
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6at-MG-1Q8">
                                                 <rect key="frame" x="10" y="58.333333333333343" width="333" height="461.66666666666663"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" name="TodoViewBackground"/>
                                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nP8-4G-1Qx">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nP8-4G-1Qx" customClass="CustomTableViewCell" customModule="calendar_ios" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="50" width="333" height="44.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nP8-4G-1Qx" id="hTk-2u-Zfb">
@@ -627,21 +627,22 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Je6-C3-b3W">
                                                 <rect key="frame" x="0.0" y="0.0" width="260" height="15.666666666666666"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" name="BlackWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="g4I-wQ-XmG">
                                                 <rect key="frame" x="0.0" y="25.666666666666657" width="260" height="324.33333333333337"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" name="TodoLabelBackground"/>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ns9-oe-xaW" customClass="CustomTableViewCell" customModule="calendar_ios" customModuleProvider="target">
+                                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ns9-oe-xaW" customClass="CustomTableViewCell" customModule="calendar_ios" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="50" width="260" height="44.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ns9-oe-xaW" id="mqX-34-9dw">
                                                             <rect key="frame" x="0.0" y="0.0" width="260" height="44.666667938232422"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </tableViewCellContentView>
+                                                        <color key="backgroundColor" name="CalendarRed"/>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="8tm-uS-q6g" customClass="CustomTableViewCell" customModule="calendar_ios" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="94.666667938232422" width="260" height="44.666667938232422"/>
@@ -692,15 +693,15 @@
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ier-4L-QR9">
-                                                        <rect key="frame" x="0.0" y="362.66667556762695" width="260" height="1.1920928955078125e-07"/>
+                                                        <rect key="frame" x="0.0" y="362.66667556762695" width="260" height="44.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ier-4L-QR9" id="mG2-a0-gHL">
-                                                            <rect key="frame" x="0.0" y="0.0" width="260" height="1.1920928955078125e-07"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="260" height="44.666667938232422"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aPn-48-SyL">
-                                                        <rect key="frame" x="0.0" y="362.66667568683624" width="260" height="1.1920928955078125e-07"/>
+                                                        <rect key="frame" x="0.0" y="407.33334350585938" width="260" height="1.1920928955078125e-07"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aPn-48-SyL" id="g0v-dg-nkE">
                                                             <rect key="frame" x="0.0" y="0.0" width="260" height="1.1920928955078125e-07"/>
@@ -708,7 +709,7 @@
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="wji-aQ-3XI">
-                                                        <rect key="frame" x="0.0" y="362.66667580604553" width="260" height="1.1920928955078125e-07"/>
+                                                        <rect key="frame" x="0.0" y="407.33334362506866" width="260" height="1.1920928955078125e-07"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wji-aQ-3XI" id="Qbi-e3-oJP">
                                                             <rect key="frame" x="0.0" y="0.0" width="260" height="1.1920928955078125e-07"/>
@@ -748,7 +749,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" name="CustomWhite"/>
+                                <color key="backgroundColor" name="TodoViewBackground"/>
                                 <constraints>
                                     <constraint firstItem="PSf-uc-KhV" firstAttribute="centerX" secondItem="x6t-Wr-ecy" secondAttribute="centerX" id="12e-Lr-OVb"/>
                                     <constraint firstItem="PSf-uc-KhV" firstAttribute="top" secondItem="x6t-Wr-ecy" secondAttribute="top" constant="20" id="CtJ-nL-LGZ"/>
@@ -930,33 +931,109 @@
             </objects>
             <point key="canvasLocation" x="4161.0687022900765" y="2116.9014084507044"/>
         </scene>
-        <!--DeveloperViewController-->
+        <!--SettingsViewController-->
         <scene sceneID="DDS-dP-2Ap">
             <objects>
-                <viewController storyboardIdentifier="DeveloperViewController" title="DeveloperViewController" id="PdA-KS-Dxs" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" title="SettingsViewController" id="PdA-KS-Dxs" customClass="SettingsViewController" customModule="calendar_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xoW-FY-ogJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQg-RF-V2U">
-                                <rect key="frame" x="157.66666666666666" y="415.66666666666669" width="77.666666666666657" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="12B-kA-7Jw">
+                                <rect key="frame" x="20" y="79" width="353" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화면 모드" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L3r-qe-7GU">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="23"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <color key="textColor" name="BlackWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aCh-gO-fsv">
+                                        <rect key="frame" x="0.0" y="33" width="353" height="47"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="다크 모드 켜기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyS-tQ-4eG">
+                                                <rect key="frame" x="17" y="0.0" width="97" height="47"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" name="BlackWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="fill" preferredStyle="sliding" translatesAutoresizingMaskIntoConstraints="NO" id="Bxs-E1-pHf">
+                                                <rect key="frame" x="284" y="8" width="51" height="31"/>
+                                            </switch>
+                                        </subviews>
+                                        <color key="backgroundColor" name="SettingsCellBackground"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottomMargin" secondItem="Bxs-E1-pHf" secondAttribute="bottom" id="IYs-nd-LIZ"/>
+                                            <constraint firstItem="Bxs-E1-pHf" firstAttribute="top" secondItem="aCh-gO-fsv" secondAttribute="topMargin" id="LBg-9u-Wet"/>
+                                            <constraint firstItem="YyS-tQ-4eG" firstAttribute="top" secondItem="aCh-gO-fsv" secondAttribute="top" id="NY3-i4-kTh"/>
+                                            <constraint firstItem="YyS-tQ-4eG" firstAttribute="centerY" secondItem="aCh-gO-fsv" secondAttribute="centerY" id="RTN-R5-BcQ"/>
+                                            <constraint firstAttribute="bottom" secondItem="YyS-tQ-4eG" secondAttribute="bottom" id="kHf-ZN-UBD"/>
+                                            <constraint firstItem="YyS-tQ-4eG" firstAttribute="leading" secondItem="aCh-gO-fsv" secondAttribute="leading" constant="17" id="lUY-1i-ZGL"/>
+                                            <constraint firstAttribute="trailing" secondItem="Bxs-E1-pHf" secondAttribute="trailing" constant="20" id="ukE-C0-zvC"/>
+                                            <constraint firstItem="Bxs-E1-pHf" firstAttribute="centerY" secondItem="aCh-gO-fsv" secondAttribute="centerY" id="wSg-S4-EjR"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" name="ViewBackground"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Qc2-le-2G3"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="E2y-KV-ObL">
+                                <rect key="frame" x="20" y="189" width="353" height="176"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="앱" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpw-xE-kK0">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <color key="textColor" name="BlackWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bny-1e-GE8">
+                                        <rect key="frame" x="0.0" y="34" width="353" height="142"/>
+                                        <color key="backgroundColor" name="ViewBackground"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="142" id="Ok0-hp-KvC"/>
+                                        </constraints>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <color key="sectionIndexColor" name="AppSettingsText"/>
+                                        <color key="sectionIndexBackgroundColor" name="SettingsCellBackground"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" id="zxf-9M-ot2">
+                                                <rect key="frame" x="0.0" y="50" width="353" height="44.666667938232422"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zxf-9M-ot2" id="w9c-He-fCa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="44.666667938232422"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" name="SettingsCellBackground"/>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" name="ViewBackground"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="i7h-kd-1VU"/>
                         <color key="backgroundColor" name="ViewBackground"/>
                         <constraints>
-                            <constraint firstItem="FQg-RF-V2U" firstAttribute="centerY" secondItem="xoW-FY-ogJ" secondAttribute="centerY" id="FSF-PR-wMT"/>
-                            <constraint firstItem="FQg-RF-V2U" firstAttribute="centerX" secondItem="xoW-FY-ogJ" secondAttribute="centerX" id="f85-0p-nuJ"/>
+                            <constraint firstItem="i7h-kd-1VU" firstAttribute="trailing" secondItem="12B-kA-7Jw" secondAttribute="trailing" constant="20" id="4Q6-c6-UDv"/>
+                            <constraint firstItem="E2y-KV-ObL" firstAttribute="leading" secondItem="i7h-kd-1VU" secondAttribute="leading" constant="20" id="4fN-1c-nxj"/>
+                            <constraint firstItem="12B-kA-7Jw" firstAttribute="leading" secondItem="i7h-kd-1VU" secondAttribute="leading" constant="20" id="HJU-HD-MeJ"/>
+                            <constraint firstItem="12B-kA-7Jw" firstAttribute="top" secondItem="i7h-kd-1VU" secondAttribute="top" constant="20" id="PZ6-Tm-brx"/>
+                            <constraint firstItem="i7h-kd-1VU" firstAttribute="trailing" secondItem="E2y-KV-ObL" secondAttribute="trailing" constant="20" id="UrC-uU-ogy"/>
+                            <constraint firstItem="E2y-KV-ObL" firstAttribute="top" secondItem="12B-kA-7Jw" secondAttribute="bottom" constant="30" id="mzX-LN-8l9"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Developer" image="person" catalog="system" id="dTL-7A-ab3"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" id="dTL-7A-ab3"/>
+                    <connections>
+                        <outlet property="appSettingsTableView" destination="bny-1e-GE8" id="cIp-fM-kA7"/>
+                        <outlet property="darkModeSwitch" destination="Bxs-E1-pHf" id="GYX-mv-CLx"/>
+                        <outlet property="modeView" destination="aCh-gO-fsv" id="pev-JB-QEn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W75-6D-8ib" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2565" y="2833"/>
+            <point key="canvasLocation" x="2564.1221374045799" y="2832.3943661971834"/>
         </scene>
         <!--SignUpCompleteViewController-->
         <scene sceneID="S09-Rp-9uD">
@@ -1084,21 +1161,30 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yeO-9e-HpN"/>
+        <segue reference="4b6-j1-Pc1"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="calendarLogo" width="512" height="512"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="house" catalog="system" width="128" height="104"/>
-        <image name="person" catalog="system" width="128" height="121"/>
         <namedColor name="AddTodoBtn">
             <color red="0.92199999094009399" green="0.92900002002716064" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AppSettingsText">
+            <color red="0.88235294117647056" green="0.29411764705882354" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BlackWhite">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CalendarDayText">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CalendarNotThisMonthText">
             <color red="0.69800001382827759" green="0.69800001382827759" blue="0.69800001382827759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CalendarRed">
+            <color red="0.88200002908706665" green="0.32199999690055847" blue="0.25499999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CalendarTitleText">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1145,11 +1231,8 @@
         <namedColor name="CustomBarItemClicked">
             <color red="0.36100000143051147" green="0.48199999332427979" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="CustomWhite">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="EventGreen">
-            <color red="0.6589999794960022" green="0.90200001001358032" blue="0.81199997663497925" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5686890254928727" green="0.80383585679410685" blue="0.57298032979756686" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="HomeSubViewBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1169,8 +1252,17 @@
         <namedColor name="HomeViewTodayText">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="SettingsCellBackground">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="TabBarBackground">
             <color red="0.96100002527236938" green="0.96899998188018799" blue="0.98799997568130493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TodoLabelBackground">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TodoViewBackground">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ViewBackground">
             <color red="0.96100002527236938" green="0.96899998188018799" blue="0.98799997568130493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -58,7 +58,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
     }
-
+    
     func convertToAPIDateFormat(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -157,13 +157,13 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             // 카테고리 색상 설정
             switch category ?? selectedCategory {
             case "IMPORTANT":
-                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryRedBtn")
+                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardRed")
             case "STUDY":
-                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryBlueBtn")
+                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardBlue")
             case "DAILY":
-                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryPurpleBtn")
+                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardPurple")
             case "EXERCISE":
-                keyboardHelperView?.backgroundColor = UIColor(named: "CategoryYellowBtn")
+                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardYellow")
             default:
                 keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // 기본 배경색
             }
@@ -173,7 +173,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             label = UITextField(frame: CGRect(x: 0, y: 0, width: containerView.frame.width - 30, height: 30))
             label?.placeholder = "할 일을 입력하세요"
             label?.textAlignment = .left
-            label?.textColor = .darkGray
+            label?.textColor = UIColor(named: "KeyboardText")
             label?.delegate = self // UITextFieldDelegate 설정
             label?.text = text // 셀의 titleLabel 값 또는 nil 설정
                         
@@ -307,9 +307,13 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         default:
             cell.categoryLabel.text = ""
         }
+    
         
         // 배경색 설정
         cell.configureBackgroundColor(category: todoItem.category)
+        
+        // 배경색 설정
+//        cell.contentView.backgroundColor = .red // 모든 셀의 배경색을 빨간색으로 설정
         
         // 체크박스 상태 설정
         cell.checkBox.checkState = todoItem.isDone ? .checked : .unchecked

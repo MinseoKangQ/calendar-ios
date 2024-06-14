@@ -19,10 +19,10 @@ class CustomTableViewCell: UITableViewCell {
     let LABEL_PURPLE = UIColor(named: "CategoryPurpleLabel")
     let LABEL_YELLOW = UIColor(named: "CategoryYellowLabel")
     
-    let VIEW_RED = UIColor(named: "CategoryRedBtn")
-    let VIEW_BLUE = UIColor(named: "CategoryBlueBtn")
-    let VIEW_PURPLE = UIColor(named: "CategoryPurpleBtn")
-    let VIEW_YELLOW = UIColor(named: "CategoryYellowBtn")
+    let VIEW_RED = UIColor(named: "TodoRedBackground")
+    let VIEW_BLUE = UIColor(named: "TodoBlueBackground")
+    let VIEW_PURPLE = UIColor(named: "TodoPurpleBackground")
+    let VIEW_YELLOW = UIColor(named: "TodoYellowBackground")
     
     @IBOutlet weak var labelView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
