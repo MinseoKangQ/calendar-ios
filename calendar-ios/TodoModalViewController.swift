@@ -82,7 +82,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
                     self.todoItems = todoList
                     self.tableView.reloadData()
                 } else {
-                    print("Failed to fetch todo list")
+                    print("[TodoModalController] fetchTodoList API 호출 실패")
                 }
             }
         }
@@ -119,7 +119,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     }
     
     func didSelectCategory(category: String) {
-        print("선택된 카테고리: \(category)")
         selectedCategory = category
         self.dismiss(animated: true)
         self.showKeyboardHelper()
@@ -163,10 +162,8 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
             return
         }
         
-        print("showKeyboardHelper 호출")
-        
         let accessoryHeight: CGFloat = 80
-        let yOffsetAdjustment: CGFloat = 300 // 기존 300
+        let yOffsetAdjustment: CGFloat = 300
 
         let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
         
@@ -225,7 +222,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
         }
         
         if let existingTodoId = currentEditingTodoId {
-            print("수정 호출 API")
             // 수정 API 호출
             ApiService.updateTodoTitle(todoId: existingTodoId, title: text) { [weak self] success in
                 guard let self = self else { return }
@@ -238,14 +234,12 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
                         }
                         self.label?.text = ""
                     } else {
-                        print("할 일 수정 실패")
+                        print("[TodoModalController] API 호출 실패")
                     }
                     self.hideKeyboardHelper()
                 }
             }
         } else {
-            // 생성 API 호출
-            print("생성 호출 API")
             let apiDate = convertToAPIDateFormat(selectedDate)
             let category = selectedCategory ?? "DAILY"
         
@@ -258,7 +252,7 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
                         self.tableView.reloadData()
                         self.label?.text = ""
                     } else {
-                        print("할 일 추가 실패")
+                        print("[TodoModalController] addTodo API 호출 실패")
                     }
                     self.hideKeyboardHelper()
                 }
@@ -270,7 +264,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     func hideKeyboardHelper() {
         keyboardHelperView?.removeFromSuperview()
         keyboardHelperView = nil
-        print("사라져")
     }
     
     func titleLabelTapped(in cell: CustomTableViewCell, with title: String) {
@@ -357,7 +350,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
             } else {
-                print("체크 상태 변경 실패")
+                print("[TodoModalController] toggleTodoCheck API 호출 실패")
             }
         }
     }
@@ -377,7 +370,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
                         completionHandler(true) // 액션 성공
                     } else {
                         // 실패 시 처리
-                        print("할 일 삭제 실패")
+                        print("[TodoModalController] deleteTodo API 호출 실패")
                         completionHandler(false)
                     }
                 }

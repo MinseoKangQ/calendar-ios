@@ -103,7 +103,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                     self.tableView.reloadData()
                     self.updateTableViewHeight()
                 } else {
-                    print("(fetchTodoList) API 호출 실패")
+                    print("[HomeViewController] getTodoList API 호출 실패")
                 }
             }
         }
