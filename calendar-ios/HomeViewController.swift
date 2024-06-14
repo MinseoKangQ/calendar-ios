@@ -34,6 +34,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         // 데이터 새로고침
         fetchTodoList()
         fetchNotDoneCount()
+
     }
     
     override func viewDidLoad() {
@@ -53,6 +54,10 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         
         // 남은 할 일 개수 가져오기
         fetchNotDoneCount()
+        
+        // 키보드 노티피케이션 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -140,8 +145,18 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             keyboardHeight = keyboardFrame.cgRectValue.height
-            showKeyboardHelper()
+            updateKeyboardHelperViewPosition()
         }
+    }
+    
+    func updateKeyboardHelperViewPosition() {
+        guard let keyboardHelperView = keyboardHelperView else { return }
+        let accessoryHeight: CGFloat = 60
+        let yOffsetAdjustment: CGFloat = 0 // 이 값을 조정하여 y 좌표를 변경할 수 있습니다.
+        let newY = view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment
+        var frame = keyboardHelperView.frame
+        frame.origin.y = newY
+        keyboardHelperView.frame = frame
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -149,56 +164,62 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     }
     
     func showKeyboardHelper(with text: String? = nil, category: String? = nil) {
-        if keyboardHelperView == nil {
-            print("showKeyboardHelper 호출")
-            let accessoryHeight: CGFloat = 80
-            let yOffsetAdjustment: CGFloat = 300
-
-            let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
-            
-            keyboardHelperView = UIView(frame: customAccessoryFrame)
-            keyboardHelperView?.layer.cornerRadius = 15
-            keyboardHelperView?.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            keyboardHelperView?.layer.masksToBounds = true
-            
-            // 카테고리 색상 설정
-            switch category ?? selectedCategory {
-            case "IMPORTANT":
-                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardRed")
-            case "STUDY":
-                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardBlue")
-            case "DAILY":
-                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardPurple")
-            case "EXERCISE":
-                keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardYellow")
-            default:
-                keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // 기본 배경색
-            }
-            
-            let containerView = UIView(frame: CGRect(x: 10, y: 10, width: customAccessoryFrame.width - 20, height: 30))
-            
-            label = UITextField(frame: CGRect(x: 0, y: 0, width: containerView.frame.width - 30, height: 30))
-            label?.placeholder = "할 일을 입력하세요"
-            label?.textAlignment = .left
-            label?.textColor = UIColor(named: "KeyboardText")
-            label?.delegate = self // UITextFieldDelegate 설정
-            label?.text = text // 셀의 titleLabel 값 또는 nil 설정
-                        
-            let arrowButton = UIButton(frame: CGRect(x: containerView.frame.width - 30, y: 0, width: 30, height: 30))
-            arrowButton.setImage(UIImage(systemName: "arrow.forward.circle"), for: .normal)
-            arrowButton.tintColor = .gray
-            arrowButton.addTarget(self, action: #selector(arrowButtonTapped), for: .touchUpInside)
-            
-            containerView.addSubview(label!)
-            containerView.addSubview(arrowButton)
-            
-            keyboardHelperView?.addSubview(containerView)
-            
-            view.addSubview(keyboardHelperView!)
-            
-            label?.becomeFirstResponder()
+        if keyboardHelperView != nil {
+            updateKeyboardHelperViewPosition() // 위치 업데이트
+            return
         }
+        
+        print("showKeyboardHelper 호출")
+        
+        let accessoryHeight: CGFloat = 80
+        let yOffsetAdjustment: CGFloat = 300 // 기존 300
+
+        let customAccessoryFrame = CGRect(x: 0, y: view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment, width: view.frame.width, height: accessoryHeight)
+        
+        keyboardHelperView = UIView(frame: customAccessoryFrame)
+        keyboardHelperView?.layer.cornerRadius = 15
+        keyboardHelperView?.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        keyboardHelperView?.layer.masksToBounds = true
+        
+        // 카테고리 색상 설정
+        switch category ?? selectedCategory {
+        case "IMPORTANT":
+            keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardRed")
+        case "STUDY":
+            keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardBlue")
+        case "DAILY":
+            keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardPurple")
+        case "EXERCISE":
+            keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardYellow")
+        default:
+            keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // 기본 배경색
+        }
+        
+        let containerView = UIView(frame: CGRect(x: 10, y: 10, width: customAccessoryFrame.width - 20, height: 30))
+        
+        label = UITextField(frame: CGRect(x: 0, y: 0, width: containerView.frame.width - 30, height: 30))
+        label?.placeholder = "할 일을 입력하세요"
+        label?.textAlignment = .left
+        label?.textColor = UIColor(named: "KeyboardText")
+        label?.delegate = self // UITextFieldDelegate 설정
+        label?.text = text // 셀의 titleLabel 값 또는 nil 설정
+                    
+        let arrowButton = UIButton(frame: CGRect(x: containerView.frame.width - 30, y: 0, width: 30, height: 30))
+        arrowButton.setImage(UIImage(systemName: "arrow.forward.circle"), for: .normal)
+        arrowButton.tintColor = .gray
+        arrowButton.addTarget(self, action: #selector(arrowButtonTapped), for: .touchUpInside)
+        
+        containerView.addSubview(label!)
+        containerView.addSubview(arrowButton)
+        
+        keyboardHelperView?.addSubview(containerView)
+        
+        view.addSubview(keyboardHelperView!)
+        
+        label?.becomeFirstResponder()
     }
+
+
     
     @objc func arrowButtonTapped() {
         guard let text = label?.text, !text.isEmpty else {
