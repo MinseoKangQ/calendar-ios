@@ -15,6 +15,16 @@ class SettingsViewController: UIViewController {
     
     let appSettingsData = ["로그아웃", "회원탈퇴"]
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateDarkMode()
+    }
+    
+    func updateDarkMode() {
+        let darkModeEnabled = darkModeSwitch.isOn
+        view.window?.overrideUserInterfaceStyle = darkModeEnabled ? .dark : .light
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,8 +36,26 @@ class SettingsViewController: UIViewController {
         
         appSettingsTableView.layer.cornerRadius = 5
         appSettingsTableView.layer.masksToBounds = true
+
+        // 다크모드
+        darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: "darkModeEnabled")
+        updateDarkMode()
+        darkModeSwitch.addTarget(self, action: #selector(darkModeSwitchChanged(_:)), for: .valueChanged)
         
     }
+    
+    @objc func darkModeSwitchChanged(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "darkModeEnabled")
+        updateDarkMode()
+    }
+    
+//    func updateDarkMode() {
+//        if darkModeSwitch.isOn {
+//            view.window?.overrideUserInterfaceStyle = .dark
+//        } else {
+//            view.window?.overrideUserInterfaceStyle = .light
+//        }
+//    }
 }
 
 extension SettingsViewController: UITableViewDataSource {
