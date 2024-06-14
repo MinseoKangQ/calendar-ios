@@ -123,7 +123,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                     }
                 } else {
                     self.remainCountTextLabel.text = "할 일 정보를 가져올 수 없습니다."
-                    print("(fetchNotDoneCount) API 호출 실패")
+                    print("[HomeViewController] getNotDoneCount API 호출 실패")
                 }
             }
         }
@@ -265,7 +265,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                                     self.todoItems = todoList
                                     self.tableView.reloadData()
                                 } else {
-                                    print("(addTodo) API 호출 실패")
+                                    print("[HomeViewController] getTodoList API 호출 실패")
                                 }
                             }
                         }
@@ -367,7 +367,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
                     }
                     self.fetchNotDoneCount() // 남은 할 일 개수 업데이트
                 } else {
-                    print("(toggleTodoCheck) API 호출 실패")
+                    print("[HomeViewController] toggleTodoCheck API 호출 실패")
                 }
             }
         }
@@ -394,7 +394,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
                         completionHandler(true) // 성공
                     } else {
                         // 실패 시 처리
-                        print("(deleteTodo) API 호출 실패")
+                        print("[HomeViewController] deleteTodo API 호출 실패")
                         completionHandler(false)
                     }
                 }
