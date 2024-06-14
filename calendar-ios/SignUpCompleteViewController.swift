@@ -22,17 +22,16 @@ class SignUpCompleteViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
     private func setupUI() {
-        loginBtn.layer.cornerRadius = 14
-        loginBtn.layer.borderWidth = 1
-        loginBtn.backgroundColor = CUSTOM_BLUE
-        loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        
         uiView.layer.cornerRadius = 10
         uiView.layer.borderWidth = 1
         uiView.layer.borderColor = UIColor.white.cgColor

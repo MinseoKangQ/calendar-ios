@@ -47,7 +47,6 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupUI()
-//        resetLoginUI()
     }
 
     override func viewDidLoad() {
@@ -120,7 +119,7 @@ class LoginViewController: UIViewController {
         // 키보드가 나타날 때 실행 함수 등록
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
             
-            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 잇음
+            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 있음
             if self.isShowKeyboard == false {
                 self.isShowKeyboard = true
             }
