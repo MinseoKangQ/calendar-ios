@@ -9,8 +9,8 @@ import Foundation
 
 class ApiService {
     
-    static let BASE_URL = "http://172.30.1.13:8080"
-//    static let BASE_URL = "http://localhost:8080"
+//    static let BASE_URL = "http://172.30.1.13:8080"
+    static let BASE_URL = "http://localhost:8080"
     static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODI5NDQyNiwiZXhwIjoxNzE4ODk5MjI2fQ.nbExlpvvhSxBUv4hDoBUFDwlNFx87IULuN1-hrnu14k"
     static var authToken: String?
     

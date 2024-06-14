@@ -19,6 +19,7 @@ class CalendarViewController: UIViewController {
     let CALENDAR_BLUE = UIColor(named: "CalendarBlue")
     let CALENDAR_RED = UIColor(named: "CalendarRed")
     let CALENDAR_TODAY = UIColor(named: "CalendarToday")
+    let VIEW_BACKGROUND = UIColor(named: "ViewBackground")
     let EVENT_DONE_COLOR = UIColor(named: "EventGreen") ?? UIColor.green
     let EVENT_NOT_DONE_COLOR = UIColor(named: "EventGrey") ?? UIColor.gray
     
@@ -40,8 +41,7 @@ class CalendarViewController: UIViewController {
         // 캘린더뷰 모서리 둥글게
         calendarView.layer.cornerRadius = 10
         calendarView.layer.borderWidth = 1
-        calendarView.layer.borderColor = UIColor.white.cgColor
-        calendarView.backgroundColor = UIColor.white
+        calendarView.layer.borderColor = VIEW_BACKGROUND?.cgColor
         calendarView.layer.masksToBounds = true
         
         // 달력 한글화
@@ -57,11 +57,11 @@ class CalendarViewController: UIViewController {
         calendarView.appearance.weekdayTextColor = CUSTOM_WEEK_GREY
         
         // 오늘
-        calendarView.appearance.todayColor = CALENDAR_TODAY
+//        calendarView.appearance.todayColor = CALENDAR_TODAY
         
         // 선택된 날짜 배경 색상 없애기
-        calendarView.appearance.selectionColor = .clear
-        calendarView.appearance.borderSelectionColor = .clear
+//        calendarView.appearance.selectionColor = .clear
+//        calendarView.appearance.borderSelectionColor = .clear
         
     }
     
@@ -122,7 +122,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         calendarView.reloadData() // 선택 해제 상태 업데이트
     }
     
-    // 선택된 날짜의 텍스트 색상 유지
+//    // 선택된 날짜의 텍스트 색상 유지
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
         let today = Date()
         let calendar = Calendar.current
@@ -140,22 +140,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         return .black // 선택된 날짜의 텍스트 색상 유지
     }
     
-    // 기본 날짜 텍스트 색상 변경
+    // TODO
+//     기본 날짜 텍스트 색상 변경
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.weekday], from: date)
-        let today = Date()
+        _ = Date()
         
-        // 오늘 날짜인지 확인
-        if calendar.isDate(date, inSameDayAs: today) {
-            return .white // 오늘 날짜인 경우 흰색 유지
-        }
-        
-        // 현재 페이지의 달과 비교
-        if calendar.compare(date, to: calendarView.currentPage, toGranularity: .month) != .orderedSame {
-            return CUSTOM_GREY // 현재 달이 아닌 경우 회색으로 설정
-        }
-        
+
         if let weekday = components.weekday {
             switch weekday {
             case 1: // 일요일
@@ -163,10 +155,10 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             case 7: // 토요일
                 return CALENDAR_BLUE
             default:
-                return .black
+                return nil
             }
         }
-        return .black
+        return nil
     }
     
     // 특정 날짜의 배경색 변경

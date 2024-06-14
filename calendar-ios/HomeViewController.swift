@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     func setupUI() {
         remainView.layer.cornerRadius = 10
         todayView.layer.cornerRadius = 10
-        addBtn.layer.cornerRadius = 14
+//        addBtn.layer.cornerRadius = 14
         
         // addBtn에 액션 추가
         addBtn.addTarget(self, action: #selector(addNewTodoItem), for: .touchUpInside)

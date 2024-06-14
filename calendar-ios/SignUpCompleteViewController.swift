@@ -28,11 +28,6 @@ class SignUpCompleteViewController: UIViewController {
     }
     
     private func setupUI() {
-        loginBtn.layer.cornerRadius = 14
-        loginBtn.layer.borderWidth = 1
-        loginBtn.backgroundColor = CUSTOM_BLUE
-        loginBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        
         uiView.layer.cornerRadius = 10
         uiView.layer.borderWidth = 1
         uiView.layer.borderColor = UIColor.white.cgColor
