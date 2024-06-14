@@ -22,6 +22,10 @@ class SignUpCompleteViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()

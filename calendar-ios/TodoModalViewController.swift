@@ -108,7 +108,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, UITe
     
     func setupUI() {
         baseView.layer.cornerRadius = 20
-        addBtn.layer.cornerRadius = 14
     }
     
     func didSelectCategory(category: String) {

@@ -27,6 +27,15 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     var currentEditingTodoId: Int?
     var selectedDate: Date? // Date 형식의 날짜를 저장할 변수
     
+    // 다른 탭에서 HomeViewController로 넘어옴
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 데이터 새로고침
+        fetchTodoList()
+        fetchNotDoneCount()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -50,7 +59,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     func setupUI() {
         remainView.layer.cornerRadius = 10
         todayView.layer.cornerRadius = 10
-//        addBtn.layer.cornerRadius = 14
         
         // addBtn에 액션 추가
         addBtn.addTarget(self, action: #selector(addNewTodoItem), for: .touchUpInside)
@@ -96,7 +104,12 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if let response = response, response.status == 200 {
-                    self.remainCountTextLabel.text = "\(response.data)개의 남은 할 일"
+                    if response.data == 0 {
+                        self.remainCountTextLabel.text = "할 일을 모두 끝냈어요!"
+                    }
+                    else {
+                        self.remainCountTextLabel.text = "\(response.data)개의 남은 할 일"
+                    }
                 } else {
                     self.remainCountTextLabel.text = "할 일 정보를 가져올 수 없습니다."
                 }
