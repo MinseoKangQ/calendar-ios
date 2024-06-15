@@ -64,7 +64,7 @@ class SignUpViewController: UIViewController  {
     // 키보드 보이기
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
+            _ = keyboardFrame.cgRectValue.height
         }
     }
     
@@ -306,6 +306,7 @@ class SignUpViewController: UIViewController  {
     }
 }
 
+// UITextFieldDelegate 확장
 extension SignUpViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder() // Return 키를 눌렀을 때 키보드가 사라지게 함

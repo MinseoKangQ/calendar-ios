@@ -10,8 +10,8 @@ import Foundation
 class ApiService {
     
     static let BASE_URL = "http://localhost:8080"
-    static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODM4ODI3NCwiZXhwIjoxNzE4OTkzMDc0fQ.zE8DTKuwXfTE3MQg2MCkxmKkyL4t4b7AscLRYTnsMgg"
-    static var authToken: String?
+    static let TMP_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMwMjE3MSIsInJvbGVzIjoiVVNFUiIsImlhdCI6MTcxODM4ODI3NCwiZXhwIjoxNzE4OTkzMDc0fQ.zE8DTKuwXfTE3MQg2MCkxmKkyL4t4b7AscLRYTnsMgg" // 테스트용 토큰
+    static var authToken: String? // 실제 토큰
     
     // 토큰 없이 Reuqest 설정
     private static func setRequestWithoutToken(url: URL, method: String) -> URLRequest {

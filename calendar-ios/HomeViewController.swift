@@ -8,7 +8,7 @@
 import UIKit
 import M13Checkbox
 
-class HomeViewController: UIViewController, CategorySelectionDelegate {
+class HomeViewController: UIViewController {
 
     // Outlets
     @IBOutlet weak var remainView: UIView!
@@ -288,14 +288,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         }
     }
     
-    // CategorySelectionDelegate
-    func didSelectCategory(category: String) {
-        selectedCategory = category // 선택한 카테고리 저장
-        selectedDate = Date() // 현재 날짜로 설정
-        self.dismiss(animated: true) // 창 닫기
-        showKeyboardHelper() // keyboardHelper 보이기
-    }
-    
     // 카테고리 선택 뷰 보여주기
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addTodoBtnSegueFromHome" {
@@ -315,23 +307,23 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     
 }
 
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate, CustomTableViewCellDelegate {
-    
+// UITableViewDataSource 확장
+extension HomeViewController: UITableViewDataSource {
     // 데이터 소스의 개수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todoItems.count
     }
-    
+
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as? CustomTableViewCell else {
             return UITableViewCell()
         }
-        
+
         cell.delegate = self // delegate 등록
         let todoItem = todoItems[indexPath.row] // 초기 데이터
         cell.titleLabel.text = todoItem.title // 할 일
-        
+
         // 카테고리
         switch todoItem.category {
         case "IMPORTANT":
@@ -345,15 +337,76 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         default:
             cell.categoryLabel.text = ""
         }
-        
+
         cell.configureBackgroundColor(category: todoItem.category) // 배경색
         cell.checkBox.checkState = todoItem.isDone ? .checked : .unchecked // 체크박스 상태
         cell.checkBox.tag = todoItem.todoId // todo PK 저장
         cell.checkBox.addTarget(self, action: #selector(checkBoxValueChanged(_:)), for: .valueChanged) // 체크박스 클릭 이벤트 핸들러 설정
-        
+
         return cell
     }
-    
+}
+
+// UITableViewDelegate 확장
+extension HomeViewController: UITableViewDelegate {
+    // 셀의 높이를 설정
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0
+    }
+
+    // 삭제 버튼 관련
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+
+            let todoItem = self.todoItems[indexPath.row]
+
+            ApiService.deleteTodo(todoId: todoItem.todoId) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
+                        self.todoItems.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        completionHandler(true) // 성공
+                    } else {
+                        // 실패 시 처리
+                        print("[HomeViewController] deleteTodo API 호출 실패")
+                        completionHandler(false)
+                    }
+                }
+            }
+        }
+
+        // 삭제 버튼 커스텀 디자인
+        let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
+        deleteView.backgroundColor = UIColor(named: "TrashBackground")
+        deleteView.layer.cornerRadius = 8
+        deleteView.layer.masksToBounds = true
+
+        let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
+        deleteImageView.tintColor = .red
+        deleteImageView.contentMode = .scaleAspectFit
+        deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35)
+
+        deleteView.addSubview(deleteImageView)
+
+        UIGraphicsBeginImageContextWithOptions(deleteView.bounds.size, false, 0.0)
+        deleteView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        deleteAction.backgroundColor = UIColor(named: "TrashBackground")
+        deleteAction.image = deleteImage
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+
+        return configuration
+    }
+}
+
+// CustomTableViewCellDelegate 확장
+extension HomeViewController: CustomTableViewCellDelegate {
     // 체크박스 클릭
     @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
         let todoId = sender.tag
@@ -372,64 +425,20 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
             }
         }
     }
-        
-    // 셀의 높이를 설정
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55.0
-    }
-    
-    // 삭제 버튼 관련
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
-            guard let self = self else { return }
-            
-            let todoItem = self.todoItems[indexPath.row]
-            
-            ApiService.deleteTodo(todoId: todoItem.todoId) { success in
-                DispatchQueue.main.async {
-                    if success {
-                        // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
-                        self.todoItems.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .fade)
-                        completionHandler(true) // 성공
-                    } else {
-                        // 실패 시 처리
-                        print("[HomeViewController] deleteTodo API 호출 실패")
-                        completionHandler(false)
-                    }
-                }
-            }
-        }
-        
-        // 삭제 버튼 커스텀 디자인
-        let deleteView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 60))
-        deleteView.backgroundColor = UIColor(named: "TrashBackground")
-        deleteView.layer.cornerRadius = 8
-        deleteView.layer.masksToBounds = true
-        
-        let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
-        deleteImageView.tintColor = .white
-        deleteImageView.contentMode = .scaleAspectFit
-        deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35)
-        
-        deleteView.addSubview(deleteImageView)
-        
-        UIGraphicsBeginImageContextWithOptions(deleteView.bounds.size, false, 0.0)
-        deleteView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let deleteImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        deleteAction.backgroundColor = UIColor(named: "TrashBackground")
-        deleteAction.image = deleteImage
-        
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        
-        return configuration
-    }
-    
 }
 
+// CategorySelectionDelegate 확장
+extension HomeViewController: CategorySelectionDelegate {
+    
+    func didSelectCategory(category: String) {
+        selectedCategory = category // 선택한 카테고리 저장
+        selectedDate = Date() // 현재 날짜로 설정
+        self.dismiss(animated: true) // 창 닫기
+        showKeyboardHelper() // keyboardHelper 보이기
+    }
+}
+
+// UITextFieldDelegate 확장
 extension HomeViewController: UITextFieldDelegate {
     @objc func textFieldDidBeginEditing(_ textField: UITextField) {
         // UITextField가 터치되었을 때 키보드 헬퍼를 숨기지 않도록 예외 처리

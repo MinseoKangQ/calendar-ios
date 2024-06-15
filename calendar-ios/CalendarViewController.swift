@@ -80,8 +80,9 @@ class CalendarViewController: UIViewController {
 
 }
 
-extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-
+// FSCalendarDelegate 확장
+extension CalendarViewController: FSCalendarDelegate {
+    
     // 현재 페이지가 변경될 때 호출
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         fetchTodoData(for: calendar.currentPage)
@@ -103,9 +104,42 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
     
     // 날짜 선택 해제 호출
-    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
         calendarView.reloadData() // 선택 해제 상태 업데이트
     }
+    
+    // 이벤트 개수 반환
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let day = Calendar.current.component(.day, from: date)
+        let dayString = String(day)
+        if let todoDayData = todoData[dayString] {
+            if todoDayData.doneCount > 0 && todoDayData.notDoneCount > 0 {
+                return 2
+            } else if todoDayData.doneCount > 0 || todoDayData.notDoneCount > 0 {
+                return 1
+            }
+        }
+        return 0
+    }
+}
+
+// FSCalendarDataSource 확장
+extension CalendarViewController: FSCalendarDataSource {
+    // 특정 날짜의 배경색 설정
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        let today = Date()
+        
+        // 오늘 날짜인지 확인
+        if Calendar.current.isDate(date, inSameDayAs: today) {
+            return CALENDAR_TODAY // 오늘 날짜인 경우 특정 색상 유지
+        }
+        
+        return .clear // 다른 날짜는 배경색 없음
+    }
+}
+
+// FSCalendarDelegateAppearance 확장
+extension CalendarViewController: FSCalendarDelegateAppearance {
     
     // 선택된 날짜의 텍스트 색상 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
@@ -148,33 +182,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         }
         return isDarkMode ? BLACK_WHITE : BLACK_WHITE
     }
-    
-    // 특정 날짜의 배경색 설정
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
-        let today = Date()
-        
-        // 오늘 날짜인지 확인
-        if Calendar.current.isDate(date, inSameDayAs: today) {
-            return CALENDAR_TODAY // 오늘 날짜인 경우 특정 색상 유지
-        }
-        
-        return .clear // 다른 날짜는 배경색 없음
-    }
-    
-    // 이벤트 개수 반환
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let day = Calendar.current.component(.day, from: date)
-        let dayString = String(day)
-        if let todoDayData = todoData[dayString] {
-            if todoDayData.doneCount > 0 && todoDayData.notDoneCount > 0 {
-                return 2
-            } else if todoDayData.doneCount > 0 || todoDayData.notDoneCount > 0 {
-                return 1
-            }
-        }
-        return 0
-    }
-    
+
     // 이벤트 색상 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         let day = Calendar.current.component(.day, from: date)
@@ -195,9 +203,9 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         return self.calendar(calendar, appearance: appearance, eventDefaultColorsFor: date)
     }
-
 }
 
+// TodoModalViewControllerDelegate 확장
 extension CalendarViewController: TodoModalViewControllerDelegate {
     func didUpdateTodo() {
         fetchTodoData(for: calendarView.currentPage)

@@ -122,7 +122,7 @@ class LoginViewController: UIViewController {
     // 키보드 보이기
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
+            _ = keyboardFrame.cgRectValue.height
             // 필요한 경우 키보드 높이를 이용해 추가 동작 수행 가능
         }
     }
@@ -165,6 +165,7 @@ class LoginViewController: UIViewController {
     }
 }
 
+// UITextFieldDelegate 확장
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder() // Return 키를 눌렀을 때 키보드가 사라지게 함

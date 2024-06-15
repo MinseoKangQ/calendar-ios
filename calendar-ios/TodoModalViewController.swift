@@ -8,7 +8,7 @@
 import UIKit
 import M13Checkbox
 
-class TodoModalViewController: UIViewController, CategorySelectionDelegate, CustomTableViewCellDelegate {
+class TodoModalViewController: UIViewController {
     
     // Outlets
     @IBOutlet weak var baseView: UIView!
@@ -120,13 +120,6 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, Cust
     @objc func dismissModal() {
         delegate?.didUpdateTodo()
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    // 카테고리 선택 시 호출
-    func didSelectCategory(category: String) {
-        selectedCategory = category // 선택한 카테고리 저장
-        self.dismiss(animated: true) // 창 닫기
-        self.showKeyboardHelper() // keyboardHelper 보이기
     }
 
     // 카테고리 선택 뷰 보여주기
@@ -300,8 +293,8 @@ class TodoModalViewController: UIViewController, CategorySelectionDelegate, Cust
     
 }
 
-extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
-    
+// UITableViewDataSource 확장
+extension TodoModalViewController: UITableViewDataSource {
     // TableView 행 개수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todoItems.count
@@ -338,26 +331,10 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-    
-    // 체크박스 클릭
-    @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
-        let todoId = sender.tag
-        
-        // 할 일 상태 변경 API 호출
-        ApiService.toggleTodoCheck(todoId: todoId) { [weak self] success in
-            guard let self = self else { return }
-            if success {
-                DispatchQueue.main.async {
-                    if let date = self.selectedDate {
-                        self.fetchTodoList(for: self.convertToAPIDateFormat(date))
-                    }
-                }
-            } else {
-                print("[TodoModalController] toggleTodoCheck API 호출 실패")
-            }
-        }
-    }
-    
+}
+
+// UITableViewDelegate 확장
+extension TodoModalViewController: UITableViewDelegate {
     // 삭제 기능
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
@@ -389,7 +366,7 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         deleteView.layer.masksToBounds = true
         
         let deleteImageView = UIImageView(image: UIImage(systemName: "trash"))
-        deleteImageView.tintColor = .white
+        deleteImageView.tintColor = .red
         deleteImageView.contentMode = .scaleAspectFit
         deleteImageView.frame = CGRect(x: (deleteView.frame.width - 35) / 2, y: (deleteView.frame.height - 35) / 2, width: 35, height: 35)
         
@@ -408,13 +385,33 @@ extension TodoModalViewController: UITableViewDataSource, UITableViewDelegate {
         
         return configuration
     }
-
     
     // 셀 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55.0
     }
-    
+}
+
+// CustomTableViewCellDelegate 확장
+extension TodoModalViewController: CustomTableViewCellDelegate {
+    // 체크박스 클릭
+    @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
+        let todoId = sender.tag
+        
+        // 할 일 상태 변경 API 호출
+        ApiService.toggleTodoCheck(todoId: todoId) { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                DispatchQueue.main.async {
+                    if let date = self.selectedDate {
+                        self.fetchTodoList(for: self.convertToAPIDateFormat(date))
+                    }
+                }
+            } else {
+                print("[TodoModalController] toggleTodoCheck API 호출 실패")
+            }
+        }
+    }
 }
 
 // UITapGestureRecognizerDelegate 채택 및 구현
@@ -428,6 +425,17 @@ extension TodoModalViewController: UIGestureRecognizerDelegate {
     }
 }
 
+// CategorySelectionDelegate 확장
+extension TodoModalViewController: CategorySelectionDelegate {
+    
+    func didSelectCategory(category: String) {
+        selectedCategory = category // 선택한 카테고리 저장
+        self.dismiss(animated: true) // 창 닫기
+        self.showKeyboardHelper() // keyboardHelper 보이기
+    }
+}
+
+// UITextFieldDelegate 확장
 extension TodoModalViewController: UITextFieldDelegate {
     @objc func textFieldDidBeginEditing(_ textField: UITextField) {
         // UITextField가 터치되었을 때 키보드 헬퍼를 숨기지 않도록 예외 처리
