@@ -28,11 +28,8 @@ class CalendarViewController: UIViewController {
     let dateFormatter = DateFormatter()
     var todoData: [String: TodoDayData] = [:]
     
-    // 다른 탭에서 CalendarViewContoller로 넘어옴
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // 데이터 새로고침
         fetchTodoData(for: calendarView.currentPage)
     }
     
@@ -45,40 +42,32 @@ class CalendarViewController: UIViewController {
     func setupUI() {
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        calendarView.delegate = self
-        calendarView.dataSource = self
+        calendarView.delegate = self // delegate 등록
+        calendarView.dataSource = self // datasource 등록
         
         // 캘린더뷰 모서리 둥글게
         calendarView.layer.cornerRadius = 10
         calendarView.layer.masksToBounds = true
         
-        // 달력 한글화
-        calendarView.locale = Locale(identifier: "ko_KR")
-        
-        // 헤더
-        calendarView.appearance.headerDateFormat = "YYYY년 M월" // 형식
+        calendarView.locale = Locale(identifier: "ko_KR") // 달력 한글화
+        calendarView.appearance.headerDateFormat = "YYYY년 M월" // 헤더 형식
         calendarView.appearance.headerTitleAlignment = .center // 헤더 글씨 중앙에 보이게
-        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0 // 안보이게 함
-        calendarView.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 16)
-        
-        // 요일 텍스트 색상 설정
-        calendarView.appearance.weekdayTextColor = CUSTOM_WEEK_GREY
-        
+        calendarView.appearance.headerMinimumDissolvedAlpha = 0.0 // 헤더 양옆 글씨 안보이게 함
+        calendarView.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 16) // 헤더 글씨체
+        calendarView.appearance.weekdayTextColor = CUSTOM_WEEK_GREY // 요일 텍스트 색상 설정
     }
     
+    // 할 일 데이터 가져오기
     func fetchTodoData(for date: Date) {
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "yyyy-MM"
         let monthString = monthFormatter.string(from: date)
         
+        // 한 달 조회 API 호출
         ApiService.getOneMonthTodoList(for: monthString) { response in
-            guard let response = response else {
-                print("서버와 연결 불가능")
-                return
-            }
+            guard let response = response else { return }
             
             if response.status == 200 {
-                print("데이터 출력: \(response.data)")
                 self.todoData = response.data
                 DispatchQueue.main.async {
                     self.calendarView.reloadData()
@@ -95,21 +84,17 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
 
     // 현재 페이지가 변경될 때 호출
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        print("페이지 변경됨: \(calendar.currentPage)")
         fetchTodoData(for: calendar.currentPage)
         calendar.reloadData() // UI 새로 로드
     }
     
-    // 날짜 선택 시 콜백 메소드
+    // 날짜 선택 시 호출
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(dateFormatter.string(from: date) + " 선택됨")
         
         // Modal 띄우기
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let newViewController = storyboard.instantiateViewController(withIdentifier: "TodoModalViewController") as? TodoModalViewController {
-            
-            // selectedDate를 Date 객체로 설정
-            newViewController.selectedDate = date
+            newViewController.selectedDate = date // selectedDate를 Date 객체로 설정
             newViewController.delegate = self  // Delegate 설정
             self.present(newViewController, animated: true, completion: nil)
         }
@@ -117,13 +102,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         calendarView.reloadData() // 선택 상태 업데이트
     }
     
-    // 날짜 선택 해제 시 콜백 메소드
+    // 날짜 선택 해제 호출
     public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(dateFormatter.string(from: date) + " 해제됨")
         calendarView.reloadData() // 선택 해제 상태 업데이트
     }
     
-    // 선택된 날짜의 텍스트 색상 유지
+    // 선택된 날짜의 텍스트 색상 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
         let today = Date()
         let calendar = Calendar.current
@@ -133,12 +117,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             return WHITE_WHITE // 오늘 날짜인 경우 흰색 유지
         }
         
-        // 현재 달이 아닌 경우 회색으로 설정
+        // 현재 달이 아닌 경우
         if calendar.compare(date, to: calendarView.currentPage, toGranularity: .month) != .orderedSame {
-            return CUSTOM_GREY
+            return CUSTOM_GREY // 회색으로 설정
         }
         
-        return .black // 선택된 날짜의 텍스트 색상 유지
+        return BLACK_WHITE // 선택된 날짜의 텍스트 색상 유지
     }
 
     // 기본 날짜 텍스트 색상 변경
@@ -165,7 +149,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         return isDarkMode ? BLACK_WHITE : BLACK_WHITE
     }
     
-    // 특정 날짜의 배경색 변경
+    // 특정 날짜의 배경색 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
         let today = Date()
         
