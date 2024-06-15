@@ -9,17 +9,14 @@ import UIKit
 
 class SignUpCompleteViewController: UIViewController {
 
+    // Outlets
     @IBOutlet weak var resultTextView: UILabel!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var uiView: UIView!
-    
-    let CUSTOM_BLUE = UIColor(named: "CustomBlue")
-    let CUSTOM_GREY = UIColor(named: "CustomGrey")
-    let CUSTOM_RED = UIColor(named: "CustomRed")
 
+    // 로그인 화면으로 이동
     @IBAction func goToLogin(_ sender: UIButton) {
-        print("goToLogin called")
-        self.dismiss(animated: true)
+        self.dismiss(animated: true) // 일단 현재 화면 닫음
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,6 +28,7 @@ class SignUpCompleteViewController: UIViewController {
         setupUI()
     }
     
+    // UI 설정
     private func setupUI() {
         uiView.layer.cornerRadius = 10
         uiView.layer.borderWidth = 1
