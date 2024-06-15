@@ -9,6 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    // Outlets
     @IBOutlet weak var appSettingsTableView: UITableView!
     @IBOutlet weak var darkModeSwitch: UISwitch!
     @IBOutlet weak var modeView: UIView!

@@ -10,23 +10,22 @@ import UIKit
 
 class SignUpViewController: UIViewController  {
 
+    // Outlets
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var pwCheckTextField: UITextField!
-    
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var pwLabel: UILabel!
     @IBOutlet weak var pwCheckLabel: UILabel!
-    
     @IBOutlet weak var signUpBtn: UIButton!
     
     var isShowKeyboard = false
     
-    let CUSTOM_BLUE = UIColor(named: "CustomBlue") // 007aff
-    let CUSTOM_GREY = UIColor(named: "CustomGrey") // c7c7cd
-    let CUSTOM_RED = UIColor(named: "CustomRed") // ff3b30
+    let CUSTOM_BLUE = UIColor(named: "CustomBlue")
+    let CUSTOM_GREY = UIColor(named: "CustomGrey")
+    let CUSTOM_RED = UIColor(named: "CustomRed")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,29 +33,23 @@ class SignUpViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // textField 외의 곳을 터치하면 키보드 사라짐
-        let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(keyboardDismissTapGesture)
-        
         setupUI()
-        
-        // 회원가입 버튼 비활성화
-        signUpBtn.isEnabled = false
-        
+        setupGestureRecognizers()
+        setupSignUpButton()
     }
     
-    // 다시 로그인 화면으로 감
+    // 다시 로그인 화면으로 돌아가기
     // https://eunoia3jy.tistory.com/210 참고함
     @IBAction func unwindToVC(_ segue: UIStoryboardSegue) {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // 키보드 숨기기
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    // ===== 각 필드들의 값이 바뀔 때 마다 API 호출 필요 =====
+    // 이메일 입력 변경 시 호출
     @IBAction func emailEditingChanged(_ sender: UITextField) {
         guard let email = emailTextField.text else { return }
         ApiService.checkEmailDuplicated(email: email) { statusCode in
@@ -66,6 +59,7 @@ class SignUpViewController: UIViewController  {
         }
     }
     
+    // 아이디 입력 변경 시 호출
     @IBAction func idEditingChanged(_ sender: UITextField) {
         guard let userId = idTextField.text else { return }
         ApiService.checkUserIdDuplicated(userId: userId) { statusCode in
@@ -75,49 +69,21 @@ class SignUpViewController: UIViewController  {
         }
     }
     
+    // 비밀번호 입력 변경 시 호출
     @IBAction func pwEditingChanged(_ sender: UITextField) {
-        
-        // API(X) => iOS에서 검증
         if let password = pwTextField.text {
-            if isPasswordValid(password) {
-                // 사용 가능한 비밀번호라면
-                pwLabel.text = "사용 가능한 비밀번호입니다."
-                pwLabel.textColor = CUSTOM_BLUE
-                pwTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
-            } else {
-                // 영대문자 + 특수문자 + 숫자 + 영소문자 조합에 맞지 않다면
-                pwLabel.text = "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다."
-                pwLabel.textColor = CUSTOM_RED
-                pwTextField.layer.borderColor = CUSTOM_RED?.cgColor
-            }
-            updateSignUpButtonState()
+            validatePassword(password)
         }
     }
     
+    // 비밀번호 확인 입력 변경 시 호출
     @IBAction func pwCheckEditingChanged(_ sender: UITextField) {
-        print(pwCheckTextField.text!)
-        
-        // API(X) => iOS에서 검증
         if let pwCheckText = pwCheckTextField.text, let pwText = pwTextField.text {
-            if pwCheckText == pwText {
-                if isPasswordValid(pwCheckText) {
-                    pwCheckLabel.text = "비밀번호가 일치합니다."
-                    pwCheckLabel.textColor = CUSTOM_BLUE
-                    pwCheckTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
-                } else {
-                    pwCheckLabel.text = "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다."
-                    pwCheckLabel.textColor = CUSTOM_RED
-                    pwCheckTextField.layer.borderColor = CUSTOM_RED?.cgColor
-                }
-            } else {
-                pwCheckLabel.text = "비밀번호가 일치하지 않습니다."
-                pwCheckLabel.textColor = CUSTOM_RED
-                pwCheckTextField.layer.borderColor = CUSTOM_RED?.cgColor
-            }
-            updateSignUpButtonState()
+            validatePasswordCheck(pwCheckText, against: pwText)
         }
     }
     
+    // 회원가입 버튼 클릭 시 호출
     @IBAction func signUpBtnTapped(_ sender: UIButton) {
         guard let email = emailTextField.text,
               let userId = idTextField.text,
@@ -125,66 +91,77 @@ class SignUpViewController: UIViewController  {
         
         ApiService.signUp(userId: userId, email: email, password: password) { statusCode in
             DispatchQueue.main.async {
-                if statusCode == 201 {
-                    // 회원가입 성공
+                if statusCode == 201 { // 회원가입 성공
                     print("회원가입 성공")
-                } else {
-                    // 회원가입 실패
+                } else { // 회원가입 실패
                     print("회원가입 실패")
                 }
             }
         }
     }
     
+    // 이메일 유효성 상태 업데이트
     func updateEmailValidationStatus(statusCode: Int) {
         switch statusCode {
         case 200:
-            emailLabel.text = "사용 가능한 이메일입니다."
-            emailLabel.textColor = CUSTOM_BLUE
-            emailTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+            setEmailLabel(text: "사용 가능한 이메일입니다.", color: CUSTOM_BLUE)
         case 400:
-            emailLabel.text = "이메일 형식을 맞춰주세요."
-            emailLabel.textColor = CUSTOM_RED
-            emailTextField.layer.borderColor = CUSTOM_RED?.cgColor
+            setEmailLabel(text: "이메일 형식을 맞춰주세요.", color: CUSTOM_RED)
         case 409:
-            emailLabel.text = "사용할 수 없는 이메일입니다."
-            emailLabel.textColor = CUSTOM_RED
-            emailTextField.layer.borderColor = CUSTOM_RED?.cgColor
+            setEmailLabel(text: "사용할 수 없는 이메일입니다.", color: CUSTOM_RED)
         default:
             break
         }
         updateSignUpButtonState()
     }
     
+    // 아이디 유효성 상태 업데이트
     func updateUserIdValidationStatus(statusCode: Int) {
         switch statusCode {
         case 200:
-            idLabel.text = "사용 가능한 아이디입니다."
-            idLabel.textColor = CUSTOM_BLUE
-            idTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
+            setIdLabel(text: "사용 가능한 아이디입니다.", color: CUSTOM_BLUE)
         case 400:
-            idLabel.text = "아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다."
-            idLabel.textColor = CUSTOM_RED
-            idTextField.layer.borderColor = CUSTOM_RED?.cgColor
+            setIdLabel(text: "아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다.", color: CUSTOM_RED)
         case 409:
-            idLabel.text = "이미 사용중인 아이디입니다."
-            idLabel.textColor = CUSTOM_RED
-            idTextField.layer.borderColor = CUSTOM_RED?.cgColor
+            setIdLabel(text: "이미 사용중인 아이디입니다.", color: CUSTOM_RED)
         default:
             break
         }
         updateSignUpButtonState()
     }
     
-    // 비밀번호 검증 메소드
-    func isPasswordValid(_ password: String) -> Bool {
-        // 최소 하나의 영대문자, 영소문자, 숫자, 특수문자를 포함하는 정규식
-        let passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$"
-        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
-        return passwordTest.evaluate(with: password)
+    
+    // 비밀번호 유효성 검사
+    func validatePassword(_ password: String) {
+        if isPasswordValid(password) {
+            setPwLabel(text: "사용 가능한 비밀번호입니다.", color: CUSTOM_BLUE)
+        } else {
+            setPwLabel(text: "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다.", color: CUSTOM_RED)
+        }
+        updateSignUpButtonState()
     }
     
-    // 회원가입 활성화 버튼
+    // 비밀번호 확인 유효성 검사
+    func validatePasswordCheck(_ pwCheckText: String, against pwText: String) {
+        if pwCheckText == pwText {
+            if isPasswordValid(pwCheckText) {
+                setPwCheckLabel(text: "비밀번호가 일치합니다.", color: CUSTOM_BLUE)
+            } else {
+                setPwCheckLabel(text: "비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다.", color: CUSTOM_RED)
+            }
+        } else {
+            setPwCheckLabel(text: "비밀번호가 일치하지 않습니다.", color: CUSTOM_RED)
+        }
+        updateSignUpButtonState()
+    }
+    
+    // 비밀번호 유효성 검사
+    func isPasswordValid(_ password: String) -> Bool {
+        let passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$"
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
+    }
+    
+    // 회원가입 버튼 활성화 상태 업데이트
     func updateSignUpButtonState() {
         let isEmailValid = emailLabel.textColor == CUSTOM_BLUE
         let isUserIdValid = idLabel.textColor == CUSTOM_BLUE
@@ -194,75 +171,114 @@ class SignUpViewController: UIViewController  {
         signUpBtn.isEnabled = isEmailValid && isUserIdValid && isPasswordValid && isPasswordCheckValid
     }
 
-    // 키보드
+    // 키보드 나타날 때 알림 등록
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // 키보드가 나타날 때 실행 함수 등록
+        registerKeyboardNotifications()
+    }
+    
+    // 키보드 사라질 때 알림 등록 해지
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
+    }
+    
+    // UI 설정
+    private func setupUI() {
+        configureTextField(emailTextField)
+        configureTextField(idTextField)
+        configureTextField(pwTextField, isSecure: true)
+        configureTextField(pwCheckTextField, isSecure: true)
+    }
+    
+    // 텍스트 필드 설정
+    private func configureTextField(_ textField: UITextField, isSecure: Bool = false) {
+        textField.layer.cornerRadius = 14
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = CUSTOM_GREY?.cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        textField.leftViewMode = .always
+        if isSecure {
+            textField.isSecureTextEntry = true
+            textField.textContentType = .oneTimeCode
+        }
+    }
+    
+    // 회원가입 버튼 설정
+    private func setupSignUpButton() {
+        signUpBtn.isEnabled = false
+    }
+    
+    // GestureRecognizer 설정
+    private func setupGestureRecognizers() {
+        let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(keyboardDismissTapGesture)
+    }
+    
+    // 키보드 알림 등록
+    private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
-            
-            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 잇음
             if self.isShowKeyboard == false {
                 self.isShowKeyboard = true
             }
         }
         
-        // 키보드가 사라질 때 실행 함수 등록
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
-            
             self.isShowKeyboard = false
         }
     }
     
-    // 키보드
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        // keyboardWillShowNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object:nil)
-        
-        // keyboardWillHideNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object:nil)
+    // 키보드 알림 등록 해지
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    private func setupUI() {
-        emailTextField.layer.cornerRadius = 14
-        emailTextField.layer.borderWidth = 1
-        emailTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        emailTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        emailTextField.leftViewMode = .always
-        
-        idTextField.layer.cornerRadius = 14
-        idTextField.layer.borderWidth = 1
-        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        idTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        idTextField.leftViewMode = .always
-        
-        pwTextField.layer.cornerRadius = 14
-        pwTextField.layer.borderWidth = 1
-        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        pwTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        pwTextField.leftViewMode = .always
-        
-        pwCheckTextField.layer.cornerRadius = 14
-        pwCheckTextField.layer.borderWidth = 1
-        pwCheckTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        pwCheckTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        pwCheckTextField.leftViewMode = .always
-        
-        // 버튼
-//        signUpBtn.layer.cornerRadius = 14
-//        signUpBtn.layer.borderWidth = 1
-//        signUpBtn.backgroundColor = CUSTOM_BLUE
-//        signUpBtn.layer.borderColor = CUSTOM_BLUE?.cgColor
-        
-        // ===== 비밀번호 관련 필드 =====
-        pwTextField.isSecureTextEntry = true
-        pwTextField.textContentType = .oneTimeCode
-        pwCheckTextField.isSecureTextEntry = true
-        pwCheckTextField.textContentType = .oneTimeCode
+    // 이메일 라벨 설정
+    private func setEmailLabel(text: String, color: UIColor?) {
+        emailLabel.text = text
+        emailLabel.textColor = color
+        emailTextField.layer.borderColor = color?.cgColor
     }
     
+    // 아이디 라벨 설정
+    private func setIdLabel(text: String, color: UIColor?) {
+        idLabel.text = text
+        idLabel.textColor = color
+        idTextField.layer.borderColor = color?.cgColor
+    }
+    
+    // 비밀번호 라벨 설정
+    private func setPwLabel(text: String, color: UIColor?) {
+        pwLabel.text = text
+        pwLabel.textColor = color
+        pwTextField.layer.borderColor = color?.cgColor
+    }
+    
+    // 비밀번호 확인 라벨 설정
+    private func setPwCheckLabel(text: String, color: UIColor?) {
+        pwCheckLabel.text = text
+        pwCheckLabel.textColor = color
+        pwCheckTextField.layer.borderColor = color?.cgColor
+    }
+    
+    // 회원가입 성공 알림창 표시
+    private func showSignUpSuccessAlert() {
+        let alert = UIAlertController(title: "회원가입 성공", message: "회원가입이 완료되었습니다.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+            self.unwindToVC(UIStoryboardSegue(identifier: "unwindToVC", source: self, destination: self))
+        })
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // 회원가입 실패 알림창 표시
+    private func showSignUpFailureAlert() {
+        let alert = UIAlertController(title: "회원가입 실패", message: "회원가입에 실패했습니다. 다시 시도해주세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // 회원가입 UI 초기화
     private func resetSignUpUI() {
         // 텍스트 필드 초기화
         emailTextField.text = ""
@@ -291,6 +307,4 @@ class SignUpViewController: UIViewController  {
         signUpBtn.backgroundColor = CUSTOM_GREY
         signUpBtn.setTitleColor(.white, for: .normal)
     }
-
 }
-

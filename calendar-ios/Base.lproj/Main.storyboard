@@ -174,6 +174,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="Klk-ox-c5K"/>
                                                         </constraints>
+                                                        <color key="textColor" name="WhiteBlack"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -189,7 +190,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일 형식을 맞춰주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNC-Ij-Mp4">
                                                 <rect key="frame" x="15" y="53" width="303" height="12"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="CustomRed"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -211,6 +212,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="xeV-75-MdH"/>
                                                         </constraints>
+                                                        <color key="textColor" name="WhiteBlack"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -226,7 +228,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아이디는 영소문자 + 숫자 조합으로 7자 이상이어야 합니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipd-Ip-sPD">
                                                 <rect key="frame" x="15" y="53" width="303" height="12"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="CustomRed"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -248,6 +250,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="yiM-5W-d0K"/>
                                                         </constraints>
+                                                        <color key="textColor" name="WhiteBlack"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                                         <connections>
@@ -263,7 +266,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호는 영대문자 + 특수문자 + 숫자 + 영소문자 조합이어야 합니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbz-M3-a4v">
                                                 <rect key="frame" x="15" y="53" width="303" height="12"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="CustomRed"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -285,6 +288,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="hSd-MT-Mjw"/>
                                                         </constraints>
+                                                        <color key="textColor" name="WhiteBlack"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                                         <connections>
@@ -300,7 +304,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호가 일치하지 않습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lWH-PT-nhG">
                                                 <rect key="frame" x="15" y="53" width="303" height="12"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.88235294119999996" green="0.34509803919999998" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="CustomRed"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -1216,6 +1220,9 @@
         <namedColor name="CustomBarItemClicked">
             <color red="0.36100000143051147" green="0.48199999332427979" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="CustomRed">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="EventGreen">
             <color red="0.5690000057220459" green="0.80400002002716064" blue="0.57300001382827759" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
@@ -1251,6 +1258,9 @@
         </namedColor>
         <namedColor name="ViewBackground">
             <color red="0.96100002527236938" green="0.96899998188018799" blue="0.98799997568130493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="WhiteBlack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
