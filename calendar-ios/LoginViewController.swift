@@ -9,30 +9,36 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    // Outlets
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var pwTextField: UITextField!
-    
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
     
+    // 아이디 입력 변경 시 호출
     @IBAction func idEditingChanged(_ sender: UITextField) {
-        
         if let id = idTextField.text {
-            if id != "" {
-                idTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
-            } else {
-                idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-            }
+            idTextField.layer.borderColor = id.isEmpty ? CUSTOM_GREY?.cgColor : CUSTOM_BLUE?.cgColor
         }
     }
     
+    // 비밀번호 입력 변경 시 호출
     @IBAction func pwEditingChanged(_ sender: UITextField) {
-        
         if let pw = pwTextField.text {
-            if pw != "" {
-                pwTextField.layer.borderColor = CUSTOM_BLUE?.cgColor
-            } else {
-                pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
+            pwTextField.layer.borderColor = pw.isEmpty ? CUSTOM_GREY?.cgColor : CUSTOM_BLUE?.cgColor
+        }
+    }
+    
+    // 로그인 버튼 클릭 시 호출
+    @IBAction func loginBtnAction(_ sender: UIButton) {
+        guard let userId = idTextField.text, let password = pwTextField.text else {
+            return
+        }
+        
+        // 로그인 API 호출
+        ApiService.signIn(userId: userId, password: password) { statusCode in
+            DispatchQueue.main.async {
+                self.handleLoginResponse(statusCode)
             }
         }
     }
@@ -52,11 +58,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-        // textField 외의 곳을 터치하면 키보드 사라짐
-        let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(keyboardDismissTapGesture)
+        setupGestureRecognizers()
         
+        // 키보드
+        setupKeyboardNotifications()
+        idTextField.delegate = self
+        pwTextField.delegate = self
     }
     
     // 회원가입 화면 전환
@@ -65,26 +72,19 @@ class LoginViewController: UIViewController {
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    @IBAction func loginBtnAction(_ sender: UIButton) {
-        guard let userId = idTextField.text, let password = pwTextField.text else {
-            return
-        }
-        
-        ApiService.signIn(userId: userId, password: password) { statusCode in
-            DispatchQueue.main.async {
-                switch statusCode {
-                case 201:
-                    let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
-                    self.changeRootViewController(newViewController)
-                case 404:
-                    self.showAlert(message: "존재하지 않는 아이디입니다.")
-                case 400:
-                    self.showAlert(message: "비밀번호가 일치하지 않습니다.")
-                default:
-                    self.showAlert(message: "알 수 없는 오류가 발생했습니다.")
-                }
-            }
+    // 로그인 응답 처리
+    func handleLoginResponse(_ statusCode: Int) {
+        switch statusCode {
+        case 201:
+            let newStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = newStoryboard.instantiateViewController(identifier: "TabBarController")
+            self.changeRootViewController(newViewController)
+        case 404:
+            self.showAlert(message: "존재하지 않는 아이디입니다.")
+        case 400:
+            self.showAlert(message: "비밀번호가 일치하지 않습니다.")
+        default:
+            self.showAlert(message: "알 수 없는 오류가 발생했습니다.")
         }
     }
         
@@ -96,6 +96,7 @@ class LoginViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    // RootViewController 변경
     func changeRootViewController(_ viewControllerToPresent: UIViewController) {
         if let window = UIApplication.shared.windows.first {
             window.rootViewController = viewControllerToPresent
@@ -106,72 +107,67 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // 옵저버 제거
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
-    // 키보드
+    // 옵저버 등록
+    func setupKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // 키보드 보이기
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            // 필요한 경우 키보드 높이를 이용해 추가 동작 수행 가능
+        }
+    }
+    
+    // 키보드 숨기기
+    @objc func keyboardWillHide(notification: NSNotification) {
+    }
+    
+    // 화면 터치 시 키보드 숨기기
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    // 키보드
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // 키보드가 나타날 때 실행 함수 등록
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
-            
-            // 이 함수는 키보드가 나타날 때 2번 연속으로 호출될 수 있음
-            if self.isShowKeyboard == false {
-                self.isShowKeyboard = true
-            }
-        }
-        
-        // 키보드가 사라질 때 실행 함수 등록
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
-            
-            self.isShowKeyboard = false
-        }
-    }
-    
-    // 키보드
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        // keyboardWillShowNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object:nil)
-        
-        // keyboardWillHideNotification 등록 해지
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object:nil)
-    }
-    
+    // UI 설정
     private func setupUI() {
-        
-        // 회원가입 버튼 누르면 화면 전환
-        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
-        
-        // 텍스트 필드 초기화
-        idTextField.text = ""
-        pwTextField.text = ""
-        
-        // ===== textField 관련 필드 =====
-        idTextField.layer.cornerRadius = 14
-        idTextField.layer.borderWidth = 1
-        idTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        idTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        idTextField.leftViewMode = .always
-        
-        pwTextField.layer.cornerRadius = 14
-        pwTextField.layer.borderWidth = 1
-        pwTextField.layer.borderColor = CUSTOM_GREY?.cgColor
-        pwTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        pwTextField.leftViewMode = .always
-        
-        // ===== btn 관련 필드 =====
+        configureTextField(idTextField)
+        configureTextField(pwTextField, isSecure: true)
         loginBtn.isEnabled = true
         signUpBtn.isEnabled = true
-
-        // ===== 비밀번호 관련 필드 =====
-        pwTextField.isSecureTextEntry = true
-        pwTextField.textContentType = .oneTimeCode
     }
+    
+    // 텍스트 필드 설정
+    private func configureTextField(_ textField: UITextField, isSecure: Bool = false) {
+        textField.layer.cornerRadius = 14
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = CUSTOM_GREY?.cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        textField.leftViewMode = .always
+        if isSecure {
+            textField.isSecureTextEntry = true
+            textField.textContentType = .oneTimeCode
+        }
+    }
+    
+    // GestureRecognizer 설정
+    private func setupGestureRecognizers() {
+        signUpBtn.addTarget(self, action: #selector(signUpBtnTapped), for: .touchUpInside)
+        let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(keyboardDismissTapGesture)
+    }
+}
 
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // Return 키를 눌렀을 때 키보드가 사라지게 함
+        return true
+    }
 }

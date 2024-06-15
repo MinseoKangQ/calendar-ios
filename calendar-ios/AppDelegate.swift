@@ -10,12 +10,17 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // 이전 다크모드 상태를 UserDefaults에서 읽어와 적용
+        let darkModeEnabled = UserDefaults.standard.bool(forKey: "darkModeEnabled")
+        window?.overrideUserInterfaceStyle = darkModeEnabled ? .dark : .light
+        
         return true
     }
+
 
     // MARK: UISceneSession Lifecycle
 
