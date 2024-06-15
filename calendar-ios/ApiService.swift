@@ -179,7 +179,7 @@ class ApiService {
                 let response = try JSONDecoder().decode(CustomApiResponse<[TodoItem]>.self, from: data)
                 completion(response.data)
             } catch {
-                print("Failed to decode response: \(error.localizedDescription)")
+                print("응답 deocde 실패: \(error.localizedDescription)")
                 completion(nil)
             }
         }
@@ -264,7 +264,7 @@ class ApiService {
                 let response = try JSONDecoder().decode(TodoResponse.self, from: data)
                 completion(response)
             } catch {
-                print("Failed to decode response: \(error.localizedDescription)")
+                print("응답 deocde 실패: \(error.localizedDescription)")
                 completion(nil)
             }
         }
@@ -291,7 +291,7 @@ class ApiService {
                 let response = try JSONDecoder().decode(NotDoneCountReponse.self, from: data)
                 completion(response)
             } catch {
-                print("Failed to decode response: \(error.localizedDescription)")
+                print("응답 deocde 실패: \(error.localizedDescription)")
                 completion(nil)
             }
         }

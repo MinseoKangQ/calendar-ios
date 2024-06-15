@@ -18,13 +18,27 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateDarkMode()
+        updateDarkMode(animated: false)
     }
     
     // 다크 모드 업데이트
-    func updateDarkMode() {
+    func updateDarkMode(animated: Bool) {
         let darkModeEnabled = darkModeSwitch.isOn
-        view.window?.overrideUserInterfaceStyle = darkModeEnabled ? .dark : .light
+        
+        let style: UIUserInterfaceStyle = darkModeEnabled ? .dark : .light
+        
+        if animated {
+            UIView.transition(with: view.window!,
+                              duration: 0.5, // 슬로우 모션 느낌의 전환 시간 설정
+                              options: [.transitionCrossDissolve],
+                              animations: {
+                                self.view.window?.overrideUserInterfaceStyle = style
+                              },
+                              completion: nil)
+        } else {
+            view.window?.overrideUserInterfaceStyle = style
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -51,14 +65,14 @@ class SettingsViewController: UIViewController {
     // 다크 모드 스위치 설정
     func setupDarkModeSwitch() {
         darkModeSwitch.isOn = UserDefaults.standard.bool(forKey: "darkModeEnabled")
-        updateDarkMode()
+        updateDarkMode(animated: false)
         darkModeSwitch.addTarget(self, action: #selector(darkModeSwitchChanged(_:)), for: .valueChanged)
     }
     
     // 다크 모드 스위치 변경 시 호출
     @objc func darkModeSwitchChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "darkModeEnabled")
-        updateDarkMode()
+        updateDarkMode(animated: true)
     }
 }
 
