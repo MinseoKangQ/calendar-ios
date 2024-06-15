@@ -259,22 +259,6 @@ class SignUpViewController: UIViewController  {
         pwCheckTextField.layer.borderColor = color?.cgColor
     }
     
-    // 회원가입 성공 알림창 표시
-    private func showSignUpSuccessAlert() {
-        let alert = UIAlertController(title: "회원가입 성공", message: "회원가입이 완료되었습니다.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
-            self.unwindToVC(UIStoryboardSegue(identifier: "unwindToVC", source: self, destination: self))
-        })
-        present(alert, animated: true, completion: nil)
-    }
-    
-    // 회원가입 실패 알림창 표시
-    private func showSignUpFailureAlert() {
-        let alert = UIAlertController(title: "회원가입 실패", message: "회원가입에 실패했습니다. 다시 시도해주세요.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
     // 회원가입 UI 초기화
     private func resetSignUpUI() {
         // 텍스트 필드 초기화

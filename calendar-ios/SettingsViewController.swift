@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController {
         
         if animated {
             UIView.transition(with: view.window!,
-                              duration: 0.5, // 슬로우 모션 느낌의 전환 시간 설정
+                              duration: 0.5, // 슬로우 모션
                               options: [.transitionCrossDissolve],
                               animations: {
                                 self.view.window?.overrideUserInterfaceStyle = style
@@ -162,16 +162,14 @@ extension SettingsViewController: UITableViewDelegate {
 
     // 회원탈퇴 처리
     func deleteAccount() {
-        func deleteAccount() {
-           
-            // 회원탈퇴 API 호출
-            ApiService.deleteUser { success in
-                DispatchQueue.main.async {
-                    if success {
-                        self.showSuccessAlert()
-                    } else {
-                        self.showErrorAlert(message: "회원탈퇴에 실패했습니다. 다시 시도해주세요.")
-                    }
+       
+        // 회원탈퇴 API 호출
+        ApiService.deleteUser { success in
+            DispatchQueue.main.async {
+                if success {
+                    self.showSuccessAlert()
+                } else {
+                    self.showErrorAlert(message: "회원탈퇴에 실패했습니다. 다시 시도해주세요.")
                 }
             }
         }

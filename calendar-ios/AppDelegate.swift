@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 이전 다크모드 상태를 UserDefaults에서 읽어와 적용
         let darkModeEnabled = UserDefaults.standard.bool(forKey: "darkModeEnabled")
         window?.overrideUserInterfaceStyle = darkModeEnabled ? .dark : .light
-        
         return true
     }
 

@@ -429,7 +429,6 @@ extension HomeViewController: CustomTableViewCellDelegate {
 
 // CategorySelectionDelegate 확장
 extension HomeViewController: CategorySelectionDelegate {
-    
     func didSelectCategory(category: String) {
         selectedCategory = category // 선택한 카테고리 저장
         selectedDate = Date() // 현재 날짜로 설정
