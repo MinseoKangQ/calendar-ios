@@ -21,10 +21,10 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     var todoItems: [TodoItem] = [] // 할 일 목록을 저장할 배열
     var keyboardHelperView: UIView? // 할 일을 입력받을 때 보이는 View
     var textField: UITextField? // 할 일을 입력받을 때 보이는 View 에 포함되는 TextField
+    var keyboardHeight: CGFloat = 0.0 // 키보드 높이
     var selectedCategory: String? // 사용자가 선택한 카테고리를 저장하고 있는 변수
-    var currentEditingTodoId: Int? 
+    var currentEditingTodoId: Int? // 현재 수정중인 todo의 PK값
     var selectedDate: Date? // Date 형식의 날짜를 저장할 변수
-    var keyboardHeight: CGFloat = 0.0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,10 +38,15 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        setupKeyboardNotifications()
+        setupNotifications()
     }
     
-    // UI 설정
+    // 옵저버 제거
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     func setupUI() {
         // view 둥글게
         remainView.layer.cornerRadius = 10
@@ -54,7 +59,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         updateTodayTextLabel()
     }
     
-    // TableView 설정
     func setupTableView() {
         tableView.dataSource = self // dataSource 등록
         tableView.delegate = self // delegate 등록
@@ -62,16 +66,10 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         tableView.separatorStyle = .none // 셀 구분선 없애기
     }
     
-    // Observer 설정
-    func setupKeyboardNotifications() {
+    // 옵저버 등록
+    func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    // Observer 제거
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // 오늘 날짜 업데이트
@@ -91,13 +89,12 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         view.layoutIfNeeded()
     }
     
-    // 할 일 목록 가져오기
+    // API 호출
     func fetchTodoList() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormatter.string(from: Date())
         
-        // 할 일 목록 API 호출
         ApiService.getTodoList(for: currentDate) { [weak self] todoList in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -112,18 +109,8 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         }
     }
     
-    // API 호출 시 데이터 포맷 설정
-    func convertToAPIDateFormat(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
-    }
-    
-    
-    // 끝내지 못한 일 개수 가져오기
+    // API 호출
     func fetchNotDoneCount() {
-        
-        // 끝내지 못한 일 개수 API 호출
         ApiService.getNotDoneCount { [weak self] response in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -138,24 +125,6 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                     self.remainCountTextLabel.text = "할 일 정보를 가져올 수 없습니다."
                     print("[HomeViewController] getNotDoneCount API 호출 실패")
                 }
-            }
-        }
-    }
-    
-    // 카테고리 선택 시 호출
-    func didSelectCategory(category: String) {
-        selectedCategory = category // 선택한 카테고리 저장
-        selectedDate = Date() // 현재 날짜로 설정
-        self.dismiss(animated: true) // 창 닫기
-        showKeyboardHelper() // keyboardHelper 보이기
-    }
-    
-    // 카테고리 선택 뷰 보여주기
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addTodoBtnSegueFromHome" {
-            if let categoryVC = segue.destination as? CategoryViewController {
-                currentEditingTodoId = nil
-                categoryVC.delegate = self
             }
         }
     }
@@ -177,7 +146,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
     func updateKeyboardHelperViewPosition() {
         guard let keyboardHelperView = keyboardHelperView else { return }
         let accessoryHeight: CGFloat = 60
-        let yOffsetAdjustment: CGFloat = 0 // 키보드 바로 위
+        let yOffsetAdjustment: CGFloat = 0 // 키보드 바로 위에 나오게 하기
         let newY = view.frame.height - keyboardHeight - accessoryHeight - yOffsetAdjustment
         var frame = keyboardHelperView.frame
         frame.origin.y = newY
@@ -211,7 +180,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         case "EXERCISE":
             keyboardHelperView?.backgroundColor = UIColor(named: "KeyboardYellow")
         default:
-            keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0)
+            keyboardHelperView?.backgroundColor = UIColor(red: 216/255, green: 230/255, blue: 242/255, alpha: 1.0) // 기본 배경색
         }
         
         let containerView = UIView(frame: CGRect(x: 10, y: 10, width: customAccessoryFrame.width - 20, height: 30))
@@ -275,7 +244,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
                         }
                         self.textField?.text = ""
                     } else {
-                        print("[HomeViewController] updateTodoTitle API 호출 실패")
+                        print("할 일 수정 실패")
                     }
                     self.hideKeyboardHelper()
                 }
@@ -310,7 +279,7 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         }
     }
     
-    // titleLabel 탭
+    // titleLabel 텝
     func titleLabelTapped(in cell: CustomTableViewCell, with title: String) {
         if let indexPath = tableView.indexPath(for: cell) {
             let todoItem = todoItems[indexPath.row]
@@ -319,13 +288,36 @@ class HomeViewController: UIViewController, CategorySelectionDelegate {
         }
     }
     
-
+    // CategorySelectionDelegate
+    func didSelectCategory(category: String) {
+        selectedCategory = category // 선택한 카테고리 저장
+        selectedDate = Date() // 현재 날짜로 설정
+        self.dismiss(animated: true) // 창 닫기
+        showKeyboardHelper() // keyboardHelper 보이기
+    }
+    
+    // 카테고리 선택 뷰 보여주기
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTodoBtnSegueFromHome" {
+            if let categoryVC = segue.destination as? CategoryViewController {
+                currentEditingTodoId = nil
+                categoryVC.delegate = self
+            }
+        }
+    }
+    
+    // API 호출 시 데이터 포맷 설정
+    func convertToAPIDateFormat(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
+    }
     
 }
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate, CustomTableViewCellDelegate {
     
-    // TableView 개수 반환
+    // 데이터 소스의 개수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todoItems.count
     }
@@ -365,8 +357,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
     // 체크박스 클릭
     @objc func checkBoxValueChanged(_ sender: M13Checkbox) {
         let todoId = sender.tag
-        
-        // 할 일 상태 변경 API 호출
         ApiService.toggleTodoCheck(todoId: todoId) { [weak self] success in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -382,15 +372,19 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
             }
         }
     }
+        
+    // 셀의 높이를 설정
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0
+    }
     
-    // 삭제 기능
+    // 삭제 버튼 관련
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             
             let todoItem = self.todoItems[indexPath.row]
             
-            // 할 일 삭제 API 호출
             ApiService.deleteTodo(todoId: todoItem.todoId) { success in
                 DispatchQueue.main.async {
                     if success {
@@ -432,11 +426,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate, Custom
         configuration.performsFirstActionWithFullSwipe = true
         
         return configuration
-    }
-    
-    // 셀 높이
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55.0
     }
     
 }
