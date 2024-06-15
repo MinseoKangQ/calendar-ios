@@ -21,8 +21,6 @@ class SignUpViewController: UIViewController  {
     @IBOutlet weak var pwCheckLabel: UILabel!
     @IBOutlet weak var signUpBtn: UIButton!
     
-    var isShowKeyboard = false
-    
     let CUSTOM_BLUE = UIColor(named: "CustomBlue")
     let CUSTOM_GREY = UIColor(named: "CustomGrey")
     let CUSTOM_RED = UIColor(named: "CustomRed")
@@ -36,6 +34,13 @@ class SignUpViewController: UIViewController  {
         setupUI()
         setupGestureRecognizers()
         setupSignUpButton()
+        
+        // 키보드
+        setupKeyboardNotifications()
+        emailTextField.delegate = self
+        idTextField.delegate = self
+        pwTextField.delegate = self
+        pwCheckTextField.delegate = self
     }
     
     // 다시 로그인 화면으로 돌아가기
@@ -44,7 +49,30 @@ class SignUpViewController: UIViewController  {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // 옵저버 제거
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // 옵저버 등록
+    func setupKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // 키보드 보이기
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+        }
+    }
+    
     // 키보드 숨기기
+    @objc func keyboardWillHide(notification: NSNotification) {
+    }
+    
+    // 화면 터치 시 키보드 숨기기
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -170,18 +198,6 @@ class SignUpViewController: UIViewController  {
         
         signUpBtn.isEnabled = isEmailValid && isUserIdValid && isPasswordValid && isPasswordCheckValid
     }
-
-    // 키보드 나타날 때 알림 등록
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        registerKeyboardNotifications()
-    }
-    
-    // 키보드 사라질 때 알림 등록 해지
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        unregisterKeyboardNotifications()
-    }
     
     // UI 설정
     private func setupUI() {
@@ -213,25 +229,6 @@ class SignUpViewController: UIViewController  {
     private func setupGestureRecognizers() {
         let keyboardDismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(keyboardDismissTapGesture)
-    }
-    
-    // 키보드 알림 등록
-    private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { notification in
-            if self.isShowKeyboard == false {
-                self.isShowKeyboard = true
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { notification in
-            self.isShowKeyboard = false
-        }
-    }
-    
-    // 키보드 알림 등록 해지
-    private func unregisterKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // 이메일 라벨 설정
@@ -306,5 +303,12 @@ class SignUpViewController: UIViewController  {
         signUpBtn.isEnabled = true
         signUpBtn.backgroundColor = CUSTOM_GREY
         signUpBtn.setTitleColor(.white, for: .normal)
+    }
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // Return 키를 눌렀을 때 키보드가 사라지게 함
+        return true
     }
 }
