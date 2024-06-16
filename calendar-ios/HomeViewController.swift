@@ -264,6 +264,7 @@ class HomeViewController: UIViewController {
                                 if let todoList = todoList {
                                     self.todoItems = todoList
                                     self.tableView.reloadData()
+                                    self.fetchNotDoneCount()
                                 } else {
                                     print("[HomeViewController] getTodoList API 호출 실패")
                                 }
@@ -367,6 +368,7 @@ extension HomeViewController: UITableViewDelegate {
                         // 삭제가 성공하면 할 일 목록에서 해당 항목을 제거하고 테이블 뷰를 업데이트
                         self.todoItems.remove(at: indexPath.row)
                         tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.fetchNotDoneCount()
                         completionHandler(true) // 성공
                     } else {
                         // 실패 시 처리
@@ -417,6 +419,7 @@ extension HomeViewController: CustomTableViewCellDelegate {
                     if let index = self.todoItems.firstIndex(where: { $0.todoId == todoId }) {
                         self.todoItems[index].isDone.toggle()
                         self.tableView.reloadData()
+                        self.fetchNotDoneCount()
                     }
                     self.fetchNotDoneCount() // 남은 할 일 개수 업데이트
                 } else {

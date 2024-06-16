@@ -9,7 +9,8 @@ import Foundation
 
 class ApiService {
     
-    static let BASE_URL = "http://localhost:8080"
+//    static let BASE_URL = "http://localhost:8080"
+    static let BASE_URL = "http://192.168.0.13:8080" // 집
     static var authToken: String? // 실제 토큰
     
     // 토큰 없이 Reuqest 설정
